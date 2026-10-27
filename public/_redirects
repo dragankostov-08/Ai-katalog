@@ -1,0 +1,9 @@
+# Netlify fallback rules (Vercel uses vercel.json). Applied only when no
+# pre-rendered file matches, so published pages are still served as static HTML.
+/admin            /_spa.html   200
+/admin/*          /_spa.html   200
+/alatka/*         /_spa.html   200
+/kategorii/*      /_spa.html   200
+/sporedbi/*       /_spa.html   200
+/vodici/*         /_spa.html   200
+/najdobri/*       /_spa.html   200

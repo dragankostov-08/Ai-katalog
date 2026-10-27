@@ -1,0 +1,323 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts: only the weights and subsets the design uses. */
+@import "@fontsource-variable/rubik/wght.css";
+@import "@fontsource/playfair-display/cyrillic-700.css";
+@import "@fontsource/playfair-display/latin-700.css";
+@import "@fontsource/playfair-display/cyrillic-400-italic.css";
+@import "@fontsource/playfair-display/latin-400-italic.css";
+@import "@fontsource/ibm-plex-mono/cyrillic-400.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/cyrillic-500.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/caveat/cyrillic-600.css";
+@import "@fontsource/caveat/latin-600.css";
+
+/* ---------------------------------------------------------------------------
+   Design tokens. The default Tailwind palette is removed on purpose so that
+   every colour in the interface comes from the AI KATALOG system.
+   --------------------------------------------------------------------------- */
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-ink: #1b1714;
+  --color-charcoal: #252321;
+  --color-graphite: #343331;
+  --color-mid: #77736d;
+  --color-light: #d0ccc3;
+  --color-cream: #ede3cc;
+  --color-paper: #f6f2e9;
+  --color-white: #ffffff;
+
+  --color-tomato: #d9482b;
+  --color-mustard: #e8a93a;
+  --color-teal: #2f8c83;
+  --color-raspberry: #c2416e;
+
+  /* Darker tones of the accents for small text on light backgrounds (WCAG AA). */
+  --color-tomato-ink: #b23a21;
+  --color-teal-ink: #1f6660;
+
+  --font-*: initial;
+  --font-sans: "Rubik Variable", "Rubik", ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Rubik Variable", "Rubik", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-md: 4px;
+  --radius-full: 9999px;
+
+  --shadow-*: initial;
+  --shadow-offset: 4px 4px 0 0 var(--color-ink);
+  --shadow-offset-sm: 2px 2px 0 0 var(--color-ink);
+  --shadow-paper: 0 1px 0 rgb(27 23 20 / 0.06), 0 8px 24px -12px rgb(27 23 20 / 0.25);
+
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+
+  --ease-editorial: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise 420ms var(--ease-editorial) both;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "kern";
+  }
+
+  ::selection {
+    background: var(--color-mustard);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-tomato);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Editorial utilities
+   --------------------------------------------------------------------------- */
+@utility container-page {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Dense halftone dot field. */
+@utility halftone {
+  background-image: radial-gradient(circle at center, var(--color-ink) 0.9px, transparent 1.3px);
+  background-size: 6px 6px;
+}
+
+@utility halftone-coarse {
+  background-image: radial-gradient(circle at center, var(--color-ink) 1.6px, transparent 2.1px);
+  background-size: 9px 9px;
+}
+
+/* Halftone that fades out — imitates a printed gradient. */
+@utility halftone-fade {
+  background-image: radial-gradient(circle at center, var(--color-ink) 1.2px, transparent 1.7px);
+  background-size: 7px 7px;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+}
+
+/* Fine paper grain; use sparingly on large surfaces only. */
+@utility paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Ruled index-card lines. */
+@utility ruled {
+  background-image: repeating-linear-gradient(to bottom, transparent 0 23px, rgb(47 140 131 / 0.28) 23px 24px);
+}
+
+/* Torn paper edge at the bottom of an element. */
+@utility torn-bottom {
+  mask-image:
+    linear-gradient(black, black),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 20' preserveAspectRatio='none'%3E%3Cpath d='M0 0H400V12L392 15 381 11 370 16 356 12 344 17 331 12 318 15 306 11 292 16 279 12 266 17 252 13 240 16 227 11 213 15 200 12 187 17 174 12 161 16 148 11 134 15 121 12 108 17 95 13 82 16 69 11 55 15 42 12 29 17 16 12 0 15Z'/%3E%3C/svg%3E");
+  mask-size: 100% calc(100% - 18px), 100% 18px;
+  mask-position: top, bottom;
+  mask-repeat: no-repeat;
+}
+
+@utility torn-edge-y {
+  mask-image:
+    linear-gradient(black, black),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 14' preserveAspectRatio='none'%3E%3Cpath d='M0 0H400V7L390 11 377 6 365 10 351 5 338 10 325 6 312 11 298 6 285 10 272 5 259 10 246 6 232 11 219 6 206 10 193 5 180 10 166 6 153 11 140 6 127 10 113 5 100 10 87 6 74 11 61 6 47 10 34 5 21 10 8 6 0 9Z'/%3E%3C/svg%3E");
+  mask-size: 100% calc(100% - 14px), 100% 14px;
+  mask-position: top, bottom;
+  mask-repeat: no-repeat;
+}
+
+/* The signature offset shadow, reserved for a few headline moments. */
+@utility ink-offset {
+  text-shadow: 3px 3px 0 var(--color-tomato);
+}
+
+@utility rule-double {
+  border-top: 3px double var(--color-ink);
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-mid) transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   Long-form reading
+   --------------------------------------------------------------------------- */
+@layer components {
+  .prose-ak {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-charcoal);
+    max-width: 42rem;
+  }
+  .prose-ak > * + * { margin-top: 1.15em; }
+  .prose-ak h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.625rem;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--color-ink);
+    margin-top: 2.25em;
+    padding-top: 0.6em;
+    border-top: 1px solid var(--color-ink);
+  }
+  .prose-ak h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: var(--color-ink);
+    margin-top: 1.8em;
+  }
+  .prose-ak h4 {
+    font-weight: 700;
+    color: var(--color-ink);
+    margin-top: 1.5em;
+  }
+  .prose-ak a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-tomato);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .prose-ak a:hover { background: var(--color-cream); }
+  .prose-ak strong { color: var(--color-ink); font-weight: 600; }
+  .prose-ak ul, .prose-ak ol { padding-left: 1.4em; }
+  .prose-ak ul { list-style: none; }
+  .prose-ak ul > li { position: relative; }
+  .prose-ak ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.05em;
+    top: 0.72em;
+    width: 0.45em;
+    height: 2px;
+    background: var(--color-tomato);
+  }
+  .prose-ak ol { list-style: decimal; }
+  .prose-ak ol > li::marker { font-family: var(--font-mono); font-size: 0.85em; color: var(--color-graphite); }
+  .prose-ak li + li { margin-top: 0.4em; }
+  .prose-ak blockquote {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--color-ink);
+    border-left: 3px solid var(--color-ink);
+    padding-left: 1.1rem;
+  }
+  .prose-ak code {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: var(--color-cream);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+  .prose-ak pre {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    padding: 1rem 1.15rem;
+    overflow-x: auto;
+    border-radius: 2px;
+    white-space: pre;
+  }
+  .prose-ak pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+  .prose-ak hr { border: 0; border-top: 1px dashed var(--color-mid); margin: 2.5em 0; }
+  .prose-ak figure img { width: 100%; height: auto; border: 1px solid var(--color-ink); }
+  .prose-ak figcaption {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-graphite);
+    margin-top: 0.5rem;
+  }
+  .prose-ak .table-wrap { overflow-x: auto; }
+  .prose-ak table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .prose-ak th {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    border-bottom: 2px solid var(--color-ink);
+    padding: 0.5rem 0.75rem 0.5rem 0;
+  }
+  .prose-ak td {
+    border-bottom: 1px solid var(--color-light);
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    vertical-align: top;
+  }
+}
+
+/* Lock page scroll while a modal dialog is open. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}

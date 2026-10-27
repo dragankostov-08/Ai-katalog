@@ -75,6 +75,7 @@ as $$
     'name', t.name,
     'short_description', t.short_description,
     'logo_url', t.logo_url,
+    'website_url', t.website_url,
     'pricing_type', t.pricing_type,
     'has_free_plan', t.has_free_plan,
     'starting_price', t.starting_price,
