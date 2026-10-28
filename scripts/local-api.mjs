@@ -13,6 +13,9 @@ const PORT = Number(process.env.PORT || 54321)
 const SECRET = process.env.LOCAL_JWT_SECRET || 'local-development-secret-not-for-production'
 const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL || 'postgres://postgres:postgres@localhost:5432/ai_katalog_local' })
 const refreshTokens = new Map()
+// Idle connections are terminated when the local database is recreated; log
+// instead of crashing so the server keeps working against the new database.
+pool.on('error', (error) => console.warn('[local-api] idle database connection closed:', error.message))
 
 const b64url = (value) => Buffer.from(value).toString('base64url')
 

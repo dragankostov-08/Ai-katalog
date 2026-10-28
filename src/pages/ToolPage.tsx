@@ -11,6 +11,7 @@ import { AdSlot } from '../components/editorial/AdSlot'
 import { ArticleCard } from '../components/editorial/ArticleCard'
 import { ComparisonCard } from '../components/editorial/ComparisonCard'
 import { PreviewBanner, PriceChangeNotice, SponsoredNotice } from '../components/editorial/Notices'
+import { VideoTutorials } from '../components/editorial/VideoTutorials'
 import { Breadcrumbs } from '../components/ui/Breadcrumbs'
 import { SponsoredTag } from '../components/ui/Labels'
 import { SectionHeader } from '../components/ui/SectionHeader'
@@ -77,7 +78,7 @@ function Unknown({ children = 'Не е проверено' }: { children?: React
 
 export function Component() {
   const data = useLoaderData() as ToolPageData
-  const { tool, categories, use_cases, features, related_tools, articles, comparisons, collections, preview } = data
+  const { tool, categories, use_cases, features, related_tools, articles, comparisons, collections, videos = [], preview } = data
   const primary = categories.find((c) => c.is_primary) ?? categories[0]
   const verified = tool.verification_status === 'verified'
   const price = formatPrice(tool.starting_price, tool.currency, tool.price_period)
@@ -228,6 +229,8 @@ export function Component() {
               </ul>
             </section>
           ) : null}
+
+          <VideoTutorials videos={videos} toolName={tool.name} />
 
           {tool.capabilities.length ? (
             <section aria-labelledby="tool-capabilities">

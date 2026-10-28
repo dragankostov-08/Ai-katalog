@@ -160,6 +160,17 @@ export interface CollectionCard {
   tools: { slug: string; name: string; logo_url: string | null }[]
 }
 
+export interface ToolVideo {
+  id: string
+  youtube_id: string
+  title: string
+  channel_title: string | null
+  language: 'mk' | 'regional' | 'en' | 'other'
+  duration_seconds: number | null
+  note: string | null
+  video_published_at: string | null
+}
+
 export interface ToolDetailData {
   tool: Tool
   categories: (CategoryRef & { is_primary: boolean })[]
@@ -169,6 +180,7 @@ export interface ToolDetailData {
   articles: ArticleCard[]
   comparisons: ComparisonCard[]
   collections: { slug: string; title: string }[]
+  videos: ToolVideo[]
 }
 
 export interface HomeData {

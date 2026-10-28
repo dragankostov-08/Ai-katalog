@@ -13,6 +13,7 @@ build-time pre-rendering) · Supabase (PostgreSQL, Auth, Storage, Row Level Secu
 | [docs/SETUP.md](docs/SETUP.md) | Supabase setup, migrations, first admin account, environment variables |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Vercel / Netlify deployment, rebuild on publish, advertising |
 | [docs/TESTING.md](docs/TESTING.md) | Unit, database security and end-to-end tests, local stack |
+| [docs/YOUTUBE.md](docs/YOUTUBE.md) | YouTube tutorials per tool, optional YouTube Data API setup |
 | [docs/STATUS.md](docs/STATUS.md) | What is implemented, what is deferred, launch checklist |
 
 ## Quick start (local, no Supabase account needed)

@@ -176,6 +176,24 @@ function assert(condition, message) {
     await page.getByText(/Проверено на официјалната страница:/).waitFor()
   })
 
+  await step('editor attaches a YouTube tutorial by link; it appears on the public profile', async () => {
+    await page.goto(BASE + '/admin/alatki')
+    await page.getByRole('link', { name: 'ChatGPT' }).click()
+    await page.getByLabel('YouTube линк').fill('https://youtu.be/dQw4w9WgXcQ')
+    await page.getByRole('button', { name: 'Додај линк' }).click()
+    // The local stack has no YouTube function, so the manual form appears.
+    await page.getByLabel('Наслов', { exact: true }).fill('Вовед во ChatGPT')
+    await page.getByLabel('Канал').fill('Тест канал')
+    await page.getByRole('button', { name: 'Додај видео' }).click()
+    await page.getByRole('link', { name: /Вовед во ChatGPT/ }).waitFor()
+    await page.goto(BASE + '/alatka/chatgpt?fresh=1')
+    await page.getByRole('heading', { name: 'Видео туторијали за ChatGPT' }).waitFor()
+    assert((await page.locator('iframe').count()) === 0, 'nothing may load from YouTube before play')
+    await page.getByRole('button', { name: 'Пушти го видеото: Вовед во ChatGPT' }).click()
+    const src = await page.locator('iframe').getAttribute('src')
+    assert(src.startsWith('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'), `unexpected iframe ${src}`)
+  })
+
   await step('publishing incomplete content is blocked with explanations', async () => {
     await page.goto(BASE + '/admin/alatki/nova')
     await page.getByLabel(/^Име/).fill('Нова тест алатка')

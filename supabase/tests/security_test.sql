@@ -254,4 +254,42 @@ select tests.ok((select count(*) from public.analytics_daily) = 1, 'unknown even
 select tests.ok((select sum(clicks) from public.outbound_clicks) = 1, 'outbound clicks only count published tools');
 rollback;
 
+
+-- ===========================================================================
+-- 6. YouTube tutorials attached to tools
+-- ===========================================================================
+begin;
+select tests.publish_fixture();
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000e","role":"authenticated"}', true);
+set local role authenticated;
+select public.admin_save_tool_video(jsonb_build_object('tool_id', (select id from public.tools where slug = 'chatgpt'),
+  'youtube_id', 'dQw4w9WgXcQ', 'title', 'Вовед во ChatGPT', 'language', 'mk', 'source', 'manual'));
+select public.admin_save_tool_video(jsonb_build_object('tool_id', (select id from public.tools where slug = 'chatgpt'),
+  'youtube_id', 'abcdefghijk', 'title', 'Скриено видео', 'is_visible', false));
+select public.admin_save_tool_video(jsonb_build_object('tool_id', (select id from public.tools where slug = 'midjourney'),
+  'youtube_id', 'zzzzzzzzzzz', 'title', 'Видео за необјавена алатка'));
+select tests.ok(jsonb_array_length(public.admin_tool_videos((select id from public.tools where slug = 'chatgpt'))) = 2, 'editor lists all videos of a tool');
+select public.admin_save_tool_video(jsonb_build_object('tool_id', (select id from public.tools where slug = 'chatgpt'),
+  'youtube_id', 'dQw4w9WgXcQ', 'title', 'Вовед во ChatGPT (ажурирано)', 'language', 'mk'));
+select tests.ok((select count(*) from public.tool_videos where youtube_id = 'dQw4w9WgXcQ') = 1, 'the same video is not attached twice');
+select tests.throws($$select public.admin_save_tool_video(jsonb_build_object('tool_id', (select id from public.tools where slug = 'chatgpt'), 'youtube_id', 'bad id<script>', 'title', 'x'))$$,
+  '23514', 'invalid YouTube ids are rejected');
+select public.admin_refresh_tool_videos((select id from public.tools where slug = 'chatgpt'),
+  '[{"youtube_id":"dQw4w9WgXcQ","title":"Нов наслов","channel_title":"Канал","duration_seconds":"300"}]', array['abcdefghijk']);
+select tests.ok((select title = 'Нов наслов' and duration_seconds = 300 and metadata_refreshed_at is not null from public.tool_videos where youtube_id = 'dQw4w9WgXcQ'),
+  'refresh updates metadata');
+reset role;
+select set_config('request.jwt.claims', '', true);
+set local role anon;
+select tests.ok(jsonb_array_length(public.api_tool('chatgpt') -> 'videos') = 1, 'public profile shows only visible videos');
+select tests.ok((select count(*) from public.tool_videos) = 1, 'anon cannot see hidden videos or videos of unpublished tools');
+select tests.throws($$insert into public.tool_videos (tool_id, youtube_id, title) values ((select id from public.tools limit 1), 'aaaaaaaaaaa', 'x')$$, '42501', 'anon cannot add videos');
+select tests.throws($$select public.admin_tool_videos((select id from public.tools limit 1))$$, '42501', 'anon cannot call video admin functions');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000b","role":"authenticated"}', true);
+set local role authenticated;
+select tests.throws($$select public.admin_save_tool_video('{"youtube_id":"aaaaaaaaaaa","title":"x"}')$$, '42501', 'ordinary users cannot add videos');
+select tests.ok(tests.affected($$delete from public.tool_videos$$) = 0, 'ordinary users cannot delete videos');
+rollback;
+
 \echo 'All database tests passed.'

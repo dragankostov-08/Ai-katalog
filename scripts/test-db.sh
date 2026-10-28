@@ -10,7 +10,7 @@ DB_NAME="${TEST_DB_NAME:-ai_katalog_test}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TEST_URL="${ADMIN_URL%/*}/${DB_NAME}"
 
-psql "$ADMIN_URL" -q -v ON_ERROR_STOP=1 -c "drop database if exists ${DB_NAME}" -c "create database ${DB_NAME}"
+psql "$ADMIN_URL" -q -v ON_ERROR_STOP=1 -c "drop database if exists ${DB_NAME} with (force)" -c "create database ${DB_NAME}"
 
 psql "$TEST_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/tests/supabase_shim.sql"
 for migration in "$ROOT"/supabase/migrations/*.sql; do

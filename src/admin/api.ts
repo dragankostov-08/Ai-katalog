@@ -25,6 +25,48 @@ const COLUMN_MESSAGES: [RegExp, string][] = [
 
 export class AdminError extends Error {}
 
+export interface YouTubeResult {
+  youtube_id: string
+  title: string
+  channel_title: string | null
+  channel_id: string | null
+  video_published_at: string | null
+  duration_seconds: number | null
+  thumbnail_url: string | null
+  embeddable: boolean
+  language: 'mk' | 'regional' | 'en' | 'other'
+}
+
+export interface AdminToolVideo {
+  id: string
+  tool_id: string
+  youtube_id: string
+  title: string
+  channel_title: string | null
+  channel_id: string | null
+  language: 'mk' | 'regional' | 'en' | 'other'
+  duration_seconds: number | null
+  video_published_at: string | null
+  note: string | null
+  is_visible: boolean
+  position: number
+  source: 'manual' | 'youtube_search'
+  metadata_refreshed_at: string | null
+}
+
+/** Calls the `youtube` Edge Function (API key stays on the server). */
+async function youtube<T>(body: Record<string, unknown>): Promise<T> {
+  const { data, error } = await getSupabase().functions.invoke('youtube', { body })
+  if (!error) return data as T
+  const context = (error as { context?: Response }).context
+  if (context && typeof context.json === 'function') {
+    const detail = (await context.json().catch(() => null)) as { error?: string; message?: string } | null
+    if (detail?.error === 'not_configured') throw new AdminError('YouTube пребарувањето не е поставено (YOUTUBE_API_KEY). Видеата можеш да ги додаваш рачно со линк.')
+    if (detail?.message && ['youtube_error', 'invalid_query', 'forbidden'].includes(detail.error ?? '')) throw new AdminError(detail.message)
+  }
+  throw new AdminError('YouTube функцијата не е достапна. Провери дали е поставена (docs/YOUTUBE.md). Видеата можеш да ги додаваш рачно со линк.')
+}
+
 export function translateError(error: { code?: string; message?: string; details?: string | null }): string {
   const text = `${error.message ?? ''} ${error.details ?? ''}`
   if (error.code === '23505') return 'Веќе постои запис со истиот слаг. Избери друг.'
@@ -102,4 +144,12 @@ export const adminApi = {
   analytics: (days: number) => call<Record<string, unknown>>('admin_analytics', { p_days: days }),
   newsletter: () => call<Record<string, unknown>>('admin_newsletter'),
   saveSettings: (payload: Record<string, string>) => call<void>('admin_save_settings', { p: payload }),
+  toolVideos: (toolId: string) => call<AdminToolVideo[]>('admin_tool_videos', { p_tool_id: toolId }),
+  saveToolVideo: (payload: Record<string, unknown>) => call<string>('admin_save_tool_video', { p: payload }),
+  reorderToolVideos: (toolId: string, ids: string[]) => call<void>('admin_reorder_tool_videos', { p_tool_id: toolId, p_ids: ids }),
+  deleteToolVideo: (id: string) => call<void>('admin_delete_tool_video', { p_id: id }),
+  refreshToolVideos: (toolId: string, found: YouTubeResult[], missing: string[]) =>
+    call<{ updated: number; hidden: number }>('admin_refresh_tool_videos', { p_tool_id: toolId, p_found: found, p_missing: missing }),
+  youtubeSearch: (query: string, language: string) => youtube<{ items: YouTubeResult[] }>({ action: 'search', query, language }),
+  youtubeLookup: (ids: string[]) => youtube<{ items: YouTubeResult[]; missing: string[] }>({ action: 'lookup', ids }),
 }

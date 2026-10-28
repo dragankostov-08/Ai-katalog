@@ -18,7 +18,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DB_URL="${ADMIN_URL%/*}/${DB_NAME}"
 export PGOPTIONS='-c client_min_messages=warning'
 
-psql "$ADMIN_URL" -q -v ON_ERROR_STOP=1 -c "drop database if exists ${DB_NAME}" -c "create database ${DB_NAME}"
+psql "$ADMIN_URL" -q -v ON_ERROR_STOP=1 -c "drop database if exists ${DB_NAME} with (force)" -c "create database ${DB_NAME}"
 psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/tests/supabase_shim.sql"
 for migration in "$ROOT"/supabase/migrations/*.sql; do
   psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$migration"

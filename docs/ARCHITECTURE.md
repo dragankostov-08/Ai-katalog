@@ -70,6 +70,7 @@ Migrations live in `supabase/migrations` and are applied in filename order.
 | `articles`, `article_tools` | Guides in Markdown, related tools | published |
 | `comparisons`, `comparison_tools` | Structured comparisons; criteria in JSONB; per-tool strengths/limitations | published, ≥2 published tools |
 | `collections`, `collection_tools` | Editorial lists with methodology and per-entry reason, sponsorship flag | published, ≥1 tool |
+| `tool_videos` | Hand-picked YouTube tutorials per tool (id, title, channel, language, note, order, visibility, refresh date) | visible + tool published |
 | `site_settings` | Publisher/contact details supplied by the owner | all |
 | `user_roles` | `admin` / `editor` (no browser write access) | own row |
 | `submissions` | Tool suggestions (moderation queue) | staff |
@@ -119,7 +120,7 @@ Editors add Cyrillic and Latin spellings as keywords (e.g. „чатгпт“).
 - **Keys.** Only the publishable/anon key is used in the browser. `vite.config.ts`
   refuses to build if `VITE_SUPABASE_ANON_KEY` is a service-role or secret key.
 
-The security tests in `supabase/tests/security_test.sql` (85 assertions) cover
+The security tests in `supabase/tests/security_test.sql` (95 assertions) cover
 anonymous reads, unauthorized writes, role escalation, editor vs admin rights,
 publishing constraints, preview access, rate limits, newsletter consent and analytics
 whitelisting.

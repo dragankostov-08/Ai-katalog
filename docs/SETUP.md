@@ -60,7 +60,8 @@ Copy `.env.example` and fill in (Supabase → Project Settings → API):
 | `VITE_SITE_URL` | canonical production URL, e.g. `https://www.example.mk` |
 | `VITE_ADSENSE_CLIENT`, `VITE_AD_SLOT_*` | leave empty until AdSense approval (see DEPLOYMENT.md) |
 
-No server-side secrets are required by the application.
+No server-side secrets are required by the application. The optional YouTube search uses
+the `YOUTUBE_API_KEY` Edge Function secret (docs/YOUTUBE.md).
 
 ## 6. Editorial workflow
 
