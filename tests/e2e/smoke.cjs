@@ -26,7 +26,7 @@ function assert(condition, message) {
 
 ;(async () => {
   const browser = await chromium.launch()
-  const context = await browser.newContext({ viewport: { width: 1280, height: 900 } })
+  const context = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ['clipboard-read', 'clipboard-write'] })
   context.setDefaultTimeout(8000)
   const page = await context.newPage()
   const errors = []
@@ -205,6 +205,89 @@ function assert(condition, message) {
   await step('the moderation queue shows the visitor suggestion', async () => {
     await page.goto(BASE + '/admin/predlozi')
     await page.getByText('Тест алатка E2E').first().waitFor()
+  })
+
+  await step('prompt library: filter, open and copy a prompt', async () => {
+    await page.goto(BASE + '/promptovi')
+    await page.getByRole('button', { name: 'Учење', exact: true }).click()
+    await page.waitForURL(/namena=uchenje/)
+    await page.getByRole('link', { name: 'Прашања за вежбање пред испит' }).click()
+    await page.getByRole('heading', { level: 1, name: 'Прашања за вежбање пред испит' }).waitFor()
+    await page.getByRole('button', { name: 'Копирај промпт' }).first().click()
+    await page.getByText('Копирано').first().waitFor()
+  })
+
+  await step('glossary: letter index, filter and term page', async () => {
+    await page.goto(BASE + '/recnik')
+    await page.getByLabel('Пребарај поим').fill('халуц')
+    await page.getByRole('link', { name: 'Халуцинација' }).click()
+    await page.getByRole('heading', { level: 1, name: 'Халуцинација' }).waitFor()
+    await page.getByRole('link', { name: 'Генерирање поддржано со пребарување (RAG)' }).waitFor()
+  })
+
+  await step('learning path: progress is saved locally', async () => {
+    await page.goto(BASE + '/patki/ai-za-pochetnici-7-dena')
+    await page.getByRole('button', { name: 'Означи како завршено' }).first().click()
+    await page.getByText('1 од 7 чекори').waitFor()
+    await page.reload()
+    await page.getByText('1 од 7 чекори').waitFor()
+  })
+
+  await step('compare: pick tools from cards and open the side-by-side table', async () => {
+    await page.goto(BASE + '/alatki?q=claude')
+    await page.getByRole('button', { name: 'Додај Claude во споредба' }).click()
+    await page.goto(BASE + '/alatki?q=gemini')
+    await page.getByRole('button', { name: 'Додај Gemini во споредба' }).click()
+    await page.getByRole('link', { name: 'Спореди (2)' }).click()
+    await page.waitForURL(/sporedi\?alatki=claude,google-gemini/)
+    await page.getByRole('table').getByRole('columnheader', { name: 'Gemini' }).waitFor()
+  })
+
+  await step('free alternatives page lists free tools and labels unverified ones', async () => {
+    await page.goto(BASE + '/alternativi/midjourney')
+    await page.getByRole('heading', { level: 1, name: 'Бесплатни алтернативи на Midjourney' }).waitFor()
+    await page.getByRole('link', { name: 'Adobe Firefly' }).first().waitFor()
+  })
+
+  await step('lists for professions are grouped separately', async () => {
+    await page.goto(BASE + '/najdobri')
+    await page.getByRole('heading', { name: 'За професии' }).waitFor()
+    await page.getByRole('link', { name: 'AI алатки за наставници' }).waitFor()
+  })
+
+  await step('editor publishes a language test; it appears publicly', async () => {
+    await page.goto(BASE + '/admin/alatki')
+    await page.getByRole('link', { name: 'Claude', exact: true }).click()
+    await page.getByRole('button', { name: 'Нов тест' }).click()
+    const form = page.getByRole('group', { name: 'Тест на македонски' })
+    await form.getByLabel(/Задача \(наслов\)/).fill('Е-порака до клиент')
+    await form.getByLabel(/Промпт што го користеше/).fill('Напиши кратка е-порака до клиент на македонски.')
+    await form.getByLabel(/Извадок од одговорот/).fill('Почитуван господине Петровски, ве известуваме дека состанокот се поместува за понеделник.')
+    await form.getByLabel('Оценка').selectOption('good')
+    await form.getByLabel('Статус').selectOption('published')
+    await page.getByRole('button', { name: 'Зачувај тест' }).click()
+    await page.getByText('Тестот е зачуван.').waitFor()
+    await page.goto(BASE + '/testirano-na-makedonski?fresh=1')
+    await page.getByRole('heading', { name: 'Е-порака до клиент' }).waitFor()
+    await page.getByText('Добар, со ситни грешки').first().waitFor()
+  })
+
+  await step('editor creates and publishes a prompt from the CMS', async () => {
+    await page.goto(BASE + '/admin/promptovi/nov')
+    await page.getByLabel(/^Наслов/).fill('Тест промпт од E2E')
+    await page.getByLabel(/Краток опис/).fill('Краток опис на тест промптот за проверка.')
+    await page.getByLabel(/Текст на промптот/).fill('Напиши [нешто] на македонски јазик, кратко и јасно.')
+    await page.getByLabel('Статус').selectOption('published')
+    await page.getByRole('button', { name: 'Зачувај' }).first().click()
+    await page.getByText('Зачувано.').waitFor()
+    await page.goto(BASE + '/promptovi/test-prompt-od-e2e')
+    await page.getByRole('heading', { level: 1, name: 'Тест промпт од E2E' }).waitFor()
+  })
+
+  await step('weekly digest is generated for channels', async () => {
+    await page.goto(BASE + '/admin/pregled-nedela')
+    await page.getByText('НОВИ ПРОМПТОВИ', { exact: true }).waitFor()
+    await page.getByText('Тест промпт од E2E').first().waitFor()
   })
 
   await step('no uncaught page errors', async () => {

@@ -71,6 +71,11 @@ Migrations live in `supabase/migrations` and are applied in filename order.
 | `comparisons`, `comparison_tools` | Structured comparisons; criteria in JSONB; per-tool strengths/limitations | published, ≥2 published tools |
 | `collections`, `collection_tools` | Editorial lists with methodology and per-entry reason, sponsorship flag | published, ≥1 tool |
 | `tool_videos` | Hand-picked YouTube tutorials per tool (id, title, channel, language, note, order, visibility, refresh date) | visible + tool published |
+| `prompts`, `prompt_tools` | Prompt library with placeholders, usage notes, optional real example output | published |
+| `glossary_terms`, `glossary_links`, `glossary_tools` | AI glossary with related terms and tools | published |
+| `language_tests` | Real tests of Macedonian output: prompt, unedited excerpt, verdict, date, plan | published + tool published |
+| `learning_paths`, `learning_path_steps` | Step-by-step paths referencing guides, tools, prompts, videos | published |
+| `tool_watchers`, `notification_queue` | Double opt-in price alerts and the outgoing e-mail queue | admin only; written by functions / service role |
 | `site_settings` | Publisher/contact details supplied by the owner | all |
 | `user_roles` | `admin` / `editor` (no browser write access) | own row |
 | `submissions` | Tool suggestions (moderation queue) | staff |

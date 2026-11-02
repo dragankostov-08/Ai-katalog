@@ -8,16 +8,41 @@ export function Footer() {
   const site = useRouteLoaderData('root') as SiteData | undefined
   const publisher = site?.settings.publisher_name
   const year = new Date().getFullYear()
+  const settings = site?.settings ?? {}
+  const socials = (
+    [
+      ['Viber', settings.viber_url],
+      ['Telegram', settings.telegram_url],
+      ['Instagram', settings.instagram_url],
+      ['Facebook', settings.facebook_url],
+      ['TikTok', settings.tiktok_url],
+      ['YouTube', settings.youtube_url],
+      ['LinkedIn', settings.linkedin_url],
+    ] as const
+  )
+    .filter(([, url]) => url)
+    .map(([label, url]) => ({ label, url: url as string }))
 
   return (
     <footer className="mt-24 bg-ink text-cream">
-      <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+      <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
           <Logo inverse />
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-light">
             Каталог на AI алатки на македонски јазик: што прават, колку чинат и како да ги користиш паметно.
           </p>
           {publisher ? <p className="mt-3 font-mono text-xs text-light">Издавач: {publisher}</p> : null}
+          {socials.length ? (
+            <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm" aria-label="Следи нè">
+              {socials.map((social) => (
+                <li key={social.label}>
+                  <a href={social.url} target="_blank" rel="noopener noreferrer me" className="text-cream underline decoration-cream/30 underline-offset-4 hover:decoration-tomato">
+                    {social.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
         {footerNav.map((group) => (
           <div key={group.title}>

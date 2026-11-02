@@ -17,6 +17,7 @@ for migration in "$ROOT"/supabase/migrations/*.sql; do
   PGOPTIONS='-c client_min_messages=warning' psql "$TEST_URL" -q -v ON_ERROR_STOP=1 -f "$migration"
 done
 PGOPTIONS='-c client_min_messages=warning' psql "$TEST_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/seed.sql"
+PGOPTIONS='-c client_min_messages=warning' psql "$TEST_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/seed_growth.sql"
 set +e
 psql "$TEST_URL" -v ON_ERROR_STOP=1 -f "$ROOT/supabase/tests/security_test.sql" 2>&1 | grep -E "ok - |FAIL|ERROR|passed"
 status=${PIPESTATUS[0]}

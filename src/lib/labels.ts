@@ -1,5 +1,7 @@
 import type {
   Capability,
+  LanguageVerdict,
+  StepType,
   ContentStatus,
   LanguageSupport,
   Platform,
@@ -101,4 +103,25 @@ export function plural(count: number, one: string, many: string): string {
   const mod10 = count % 10
   const mod100 = count % 100
   return mod10 === 1 && mod100 !== 11 ? one : many
+}
+
+export const verdictLabels: Record<LanguageVerdict, string> = {
+  excellent: 'Одличен македонски',
+  good: 'Добар, со ситни грешки',
+  mixed: 'Разбирлив, но со многу грешки',
+  poor: 'Неупотреблив на македонски',
+}
+
+export const verdictDescriptions: Record<LanguageVerdict, string> = {
+  excellent: 'Природен јазик, точна граматика и правопис; потребни се само стилски дотерувања.',
+  good: 'Разбирлив и главно точен текст, со ситни грешки во падежи, предлози или зборови.',
+  mixed: 'Значењето е јасно, но има многу граматички грешки, српски или бугарски зборови или чудни конструкции.',
+  poor: 'Одговорот е на друг јазик, е неразбирлив или ја промашува задачата.',
+}
+
+export const stepTypeLabels: Record<StepType, string> = {
+  read: 'Читај',
+  watch: 'Гледај',
+  practice: 'Вежбај',
+  explore: 'Истражи',
 }

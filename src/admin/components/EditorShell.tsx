@@ -81,6 +81,8 @@ interface EditorShellProps<F extends BaseForm> {
   error: string | null
   missing: boolean
   onRetry: () => void
+  titleLabel?: string
+  hideFeatured?: boolean
 }
 
 /** Shared frame for article, comparison and collection editors. */
@@ -167,7 +169,7 @@ export function EditorShell<F extends BaseForm>(props: EditorShellProps<F>) {
         <div className="space-y-6">
           <Panel title="Основно">
             <div className="grid gap-4 sm:grid-cols-2">
-              <TextField label="Наслов" required value={form.title} onChange={(v) => set('title', v as F['title'])} max={160} />
+              <TextField label={props.titleLabel ?? 'Наслов'} required value={form.title} onChange={(v) => set('title', v as F['title'])} max={160} />
               <TextField label="Слаг (URL)" required value={form.slug} onChange={setSlug} hint={`${props.publicPath}/${form.slug || '…'}`} />
             </div>
           </Panel>
@@ -188,7 +190,9 @@ export function EditorShell<F extends BaseForm>(props: EditorShellProps<F>) {
                 onChange={(v) => set('status', (v || 'draft') as F['status'])}
                 options={(Object.keys(statusLabels) as ContentStatus[]).map((value) => ({ value, label: statusLabels[value] }))}
               />
-              <Checkbox label="Издвоено на почетната" checked={form.is_featured} onChange={(v) => set('is_featured', v as F['is_featured'])} />
+              {props.hideFeatured ? null : (
+                <Checkbox label="Издвоено на почетната" checked={form.is_featured} onChange={(v) => set('is_featured', v as F['is_featured'])} />
+              )}
               <Button type="submit" className="w-full" disabled={saving}>
                 {saving ? 'Се зачувува…' : 'Зачувај'}
               </Button>

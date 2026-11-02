@@ -3,6 +3,7 @@ import { formatShortDate } from '../../lib/format'
 import { accentClasses } from '../../lib/labels'
 import type { ToolCard as ToolCardData } from '../../lib/types'
 import { SponsoredTag } from '../ui/Labels'
+import { CompareButton } from './CompareButton'
 import { PricingBadge } from './Badges'
 import { FavoriteButton } from './FavoriteButton'
 import { ToolLogo } from './ToolLogo'
@@ -43,7 +44,10 @@ export function ToolCard({ tool, headingLevel = 3 }: { tool: ToolCardData; headi
       <p className="mt-3 line-clamp-3 text-[0.9375rem] leading-relaxed text-graphite">{tool.short_description}</p>
       <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
         <PricingBadge tool={tool} />
-        {tool.is_sponsored ? <SponsoredTag /> : null}
+        <span className="flex items-center gap-2">
+          {tool.is_sponsored ? <SponsoredTag /> : null}
+          <CompareButton slug={tool.slug} name={tool.name} />
+        </span>
       </div>
     </article>
   )

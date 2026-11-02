@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_AD_SLOT_TOOL?: string
   readonly VITE_AD_SLOT_ARTICLE?: string
   readonly VITE_AD_SLOT_COMPARISON?: string
+  readonly VITE_FEATURE_ALERTS?: string
 }
 
 interface ImportMeta {

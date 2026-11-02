@@ -14,6 +14,8 @@ build-time pre-rendering) · Supabase (PostgreSQL, Auth, Storage, Row Level Secu
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Vercel / Netlify deployment, rebuild on publish, advertising |
 | [docs/TESTING.md](docs/TESTING.md) | Unit, database security and end-to-end tests, local stack |
 | [docs/YOUTUBE.md](docs/YOUTUBE.md) | YouTube tutorials per tool, optional YouTube Data API setup |
+| [docs/ALERTS.md](docs/ALERTS.md) | Price-change e-mail alerts: provider, scheduler, feature flag |
+| [docs/CHANNELS.md](docs/CHANNELS.md) | Social links, weekly digest, Telegram auto-post |
 | [docs/STATUS.md](docs/STATUS.md) | What is implemented, what is deferred, launch checklist |
 
 ## Quick start (local, no Supabase account needed)

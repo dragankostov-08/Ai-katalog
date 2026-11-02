@@ -7,6 +7,8 @@ import { ArticleCard } from '../components/editorial/ArticleCard'
 import { CollectionCard } from '../components/editorial/CollectionCard'
 import { ComparisonCard } from '../components/editorial/ComparisonCard'
 import { HeroAnnotation, HeroCollage } from '../components/editorial/HeroCollage'
+import { LearningPathCard } from '../components/editorial/LearningPathCard'
+import { PromptCard } from '../components/editorial/PromptCard'
 import { NewsletterSignup } from '../components/editorial/NewsletterSignup'
 import { ButtonLink } from '../components/ui/Button'
 import { SectionHeader } from '../components/ui/SectionHeader'
@@ -161,6 +163,28 @@ export function Component() {
         <CategoryIndex categories={site.categories} />
       </section>
 
+      {home.audience_collections.length ? (
+        <section className="container-page mt-16" aria-labelledby="home-audiences">
+          <SectionHeader id="home-audiences" index="№ 02 — Професии" title="За твојата работа" description="Уреднички листи на алатки според професијата." link={{ to: '/najdobri', label: 'Сите листи' }} />
+          <ul className="flex flex-wrap gap-3">
+            {home.audience_collections.map((collection) => (
+              <li key={collection.id}>
+                <Link
+                  to={`/najdobri/${collection.slug}`}
+                  className="group inline-flex items-center gap-3 border border-ink bg-white px-4 py-3 transition-shadow hover:shadow-offset"
+                >
+                  <span className="font-display text-xl font-extrabold">{collection.audience_label ?? collection.title}</span>
+                  <span className="font-mono text-xs text-graphite">
+                    {collection.tool_count} {plural(collection.tool_count, 'алатка', 'алатки')}
+                  </span>
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <AdSlot placement="home" className="container-page mt-14" />
 
       {/* Featured + recent */}
@@ -168,7 +192,7 @@ export function Component() {
         <section className="container-page mt-16 grid gap-12 md:mt-20 lg:grid-cols-[2fr_1fr] lg:gap-10" aria-label="Алатки">
           {home.featured_tools.length ? (
             <div>
-              <SectionHeader index="№ 02 — Уреднички избор" title="Издвоени алатки" description="Алатки што уредништвото ги издвојува како добра почетна точка во својата категорија." />
+              <SectionHeader index="№ 03 — Уреднички избор" title="Издвоени алатки" description="Алатки што уредништвото ги издвојува како добра почетна точка во својата категорија." />
               <ul className="grid gap-5 sm:grid-cols-2">
                 {home.featured_tools.map((tool) => (
                   <li key={tool.id}>
@@ -180,7 +204,7 @@ export function Component() {
           ) : null}
           {home.recent_tools.length ? (
             <div className={home.featured_tools.length ? '' : 'lg:col-span-2'}>
-              <SectionHeader index="№ 03 — Ново" title="Нови во каталогот" link={{ to: '/alatki?sort=novi', label: 'Сите' }} />
+              <SectionHeader index="№ 04 — Ново" title="Нови во каталогот" link={{ to: '/alatki?sort=novi', label: 'Сите' }} />
               <ul className="border-t border-ink/15">
                 {home.recent_tools.map((tool) => (
                   <ToolRow key={tool.id} tool={tool} />
@@ -188,6 +212,26 @@ export function Component() {
               </ul>
             </div>
           ) : null}
+        </section>
+      ) : null}
+
+      {/* Prompts */}
+      {home.prompts.length ? (
+        <section className="container-page mt-20" aria-labelledby="home-prompts">
+          <SectionHeader
+            id="home-prompts"
+            index="№ 05 — Библиотека"
+            title="Готови промптови на македонски"
+            description="Копирај, прилагоди и залепи во AI асистентот."
+            link={{ to: '/promptovi', label: 'Сите промптови' }}
+          />
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {home.prompts.map((prompt) => (
+              <li key={prompt.id}>
+                <PromptCard prompt={prompt} />
+              </li>
+            ))}
+          </ul>
         </section>
       ) : null}
 
@@ -218,12 +262,38 @@ export function Component() {
         </div>
       </section>
 
+      {/* Learn */}
+      {home.learning_paths.length ? (
+        <section className="container-page mt-20" aria-labelledby="home-learn">
+          <SectionHeader id="home-learn" index="№ 06 — Учи" title="Учи чекор по чекор" link={{ to: '/patki', label: 'Сите патеки' }} />
+          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+            <ul className="grid gap-5 sm:grid-cols-2">
+              {home.learning_paths.map((path) => (
+                <li key={path.id}>
+                  <LearningPathCard path={path} />
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-col justify-between gap-4 border border-ink bg-white p-5">
+              <div>
+                <p className="label-mono text-tomato-ink">AI речник</p>
+                <p className="mt-2 font-display text-2xl leading-tight font-extrabold">Токен? Халуцинација? RAG?</p>
+                <p className="mt-2 text-graphite">Поимите од светот на AI, објаснети кратко на македонски.</p>
+              </div>
+              <ButtonLink to="/recnik" variant="secondary">
+                Отвори го речникот
+              </ButtonLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Collections */}
       {home.collections.length ? (
         <section className="container-page mt-20" aria-labelledby="home-collections">
           <SectionHeader
             id="home-collections"
-            index="№ 04 — Листи"
+            index="№ 07 — Листи"
             title="Најдобри според намена"
             description="Уреднички листи со објаснета методологија. Позициите не се продаваат."
             link={{ to: '/najdobri', label: 'Сите листи' }}
@@ -241,7 +311,7 @@ export function Component() {
       {/* Guides */}
       {leadArticle ? (
         <section className="container-page mt-20" aria-labelledby="home-guides">
-          <SectionHeader id="home-guides" index="№ 05 — Водичи" title="Научи да ги користиш" link={{ to: '/vodici', label: 'Сите водичи' }} />
+          <SectionHeader id="home-guides" index="№ 08 — Водичи" title="Научи да ги користиш" link={{ to: '/vodici', label: 'Сите водичи' }} />
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
             <ArticleCard article={leadArticle} variant="lead" />
             {otherArticles.length ? (
@@ -258,7 +328,7 @@ export function Component() {
       {/* Comparisons */}
       {home.comparisons.length ? (
         <section className="container-page mt-20" aria-labelledby="home-comparisons">
-          <SectionHeader id="home-comparisons" index="№ 06 — Споредби" title="Една до друга" link={{ to: '/sporedbi', label: 'Сите споредби' }} />
+          <SectionHeader id="home-comparisons" index="№ 09 — Споредби" title="Една до друга" link={{ to: '/sporedbi', label: 'Сите споредби' }} />
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {home.comparisons.map((comparison) => (
               <li key={comparison.id}>

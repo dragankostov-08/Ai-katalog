@@ -1,5 +1,10 @@
 import {
   BarChart3,
+  BellRing,
+  BookA,
+  GraduationCap,
+  MessageSquareText,
+  Newspaper,
   BookOpen,
   ClipboardCheck,
   Columns3,
@@ -28,14 +33,19 @@ const NAV = [
   { to: '/admin/vodici', label: 'Водичи', icon: BookOpen },
   { to: '/admin/sporedbi', label: 'Споредби', icon: Columns3 },
   { to: '/admin/kolekcii', label: 'Листи', icon: ListOrdered },
+  { to: '/admin/promptovi', label: 'Промптови', icon: MessageSquareText },
+  { to: '/admin/recnik', label: 'AI речник', icon: BookA },
+  { to: '/admin/patki', label: 'Патеки', icon: GraduationCap },
   { to: '/admin/proverka', label: 'Проверка', icon: ClipboardCheck },
   { to: '/admin/predlozi', label: 'Предлози', icon: Inbox },
   { to: '/admin/poraki', label: 'Пораки', icon: Mail },
   { to: '/admin/analitika', label: 'Аналитика', icon: BarChart3 },
+  { to: '/admin/pregled-nedela', label: 'Неделен преглед', icon: Newspaper },
 ]
 
 const ADMIN_NAV = [
   { to: '/admin/bilten', label: 'Билтен', icon: Mail },
+  { to: '/admin/izvestuvanja', label: 'Известувања', icon: BellRing },
   { to: '/admin/postavki', label: 'Поставки', icon: Settings },
 ]
 

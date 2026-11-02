@@ -7,12 +7,12 @@ import type { ToolVideo } from '../../lib/types'
  * Privacy-friendly YouTube embed: nothing is loaded from YouTube until the
  * visitor presses play, and then only from youtube-nocookie.com.
  */
-function VideoCard({ video, index }: { video: ToolVideo; index: number }) {
+export function VideoCard({ video, index, as: Tag = 'li' }: { video: ToolVideo; index: number; as?: 'li' | 'div' }) {
   const [playing, setPlaying] = useState(false)
   const duration = formatDuration(video.duration_seconds)
 
   return (
-    <li className="flex flex-col">
+    <Tag className="flex flex-col">
       <div className="relative aspect-video overflow-hidden border border-ink bg-ink">
         {playing ? (
           <iframe
@@ -55,7 +55,7 @@ function VideoCard({ video, index }: { video: ToolVideo; index: number }) {
         </a>
       </div>
       {video.note ? <p className="mt-1.5 text-sm text-charcoal">{video.note}</p> : null}
-    </li>
+    </Tag>
   )
 }
 

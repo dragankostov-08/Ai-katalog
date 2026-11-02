@@ -2,16 +2,21 @@ import { Check, Minus, Plus } from 'lucide-react'
 import { useEffect, type ReactNode } from 'react'
 import { Link, useLoaderData } from 'react-router'
 import { VerificationBadge } from '../components/catalog/Badges'
+import { CompareButton } from '../components/catalog/CompareButton'
 import { FavoriteButton } from '../components/catalog/FavoriteButton'
 import { OfficialLink } from '../components/catalog/OfficialLink'
 import { CategoryMarker } from '../components/catalog/ToolCard'
 import { ToolGrid } from '../components/catalog/ToolGrid'
 import { ToolLogo } from '../components/catalog/ToolLogo'
+import { WatchToolForm } from '../components/catalog/WatchToolForm'
+import { LanguageVerdictBadge } from '../components/editorial/LanguageVerdict'
+import { PromptCard } from '../components/editorial/PromptCard'
 import { AdSlot } from '../components/editorial/AdSlot'
 import { ArticleCard } from '../components/editorial/ArticleCard'
 import { ComparisonCard } from '../components/editorial/ComparisonCard'
 import { PreviewBanner, PriceChangeNotice, SponsoredNotice } from '../components/editorial/Notices'
 import { VideoTutorials } from '../components/editorial/VideoTutorials'
+import { TestResult } from './LanguageTestsPage'
 import { Breadcrumbs } from '../components/ui/Breadcrumbs'
 import { SponsoredTag } from '../components/ui/Labels'
 import { SectionHeader } from '../components/ui/SectionHeader'
@@ -78,7 +83,7 @@ function Unknown({ children = 'Не е проверено' }: { children?: React
 
 export function Component() {
   const data = useLoaderData() as ToolPageData
-  const { tool, categories, use_cases, features, related_tools, articles, comparisons, collections, videos = [], preview } = data
+  const { tool, categories, use_cases, features, related_tools, articles, comparisons, collections, videos = [], prompts = [], language_tests = [], free_alternative_count = 0, preview } = data
   const primary = categories.find((c) => c.is_primary) ?? categories[0]
   const verified = tool.verification_status === 'verified'
   const price = formatPrice(tool.starting_price, tool.currency, tool.price_period)
@@ -159,7 +164,13 @@ export function Component() {
                 Отвори ја {tool.name}
               </OfficialLink>
             ) : null}
-            <FavoriteButton slug={tool.slug} name={tool.name} withLabel className="w-full" />
+            <div className="grid grid-cols-2 gap-2">
+              <FavoriteButton slug={tool.slug} name={tool.name} withLabel className="w-full" />
+              <CompareButton slug={tool.slug} name={tool.name} variant="full" className="w-full" />
+            </div>
+          </div>
+          <div className="mt-4 border-t border-ink/15 pt-3">
+            <WatchToolForm slug={tool.slug} name={tool.name} />
           </div>
         </aside>
       </header>
@@ -231,6 +242,47 @@ export function Component() {
           ) : null}
 
           <VideoTutorials videos={videos} toolName={tool.name} />
+
+          {prompts.length ? (
+            <section aria-labelledby="tool-prompts">
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+                <h2 id="tool-prompts" className="font-display text-2xl font-extrabold md:text-3xl">
+                  Готови промптови за {tool.name}
+                </h2>
+                <Link to={`/promptovi?alatka=${tool.slug}`} className="text-sm underline underline-offset-2">
+                  Сите промптови
+                </Link>
+              </div>
+              <ul className="grid gap-5 sm:grid-cols-2">
+                {prompts.slice(0, 4).map((prompt) => (
+                  <li key={prompt.id}>
+                    <PromptCard prompt={prompt} />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
+
+          {language_tests.length ? (
+            <section aria-labelledby="tool-mk-tests">
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+                <h2 id="tool-mk-tests" className="font-display text-2xl font-extrabold md:text-3xl">
+                  Тестирано на македонски
+                </h2>
+                <Link to="/testirano-na-makedonski" className="text-sm underline underline-offset-2">
+                  Сите тестови и методологија
+                </Link>
+              </div>
+              <ol className="space-y-8">
+                {language_tests.map((test) => (
+                  <li key={test.id} className="border border-ink/25 bg-white p-5">
+                    <h3 className="mb-3 font-display text-lg font-bold">{test.task_title}</h3>
+                    <TestResult test={test} toolName={tool.name} />
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ) : null}
 
           {tool.capabilities.length ? (
             <section aria-labelledby="tool-capabilities">
@@ -321,6 +373,11 @@ export function Component() {
             </Fact>
             <Fact label="Македонски">
               {tool.macedonian_support === 'unknown' ? <Unknown /> : languageSupportLabels[tool.macedonian_support]}
+              {language_tests[0] ? (
+                <span className="mt-1 block">
+                  <LanguageVerdictBadge verdict={language_tests[0].verdict} />
+                </span>
+              ) : null}
             </Fact>
             {tool.skill_level ? (
               <Fact label="Ниво">
@@ -343,6 +400,18 @@ export function Component() {
           </p>
         </aside>
       </div>
+
+      {free_alternative_count > 0 ? (
+        <Link
+          to={`/alternativi/${tool.slug}`}
+          className="mt-16 flex flex-wrap items-center justify-between gap-3 border-2 border-ink bg-mustard px-5 py-4 transition-shadow hover:shadow-offset"
+        >
+          <span className="font-display text-xl font-extrabold">
+            {free_alternative_count} {free_alternative_count === 1 ? 'проверена бесплатна алтернатива' : 'проверени бесплатни алтернативи'} на {tool.name}
+          </span>
+          <span className="font-mono text-sm">Види ги →</span>
+        </Link>
+      ) : null}
 
       {related_tools.length ? (
         <section className="mt-20" aria-labelledby="tool-related">

@@ -15,6 +15,11 @@ import { CategoriesPage } from './pages/CategoriesPage'
 import { CollectionEditor } from './pages/CollectionEditor'
 import { ComparisonEditor } from './pages/ComparisonEditor'
 import { DashboardPage } from './pages/DashboardPage'
+import { DigestPage } from './pages/DigestPage'
+import { GlossaryEditor } from './pages/GlossaryEditor'
+import { LearningPathEditor } from './pages/LearningPathEditor'
+import { NotificationsPage } from './pages/NotificationsPage'
+import { PromptEditor } from './pages/PromptEditor'
 import { ContentList } from './pages/ContentList'
 import { MessagesPage } from './pages/MessagesPage'
 import { NewsletterPage } from './pages/NewsletterPage'
@@ -158,11 +163,22 @@ export function AdminApp() {
             <Route path="kolekcii" element={<ContentList entity="collections" />} />
             <Route path="kolekcii/nova" element={<CollectionEditor />} />
             <Route path="kolekcii/:id" element={<CollectionEditor />} />
+            <Route path="promptovi" element={<ContentList entity="prompts" />} />
+            <Route path="promptovi/nov" element={<PromptEditor />} />
+            <Route path="promptovi/:id" element={<PromptEditor />} />
+            <Route path="recnik" element={<ContentList entity="glossary_terms" />} />
+            <Route path="recnik/nov" element={<GlossaryEditor />} />
+            <Route path="recnik/:id" element={<GlossaryEditor />} />
+            <Route path="patki" element={<ContentList entity="learning_paths" />} />
+            <Route path="patki/nova" element={<LearningPathEditor />} />
+            <Route path="patki/:id" element={<LearningPathEditor />} />
+            <Route path="pregled-nedela" element={<DigestPage />} />
             <Route path="proverka" element={<ReviewQueuePage />} />
             <Route path="predlozi" element={<SubmissionsPage />} />
             <Route path="poraki" element={<MessagesPage />} />
             <Route path="analitika" element={<AnalyticsPage />} />
             {isAdmin ? <Route path="bilten" element={<NewsletterPage />} /> : null}
+            {isAdmin ? <Route path="izvestuvanja" element={<NotificationsPage />} /> : null}
             {isAdmin ? <Route path="postavki" element={<SettingsPage />} /> : null}
             <Route path="*" element={<Navigate to="/admin" replace />} />
           </Routes>

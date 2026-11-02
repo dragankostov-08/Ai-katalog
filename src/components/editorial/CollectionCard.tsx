@@ -10,7 +10,8 @@ export function CollectionCard({ collection, index }: { collection: CollectionCa
         <span aria-hidden className="absolute inset-y-0 left-9 w-px bg-tomato/50" />
         <div className="relative pl-7">
           <p className="label-mono text-graphite">
-            Најдобри{index !== undefined ? ` · № ${String(index + 1).padStart(2, '0')}` : ''} · {collection.tool_count}{' '}
+            {collection.kind === 'audience' && collection.audience_label ? `За: ${collection.audience_label}` : 'Најдобри'}
+            {index !== undefined ? ` · № ${String(index + 1).padStart(2, '0')}` : ''} · {collection.tool_count}{' '}
             {plural(collection.tool_count, 'алатка', 'алатки')}
           </p>
           <h3 className="mt-2 font-display text-xl leading-tight font-extrabold">

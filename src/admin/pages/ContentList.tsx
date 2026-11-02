@@ -9,17 +9,21 @@ import type { ContentStatus, VerificationStatus } from '../../lib/types'
 import { adminApi, type Entity } from '../api'
 import { AdminPageHeader, controlClass, ErrorBox, LoadingRows, StatusBadge, useAsync } from '../components/ui'
 
-const CONFIG: Record<'tools' | 'articles' | 'comparisons' | 'collections', { title: string; base: string; publicBase: string; newPath: string; newLabel: string }> = {
+const CONFIG: Record<'tools' | 'articles' | 'comparisons' | 'collections' | 'prompts' | 'glossary_terms' | 'learning_paths', { title: string; base: string; publicBase: string; newPath: string; newLabel: string }> = {
   tools: { title: 'Алатки', base: '/admin/alatki', publicBase: '/alatka', newPath: '/admin/alatki/nova', newLabel: 'Нова алатка' },
   articles: { title: 'Водичи', base: '/admin/vodici', publicBase: '/vodici', newPath: '/admin/vodici/nov', newLabel: 'Нов водич' },
   comparisons: { title: 'Споредби', base: '/admin/sporedbi', publicBase: '/sporedbi', newPath: '/admin/sporedbi/nova', newLabel: 'Нова споредба' },
   collections: { title: 'Уреднички листи', base: '/admin/kolekcii', publicBase: '/najdobri', newPath: '/admin/kolekcii/nova', newLabel: 'Нова листа' },
+  prompts: { title: 'Промптови', base: '/admin/promptovi', publicBase: '/promptovi', newPath: '/admin/promptovi/nov', newLabel: 'Нов промпт' },
+  glossary_terms: { title: 'AI речник', base: '/admin/recnik', publicBase: '/recnik', newPath: '/admin/recnik/nov', newLabel: 'Нов поим' },
+  learning_paths: { title: 'Патеки за учење', base: '/admin/patki', publicBase: '/patki', newPath: '/admin/patki/nova', newLabel: 'Нова патека' },
 }
 
 interface Row {
   id: string
   name?: string
   title?: string
+  term?: string
   slug: string
   status: ContentStatus
   updated_at: string
@@ -108,7 +112,7 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
                   <tr key={row.id} className="border-b border-ink/10 hover:bg-paper">
                     <td className="px-3 py-2">
                       <Link to={`${config.base}/${row.id}`} className="font-medium hover:underline">
-                        {row.name ?? row.title}
+                        {row.name ?? row.title ?? row.term}
                       </Link>
                       {row.is_featured ? <span className="ml-2 font-mono text-[0.625rem] text-tomato-ink uppercase">издвоено</span> : null}
                       <span className="block font-mono text-xs text-graphite">{row.slug}</span>

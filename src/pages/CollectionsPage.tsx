@@ -33,13 +33,27 @@ export function Component() {
         </p>
       </header>
       {collections.length ? (
-        <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {collections.map((collection, index) => (
-            <li key={collection.id}>
-              <CollectionCard collection={collection} index={index} />
-            </li>
-          ))}
-        </ul>
+        <div className="space-y-14">
+          {[
+            { key: 'audience', title: 'За професии', items: collections.filter((c) => c.kind === 'audience') },
+            { key: 'topic', title: 'По тема', items: collections.filter((c) => c.kind !== 'audience') },
+          ]
+            .filter((group) => group.items.length)
+            .map((group) => (
+              <section key={group.key} aria-labelledby={`collections-${group.key}`}>
+                <h2 id={`collections-${group.key}`} className="mb-5 border-t-2 border-ink pt-3 font-display text-2xl font-extrabold">
+                  {group.title}
+                </h2>
+                <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                  {group.items.map((collection, index) => (
+                    <li key={collection.id}>
+                      <CollectionCard collection={collection} index={index} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+        </div>
       ) : (
         <EmptyState title="Листите се подготвуваат" action={<ButtonLink to="/pronajdi">Пробај го прашалникот</ButtonLink>}>
           Првите уреднички листи ќе се појават откако ќе ги провериме сите алатки во нив.

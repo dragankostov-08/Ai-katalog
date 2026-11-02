@@ -31,6 +31,11 @@ publishes the 11 categories and 14 use cases, and inserts 25 starter tools, 3 gu
 editor verifies it against the official website and publishes it. Starter tools have
 no prices: enter them during verification.
 
+Then run `supabase/seed_growth.sql`: 16 Macedonian prompts, 21 glossary terms, the
+learning path „AI за почетници за 7 дена“ and three lists for professions — also in
+review status. „Тестирано на македонски“ is deliberately empty: those entries must come
+from tests the editors actually run.
+
 ## 4. Create the first administrator
 
 1. **Authentication → Users → Add user** — create the user with a strong password

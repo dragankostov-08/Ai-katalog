@@ -12,6 +12,13 @@ const FIELDS: { key: string; label: string; hint?: string; multiline?: boolean }
   { key: 'editorial_email', label: 'Е-пошта на уредништвото' },
   { key: 'advertising_email', label: 'Е-пошта за огласување' },
   { key: 'about_text', label: 'Дополнителен текст за „За нас“', multiline: true },
+  { key: 'viber_url', label: 'Viber канал', hint: 'Целосен https:// линк. Празно = не се прикажува.' },
+  { key: 'telegram_url', label: 'Telegram канал', hint: 'на пр. https://t.me/imenakanal' },
+  { key: 'instagram_url', label: 'Instagram' },
+  { key: 'facebook_url', label: 'Facebook' },
+  { key: 'tiktok_url', label: 'TikTok' },
+  { key: 'youtube_url', label: 'YouTube' },
+  { key: 'linkedin_url', label: 'LinkedIn' },
 ]
 
 export function SettingsPage() {
@@ -29,6 +36,11 @@ export function SettingsPage() {
     const invalidEmail = ['contact_email', 'editorial_email', 'advertising_email'].find((key) => values[key] && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values[key]))
     if (invalidEmail) {
       toast('error', 'Една од е-адресите не е валидна.')
+      return
+    }
+    const invalidUrl = FIELDS.find((field) => field.key.endsWith('_url') && values[field.key] && !/^https:\/\/\S+$/.test(values[field.key]))
+    if (invalidUrl) {
+      toast('error', `${invalidUrl.label}: линкот мора да почнува со https://`)
       return
     }
     setSaving(true)

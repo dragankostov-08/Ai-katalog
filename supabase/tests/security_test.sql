@@ -7,7 +7,7 @@
 \set QUIET 1
 
 create schema if not exists tests;
-grant usage on schema tests to anon, authenticated;
+grant usage on schema tests to anon, authenticated, service_role;
 
 create or replace function tests.ok(p_condition boolean, p_name text)
 returns void language plpgsql as $$
@@ -48,7 +48,7 @@ begin
 end;
 $$;
 
-grant execute on all functions in schema tests to anon, authenticated;
+grant execute on all functions in schema tests to anon, authenticated, service_role;
 
 -- Test users
 insert into auth.users (id, email) values
@@ -290,6 +290,131 @@ select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-0000000
 set local role authenticated;
 select tests.throws($$select public.admin_save_tool_video('{"youtube_id":"aaaaaaaaaaa","title":"x"}')$$, '42501', 'ordinary users cannot add videos');
 select tests.ok(tests.affected($$delete from public.tool_videos$$) = 0, 'ordinary users cannot delete videos');
+rollback;
+
+-- ===========================================================================
+-- 7. Prompts, glossary, learning paths, language tests
+-- ===========================================================================
+begin;
+select tests.publish_fixture();
+insert into public.prompts (title, slug, summary, prompt_text, status, use_case_id) values
+  ('Објавен промпт', 'objaven-prompt', 'Краток опис на објавениот промпт.', 'Напиши ми кратка е-порака до [име] за [тема].', 'published',
+   (select id from public.use_cases where slug = 'pishuvanje-tekst')),
+  ('Нацрт промпт', 'nacrt-prompt', '', 'x', 'draft', null);
+insert into public.prompt_tools (prompt_id, tool_id) select p.id, t.id from public.prompts p, public.tools t where p.slug = 'objaven-prompt' and t.slug in ('chatgpt', 'midjourney');
+insert into public.glossary_terms (term, slug, short_definition, status) values
+  ('Тест поим', 'test-poim', 'Инструкција што ја пишуваш на AI алатка.', 'published'),
+  ('Нацрт поим', 'nacrt-poim', 'Нацрт дефиниција без доволно текст.', 'draft');
+insert into public.glossary_links (term_id, related_term_id) select a.id, b.id from public.glossary_terms a, public.glossary_terms b where a.slug = 'test-poim' and b.slug = 'nacrt-poim';
+insert into public.language_tests (tool_id, task_title, prompt_used, output_excerpt, verdict, status) values
+  ((select id from public.tools where slug = 'chatgpt'), 'Е-порака до клиент', 'Напиши е-порака на македонски.', 'Почитуван, ве известуваме дека состанокот се поместува.', 'good', 'published'),
+  ((select id from public.tools where slug = 'midjourney'), 'Е-порака до клиент', 'Напиши е-порака на македонски.', 'Текст од алатка што не е објавена во каталогот.', 'poor', 'published');
+insert into public.learning_paths (title, slug, summary, status) values ('Патека', 'pateka', 'Кратка патека за почетници во AI.', 'published');
+insert into public.learning_path_steps (path_id, title, article_id, tool_id)
+  select lp.id, 'Прочитај водич', (select id from public.articles where slug = 'kako-da-napishesh-dobar-prompt'), (select id from public.tools where slug = 'chatgpt')
+  from public.learning_paths lp where lp.slug = 'pateka';
+set local role anon;
+select tests.ok((select count(*) from public.prompts) = 1, 'anon sees only published prompts');
+select tests.ok((public.api_prompts() ->> 'total')::int = 1, 'prompt list counts published prompts');
+select tests.ok((public.api_prompts(p_query := 'е-порака') ->> 'total')::int = 1, 'prompt search matches prompt text');
+select tests.ok((public.api_prompts(p_tool := 'midjourney') ->> 'total')::int = 0, 'prompt filter ignores unpublished tools');
+select tests.ok(jsonb_array_length(public.api_prompt('objaven-prompt') -> 'tools') = 1, 'prompt detail lists only published tools');
+select tests.ok(public.api_prompt('nacrt-prompt') is null, 'draft prompt is hidden');
+select tests.ok(jsonb_array_length(public.api_tool('chatgpt') -> 'prompts') = 1, 'tool profile lists its prompts');
+select tests.ok(jsonb_array_length(public.api_glossary()) = 1, 'glossary lists published terms only');
+select tests.ok(jsonb_array_length(public.api_glossary_term('test-poim') -> 'related') = 0, 'related draft terms are hidden');
+select tests.ok((select count(*) from public.glossary_links) = 1, 'links of a published term are readable');
+select tests.ok(jsonb_array_length(public.api_language_tests() -> 0 -> 'results') = 1, 'language tests of unpublished tools are hidden');
+select tests.ok((public.api_tool('chatgpt') -> 'language_tests' -> 0 ->> 'verdict') = 'good', 'tool profile shows its language test');
+select tests.ok((public.api_learning_path('pateka') -> 'steps' -> 0 -> 'article') = 'null'::jsonb, 'unpublished article is not exposed in a path step');
+select tests.ok((public.api_learning_path('pateka') -> 'steps' -> 0 -> 'tool' ->> 'slug') = 'chatgpt', 'published tool is resolved in a path step');
+select tests.throws($$insert into public.prompts (title, slug) values ('X', 'xx')$$, '42501', 'anon cannot write prompts');
+select tests.throws($$select public.admin_save_prompt('{"title":"X","slug":"x"}')$$, '42501', 'anon cannot save prompts');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000e","role":"authenticated"}', true);
+set local role authenticated;
+select tests.throws($$select public.admin_save_learning_path('{"title":"Празна","slug":"prazna","summary":"Патека без ниту еден чекор во неа.","status":"published","steps":[]}')$$,
+  '23514', 'a published path needs at least one step');
+select public.admin_save_learning_path(jsonb_build_object('id', (select id from public.learning_paths where slug = 'pateka'), 'title', 'Патека', 'slug', 'pateka',
+  'summary', 'Кратка патека за почетници во AI.', 'status', 'published',
+  'steps', jsonb_build_array(jsonb_build_object('id', (select s.id from public.learning_path_steps s join public.learning_paths lp on lp.id = s.path_id where lp.slug = 'pateka'), 'title', 'Прочитај водич (ажурирано)'),
+                             jsonb_build_object('title', 'Нов чекор', 'step_type', 'practice'))));
+select tests.ok((select count(*) from public.learning_path_steps s join public.learning_paths lp on lp.id = s.path_id where lp.slug = 'pateka') = 2
+  and exists (select 1 from public.learning_path_steps where title = 'Прочитај водич (ажурирано)'), 'path save keeps existing steps and adds new ones');
+select tests.throws($$select public.admin_save_language_test(jsonb_build_object('tool_id', (select id from public.tools where slug = 'chatgpt'), 'task_title', 'Тест', 'status', 'published'))$$,
+  '23514', 'a published language test needs the prompt and output');
+select tests.throws($$select public.admin_delete('prompts', (select id from public.prompts limit 1))$$, '42501', 'editor cannot delete prompts');
+rollback;
+
+-- ===========================================================================
+-- 8. Free alternatives and custom comparisons
+-- ===========================================================================
+begin;
+update public.tools set status = 'published' where slug in ('chatgpt', 'claude', 'google-gemini', 'midjourney');
+update public.tools set verification_status = 'verified', last_verified_at = now() where slug = 'claude';
+set local role anon;
+select tests.ok(public.free_alternatives_count((select id from public.tools where slug = 'chatgpt'), true) = 1, 'verified free alternatives are counted');
+select tests.ok(public.free_alternatives_count((select id from public.tools where slug = 'chatgpt'), false) = 2, 'unverified free alternatives are counted separately');
+select tests.ok((public.api_alternatives('chatgpt') -> 'alternatives' -> 0 ->> 'slug') = 'claude', 'verified alternatives come first');
+select tests.ok(not exists (select 1 from jsonb_array_elements(public.api_alternatives('chatgpt') -> 'alternatives') a where a ->> 'slug' = 'midjourney'),
+  'paid tools are not listed as free alternatives');
+select tests.ok(public.api_alternatives('perplexity') is null, 'alternatives page needs a published tool');
+select tests.ok((select array_agg(x ->> 'slug') from jsonb_array_elements(public.api_compare_tools(array['claude', 'chatgpt', 'perplexity']) -> 'tools') x) = array['claude', 'chatgpt'],
+  'custom comparison keeps the chosen order and skips unpublished tools');
+rollback;
+
+-- ===========================================================================
+-- 9. Price-change alerts and the e-mail queue
+-- ===========================================================================
+begin;
+select tests.publish_fixture();
+set local role anon;
+select tests.ok((public.watch_tool('chatgpt', 'ana@example.com', false) ->> 'error') = 'consent_required', 'alerts require consent');
+select tests.ok((public.watch_tool('chatgpt', 'Ana@Example.com', true) ->> 'ok')::boolean, 'visitor can request alerts');
+select tests.ok((public.watch_tool('chatgpt', 'ana@example.com', true) ->> 'ok')::boolean, 'repeat request answers the same way');
+select tests.ok((public.watch_tool('midjourney', 'ana@example.com', true) ->> 'error') = 'not_found', 'unpublished tools cannot be followed');
+select tests.throws($$select * from public.tool_watchers$$, '42501', 'anon cannot read watchers');
+select tests.throws($$select * from public.notification_queue$$, '42501', 'anon cannot read the e-mail queue');
+select tests.throws($$select public.claim_notifications(10)$$, '42501', 'anon cannot claim e-mails');
+reset role;
+select tests.ok((select count(*) from public.tool_watchers where status = 'pending') = 1, 'one pending watcher per address and tool');
+select tests.ok((select count(*) from public.notification_queue where kind = 'watch_confirm') = 1, 'confirmation e-mail queued once per hour');
+create temporary table t_watch on commit drop as select id, private.watch_token(id, 'confirm') as confirm, private.watch_token(id, 'unsubscribe') as unsub from public.tool_watchers;
+grant select on t_watch to anon;
+set local role anon;
+select tests.ok((public.confirm_watch((select id from t_watch), repeat('0', 64)) ->> 'ok')::boolean = false, 'wrong confirmation token is rejected');
+select tests.ok((public.confirm_watch((select id from t_watch), (select confirm from t_watch)) ->> 'tool_slug') = 'chatgpt', 'confirmation activates the alert');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000e","role":"authenticated"}', true);
+set local role authenticated;
+select tests.throws($$select public.claim_notifications(10)$$, '42501', 'staff cannot claim e-mails either');
+select public.admin_save_tool((public.admin_get_tool((select id from public.tools where slug = 'chatgpt')) - 'history') || '{"pricing_type":"paid"}');
+reset role;
+select tests.ok(not exists (select 1 from public.notification_queue where kind = 'price_change'), 'unverified edits do not alert anyone');
+set local role authenticated;
+select public.admin_verify_tool((select id from public.tools where slug = 'chatgpt'), 'Проверено', null);
+reset role;
+select tests.ok((select payload -> 'changes' -> 0 ->> 'new' from public.notification_queue where kind = 'price_change') = 'paid', 'verified price change alerts active watchers');
+select set_config('request.jwt.claims', '', true);
+create temporary table t_confirm on commit drop as select id from public.notification_queue where kind = 'watch_confirm';
+grant select on t_confirm to service_role;
+set local role service_role;
+select tests.ok(jsonb_array_length(public.claim_notifications(10)) = 2, 'service role claims pending e-mails');
+select public.complete_notification((select id from t_confirm), true, null);
+reset role;
+select tests.ok((select status = 'sent' and not (payload ? 'confirm_token') from public.notification_queue where kind = 'watch_confirm'), 'tokens are removed after sending');
+set local role anon;
+select tests.ok((public.unwatch_tool((select id from t_watch), (select unsub from t_watch)) ->> 'ok')::boolean, 'unsubscribe link works');
+reset role;
+select tests.ok((select status from public.tool_watchers) = 'unsubscribed', 'watcher is unsubscribed');
+rollback;
+
+begin;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000a","role":"authenticated"}', true);
+set local role authenticated;
+select tests.throws($$select public.admin_save_settings('{"facebook_url":"javascript:alert(1)"}')$$, '23514', 'social links must be https');
+select public.admin_save_settings('{"telegram_url":"https://t.me/primer"}');
+select tests.ok(public.api_site() -> 'settings' ->> 'telegram_url' = 'https://t.me/primer', 'admin can set social links');
 rollback;
 
 \echo 'All database tests passed.'

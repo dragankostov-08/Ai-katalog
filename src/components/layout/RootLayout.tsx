@@ -1,4 +1,5 @@
 import { Outlet, ScrollRestoration } from 'react-router'
+import { CompareTray } from '../catalog/CompareTray'
 import { ConsentBanner } from './ConsentBanner'
 import { DocumentHead } from './DocumentHead'
 import { Footer } from './Footer'
@@ -20,6 +21,7 @@ export function RootLayout() {
         <Outlet />
       </main>
       <Footer />
+      <CompareTray />
       <ConsentBanner />
       <DocumentHead />
       <ScrollRestoration />

@@ -88,7 +88,7 @@ export async function call<T>(fn: string, args: Record<string, unknown> = {}): P
   return data as T
 }
 
-export type Entity = 'tools' | 'categories' | 'use_cases' | 'articles' | 'comparisons' | 'collections'
+export type Entity = 'tools' | 'categories' | 'use_cases' | 'articles' | 'comparisons' | 'collections' | 'prompts' | 'glossary_terms' | 'learning_paths'
 
 export interface ListResult<T> {
   total: number
@@ -112,6 +112,45 @@ export interface AdminOptions {
   categories: AdminOption[]
   use_cases: AdminOption[]
   tools: AdminOption[]
+  articles: AdminOption[]
+  prompts: AdminOption[]
+  glossary: AdminOption[]
+  videos: AdminOption[]
+}
+
+export interface AdminLanguageTest {
+  id: string
+  tool_id: string
+  task_title: string
+  prompt_used: string
+  output_excerpt: string
+  verdict: 'excellent' | 'good' | 'mixed' | 'poor'
+  notes: string
+  plan_tested: string | null
+  model_version: string | null
+  tested_at: string
+  screenshot_url: string | null
+  screenshot_alt: string | null
+  status: ContentStatus
+}
+
+export interface DigestData {
+  since: string
+  tools: { name: string; slug: string; short_description: string }[]
+  price_changes: { name: string; slug: string; changes: { field: string; old: string | null; new: string | null }[] }[]
+  articles: { title: string; slug: string }[]
+  comparisons: { title: string; slug: string }[]
+  prompts: { title: string; slug: string }[]
+  learning_paths: { title: string; slug: string }[]
+  glossary: { title: string; slug: string }[]
+  language_tests: { title: string; tool: string; verdict: AdminLanguageTest['verdict'] }[]
+}
+
+export interface NotificationStats {
+  queue: Record<string, number>
+  watchers: Record<string, number>
+  top_tools: { name: string; slug: string; watchers: number }[]
+  failures: { kind: string; last_error: string | null; attempts: number; updated_at: string }[]
 }
 
 export const adminApi = {
@@ -150,6 +189,24 @@ export const adminApi = {
   deleteToolVideo: (id: string) => call<void>('admin_delete_tool_video', { p_id: id }),
   refreshToolVideos: (toolId: string, found: YouTubeResult[], missing: string[]) =>
     call<{ updated: number; hidden: number }>('admin_refresh_tool_videos', { p_tool_id: toolId, p_found: found, p_missing: missing }),
+  getPrompt: (id: string) => call<Record<string, unknown> | null>('admin_get_prompt', { p_id: id }),
+  savePrompt: (payload: Record<string, unknown>) => call<string>('admin_save_prompt', { p: payload }),
+  getGlossaryTerm: (id: string) => call<Record<string, unknown> | null>('admin_get_glossary_term', { p_id: id }),
+  saveGlossaryTerm: (payload: Record<string, unknown>) => call<string>('admin_save_glossary_term', { p: payload }),
+  getLearningPath: (id: string) => call<Record<string, unknown> | null>('admin_get_learning_path', { p_id: id }),
+  saveLearningPath: (payload: Record<string, unknown>) => call<string>('admin_save_learning_path', { p: payload }),
+  languageTests: (toolId: string) => call<AdminLanguageTest[]>('admin_language_tests', { p_tool_id: toolId }),
+  saveLanguageTest: (payload: Record<string, unknown>) => call<string>('admin_save_language_test', { p: payload }),
+  deleteLanguageTest: (id: string) => call<void>('admin_delete_language_test', { p_id: id }),
+  weeklyDigest: (days: number) => call<DigestData>('admin_weekly_digest', { p_days: days }),
+  notificationStats: () => call<NotificationStats>('admin_notification_stats'),
+  postTelegram: async (text: string) => {
+    const { data, error } = await getSupabase().functions.invoke('telegram-post', { body: { text } })
+    if (!error) return data as { ok: boolean }
+    const context = (error as { context?: Response }).context
+    const detail = context && typeof context.json === 'function' ? ((await context.json().catch(() => null)) as { message?: string } | null) : null
+    throw new AdminError(detail?.message ?? 'Telegram функцијата не е достапна (види docs/CHANNELS.md).')
+  },
   youtubeSearch: (query: string, language: string) => youtube<{ items: YouTubeResult[] }>({ action: 'search', query, language }),
   youtubeLookup: (ids: string[]) => youtube<{ items: YouTubeResult[]; missing: string[] }>({ action: 'lookup', ids }),
 }

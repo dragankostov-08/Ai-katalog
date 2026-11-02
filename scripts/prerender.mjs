@@ -46,7 +46,13 @@ const failures = []
 const rendered = new Set()
 
 async function renderOne(urlPath) {
-  const result = await render(urlPath, origin)
+  let result
+  try {
+    result = await render(urlPath, origin)
+  } catch (error) {
+    failures.push(`render error ${urlPath}: ${error instanceof Error ? error.message : String(error)}`)
+    return
+  }
   if (result.status === 200) {
     await write(fileFor(urlPath), page(result.head, result.html))
     rendered.add(urlPath)

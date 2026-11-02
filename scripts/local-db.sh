@@ -24,6 +24,7 @@ for migration in "$ROOT"/supabase/migrations/*.sql; do
   psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$migration"
 done
 psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/seed.sql"
+psql "$DB_URL" -q -v ON_ERROR_STOP=1 -f "$ROOT/supabase/seed_growth.sql"
 
 psql "$DB_URL" -q -v ON_ERROR_STOP=1 <<'SQL'
 insert into auth.users (id, email, encrypted_password) values
@@ -40,6 +41,9 @@ update public.tools set status = 'published', is_featured = slug in ('chatgpt', 
 update public.articles set status = 'published';
 update public.collections set status = 'published';
 update public.comparisons set status = 'published';
+update public.prompts set status = 'published';
+update public.glossary_terms set status = 'published';
+update public.learning_paths set status = 'published';
 SQL
   echo "Seed content published (still unverified) in ${DB_NAME}."
 fi

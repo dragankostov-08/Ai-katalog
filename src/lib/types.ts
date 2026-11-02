@@ -50,6 +50,13 @@ export interface SiteSettings {
   editorial_email?: string
   advertising_email?: string
   about_text?: string
+  facebook_url?: string
+  instagram_url?: string
+  tiktok_url?: string
+  youtube_url?: string
+  linkedin_url?: string
+  telegram_url?: string
+  viber_url?: string
 }
 
 export interface SiteData {
@@ -154,6 +161,8 @@ export interface CollectionCard {
   slug: string
   title: string
   description: string
+  kind?: 'topic' | 'audience'
+  audience_label?: string | null
   published_at: string | null
   updated_at: string
   tool_count: number
@@ -181,6 +190,9 @@ export interface ToolDetailData {
   comparisons: ComparisonCard[]
   collections: { slug: string; title: string }[]
   videos: ToolVideo[]
+  prompts: PromptCard[]
+  language_tests: LanguageTest[]
+  free_alternative_count: number
 }
 
 export interface HomeData {
@@ -190,6 +202,9 @@ export interface HomeData {
   collections: CollectionCard[]
   articles: ArticleCard[]
   comparisons: ComparisonCard[]
+  prompts: PromptCard[]
+  learning_paths: LearningPathCard[]
+  audience_collections: CollectionCard[]
 }
 
 export interface SearchResult {
@@ -303,6 +318,11 @@ export interface SitemapData {
   articles: { slug: string; updated_at: string }[]
   comparisons: { slug: string; updated_at: string }[]
   collections: { slug: string; updated_at: string }[]
+  prompts: { slug: string; updated_at: string }[]
+  glossary: { slug: string; updated_at: string }[]
+  learning_paths: { slug: string; updated_at: string }[]
+  alternatives: { slug: string; updated_at: string }[]
+  has_language_tests: boolean
 }
 
 export interface ActionResult {
@@ -312,4 +332,148 @@ export interface ActionResult {
   status?: string
   slug?: string
   token?: string | null
+}
+
+/* --- Prompt library ------------------------------------------------------ */
+
+export interface PromptCard {
+  id: string
+  slug: string
+  title: string
+  summary: string
+  preview: string
+  skill_level: SkillLevel | null
+  is_featured: boolean
+  published_at: string | null
+  updated_at: string
+  use_case: { slug: string; name: string } | null
+  tools: { slug: string; name: string }[]
+}
+
+export interface PromptDetailData {
+  prompt: PromptCard & {
+    prompt_text: string
+    how_to_use: string
+    example_output: string | null
+    seo_title: string | null
+    seo_description: string | null
+    status: ContentStatus
+  }
+  tools: ToolCard[]
+  related: PromptCard[]
+}
+
+/* --- Glossary ------------------------------------------------------------ */
+
+export interface GlossaryEntry {
+  slug: string
+  term: string
+  english_term: string | null
+  short_definition: string
+}
+
+export interface GlossaryTermData {
+  term: GlossaryEntry & {
+    id: string
+    body: string
+    seo_title: string | null
+    seo_description: string | null
+    status: ContentStatus
+    updated_at: string
+  }
+  related: { slug: string; term: string; short_definition: string }[]
+  tools: ToolCard[]
+}
+
+/* --- Тестирано на македонски -------------------------------------------- */
+
+export type LanguageVerdict = 'excellent' | 'good' | 'mixed' | 'poor'
+
+export interface LanguageTest {
+  id: string
+  task_title: string
+  prompt_used: string
+  output_excerpt: string
+  verdict: LanguageVerdict
+  notes: string
+  plan_tested: string | null
+  model_version: string | null
+  tested_at: string
+  screenshot_url: string | null
+  screenshot_alt: string | null
+}
+
+export interface LanguageTestGroup {
+  task_title: string
+  prompt_used: string
+  results: (LanguageTest & { tool: ToolCard })[]
+}
+
+/* --- Free alternatives and custom comparison ------------------------------ */
+
+export interface AlternativesData {
+  tool: ToolCard
+  alternatives: (ToolCard & { free_plan_limits: string | null; shared: number })[]
+}
+
+export type AlternativesIndexItem = ToolCard & { verified_alternatives: number; all_alternatives: number }
+
+export interface CompareTool extends ToolCard {
+  platforms: Platform[]
+  capabilities: Capability[]
+  macedonian_support: LanguageSupport
+  skill_level: SkillLevel | null
+  free_plan_limits: string | null
+  pricing_notes: string | null
+  best_for: string | null
+  pros: string[]
+  cons: string[]
+  developer: string | null
+  features: string[]
+  use_cases: string[]
+  language_verdict: LanguageVerdict | null
+}
+
+export interface CompareData {
+  tools: CompareTool[]
+  comparisons: ComparisonCard[]
+}
+
+/* --- Learning paths ------------------------------------------------------ */
+
+export type StepType = 'read' | 'watch' | 'practice' | 'explore'
+
+export interface LearningPathCard {
+  id: string
+  slug: string
+  title: string
+  summary: string
+  level: SkillLevel | null
+  estimated_days: number | null
+  is_featured: boolean
+  updated_at: string
+  step_count: number
+  total_minutes: number
+}
+
+export interface LearningPathStep {
+  id: string
+  title: string
+  body: string
+  step_type: StepType
+  estimated_minutes: number | null
+  article: ArticleCard | null
+  tool: ToolCard | null
+  prompt: (PromptCard & { prompt_text: string }) | null
+  video: ToolVideo | null
+}
+
+export interface LearningPathData {
+  path: LearningPathCard & {
+    intro: string
+    seo_title: string | null
+    seo_description: string | null
+    status: ContentStatus
+  }
+  steps: LearningPathStep[]
 }

@@ -66,8 +66,15 @@ export async function listPaths(): Promise<{ indexable: { path: string; lastmod?
     sitemap.articles.forEach((a) => indexable.push({ path: `/vodici/${a.slug}`, lastmod: a.updated_at }))
     sitemap.comparisons.forEach((c) => indexable.push({ path: `/sporedbi/${c.slug}`, lastmod: c.updated_at }))
     sitemap.collections.forEach((c) => indexable.push({ path: `/najdobri/${c.slug}`, lastmod: c.updated_at }))
+    sitemap.prompts.forEach((p) => indexable.push({ path: `/promptovi/${p.slug}`, lastmod: p.updated_at }))
+    sitemap.glossary.forEach((g) => indexable.push({ path: `/recnik/${g.slug}`, lastmod: g.updated_at }))
+    sitemap.learning_paths.forEach((p) => indexable.push({ path: `/patki/${p.slug}`, lastmod: p.updated_at }))
+    sitemap.alternatives.forEach((a) => indexable.push({ path: `/alternativi/${a.slug}`, lastmod: a.updated_at }))
+    if (sitemap.has_language_tests) indexable.push({ path: '/testirano-na-makedonski' })
   }
-  return { indexable, extra: NOINDEX_STATIC_PATHS }
+  const extra = [...NOINDEX_STATIC_PATHS]
+  if (!indexable.some((entry) => entry.path === '/testirano-na-makedonski')) extra.push('/testirano-na-makedonski')
+  return { indexable, extra }
 }
 
 export { env, isBackendConfigured }

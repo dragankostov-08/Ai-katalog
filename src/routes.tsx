@@ -5,18 +5,28 @@ import { fetchSite } from './lib/api'
 import { notFound } from './lib/loaders'
 import { notFoundMeta, type RouteHandle } from './lib/seo'
 import type { SiteData } from './lib/types'
+import * as AlternativesIndexPage from './pages/AlternativesIndexPage'
+import * as AlternativesPage from './pages/AlternativesPage'
 import * as ArticlePage from './pages/ArticlePage'
 import * as ArticlesPage from './pages/ArticlesPage'
 import * as CategoriesPage from './pages/CategoriesPage'
 import * as CategoryPage from './pages/CategoryPage'
 import * as CollectionPage from './pages/CollectionPage'
 import * as CollectionsPage from './pages/CollectionsPage'
+import * as ComparePage from './pages/ComparePage'
 import * as ComparisonPage from './pages/ComparisonPage'
 import * as ComparisonsPage from './pages/ComparisonsPage'
 import * as ContactPage from './pages/ContactPage'
 import * as DirectoryPage from './pages/DirectoryPage'
 import * as FavoritesPage from './pages/FavoritesPage'
+import * as GlossaryPage from './pages/GlossaryPage'
+import * as GlossaryTermPage from './pages/GlossaryTermPage'
 import * as HomePage from './pages/HomePage'
+import * as LanguageTestsPage from './pages/LanguageTestsPage'
+import * as LearningPathPage from './pages/LearningPathPage'
+import * as LearningPathsPage from './pages/LearningPathsPage'
+import * as PromptPage from './pages/PromptPage'
+import * as PromptsPage from './pages/PromptsPage'
 import {
   aboutRoute,
   advertisingRoute,
@@ -29,6 +39,7 @@ import {
 import * as SubmitPage from './pages/SubmitPage'
 import * as ToolPage from './pages/ToolPage'
 import * as UnsubscribePage from './pages/UnsubscribePage'
+import { watchConfirmRoute, watchUnsubscribeRoute } from './pages/WatchPages'
 import * as WizardPage from './pages/WizardPage'
 
 const EMPTY_SITE: SiteData = { settings: {}, categories: [], use_cases: [] }
@@ -71,6 +82,18 @@ export const routes: RouteObject[] = [
           { path: 'najdobri', ...CollectionsPage },
           { path: 'najdobri/:slug', ...CollectionPage },
           { path: 'pronajdi', ...WizardPage },
+          { path: 'promptovi', ...PromptsPage },
+          { path: 'promptovi/:slug', ...PromptPage },
+          { path: 'recnik', ...GlossaryPage },
+          { path: 'recnik/:slug', ...GlossaryTermPage },
+          { path: 'testirano-na-makedonski', ...LanguageTestsPage },
+          { path: 'alternativi', ...AlternativesIndexPage },
+          { path: 'alternativi/:slug', ...AlternativesPage },
+          { path: 'sporedi', ...ComparePage },
+          { path: 'patki', ...LearningPathsPage },
+          { path: 'patki/:slug', ...LearningPathPage },
+          { path: 'sledi/potvrdi', ...watchConfirmRoute },
+          { path: 'sledi/odjava', ...watchUnsubscribeRoute },
           { path: 'predlozi', ...SubmitPage },
           { path: 'kontakt', ...ContactPage },
           { path: 'omileni', ...FavoritesPage },
@@ -105,6 +128,10 @@ export const STATIC_PATHS = [
   '/vodici',
   '/najdobri',
   '/pronajdi',
+  '/promptovi',
+  '/recnik',
+  '/patki',
+  '/alternativi',
   '/predlozi',
   '/kontakt',
   '/za-nas',
@@ -117,4 +144,4 @@ export const STATIC_PATHS = [
 ]
 
 /** Paths that exist but must never be indexed or listed in the sitemap. */
-export const NOINDEX_STATIC_PATHS = ['/omileni', '/newsletter/odjava']
+export const NOINDEX_STATIC_PATHS = ['/omileni', '/newsletter/odjava', '/sporedi', '/sledi/potvrdi', '/sledi/odjava']

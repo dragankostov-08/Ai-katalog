@@ -29,6 +29,7 @@ import {
 import { useAdmin } from '../AdminApp'
 import { adminApi } from '../api'
 import { ImageUpload } from '../components/ImageUpload'
+import { LanguageTestsPanel } from '../components/LanguageTestsPanel'
 import { ToolVideosPanel } from '../components/ToolVideosPanel'
 import {
   AdminPageHeader,
@@ -545,6 +546,8 @@ export function ToolEditor() {
               <MarkdownField label="Заклучок на уредништвото" value={form.editorial_verdict} onChange={(v) => set('editorial_verdict', v)} rows={4} hint="Мислење, јасно одвоено од фактите. Без измислени оценки." />
             </div>
           </Panel>
+
+          {id ? <LanguageTestsPanel toolId={id} toolName={form.name} /> : null}
 
           {id ? (
             <ToolVideosPanel toolId={id} toolName={form.name} />

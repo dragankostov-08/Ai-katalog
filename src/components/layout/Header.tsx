@@ -70,7 +70,7 @@ export function Header() {
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `relative px-2.5 py-2 text-[0.95rem] font-medium transition-colors hover:text-tomato-ink ${
+                    `relative px-2 py-2 text-[0.95rem] font-medium transition-colors hover:text-tomato-ink ${
                       isActive ? 'text-ink after:absolute after:inset-x-2.5 after:-bottom-[1px] after:h-[3px] after:bg-tomato' : 'text-graphite'
                     }`
                   }
@@ -82,9 +82,16 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto hidden w-full max-w-64 md:block xl:max-w-72">
+        <div className="ml-auto hidden w-full max-w-64 md:block lg:hidden xl:block xl:max-w-64">
           <HeaderSearch id="header-search" />
         </div>
+        <Link
+          to="/alatki"
+          aria-label="Пребарај алатки"
+          className="ml-auto hidden h-10 w-10 items-center justify-center rounded-sm hover:bg-cream lg:inline-flex xl:hidden"
+        >
+          <Search className="h-5 w-5" aria-hidden />
+        </Link>
 
         <div className="hidden shrink-0 lg:block">
           <ButtonLink to="/pronajdi" variant="accent" size="md">

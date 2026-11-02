@@ -12,6 +12,8 @@ export const env = {
     article: import.meta.env.VITE_AD_SLOT_ARTICLE || undefined,
     comparison: import.meta.env.VITE_AD_SLOT_COMPARISON || undefined,
   },
+  /** Price-change alerts need an e-mail provider; enable once it is configured. */
+  featureAlerts: import.meta.env.VITE_FEATURE_ALERTS === '1',
   buildTime: typeof __BUILD_TIME__ === 'string' ? __BUILD_TIME__ : new Date(0).toISOString(),
   isDev: import.meta.env.DEV,
 }

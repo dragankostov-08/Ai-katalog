@@ -2,6 +2,16 @@ import { isBrowser } from './env'
 import { rpc } from './rest'
 import type {
   ActionResult,
+  AlternativesData,
+  AlternativesIndexItem,
+  CompareData,
+  GlossaryEntry,
+  GlossaryTermData,
+  LanguageTestGroup,
+  LearningPathCard,
+  LearningPathData,
+  PromptCard,
+  PromptDetailData,
   ArticleCard,
   ArticleDetailData,
   CategoryDetailData,
@@ -158,3 +168,44 @@ export const subscribeNewsletter = (email: string, consent: boolean, website: st
 
 export const unsubscribeNewsletter = (token: string) =>
   rpc<ActionResult>('newsletter_unsubscribe', { p_token: token })
+
+/* --- Growth features ------------------------------------------------------ */
+
+export const fetchPrompts = (params: { query?: string; useCase?: string; tool?: string; limit: number; offset: number }, signal?: Signal) =>
+  rpc<{ total: number; items: PromptCard[] }>(
+    'api_prompts',
+    { p_query: params.query || null, p_use_case: params.useCase || null, p_tool: params.tool || null, p_limit: params.limit, p_offset: params.offset },
+    { signal },
+  )
+
+export async function fetchPrompt(slug: string, preview = false, signal?: Signal) {
+  return rpc<PromptDetailData | null>('api_prompt', { p_slug: slug, p_preview: preview }, { signal, accessToken: await previewToken(preview) })
+}
+
+export const fetchGlossary = (signal?: Signal) => rpc<GlossaryEntry[]>('api_glossary', {}, { signal })
+
+export async function fetchGlossaryTerm(slug: string, preview = false, signal?: Signal) {
+  return rpc<GlossaryTermData | null>('api_glossary_term', { p_slug: slug, p_preview: preview }, { signal, accessToken: await previewToken(preview) })
+}
+
+export const fetchLanguageTests = (signal?: Signal) => rpc<LanguageTestGroup[]>('api_language_tests', {}, { signal })
+
+export const fetchAlternatives = (slug: string, signal?: Signal) => rpc<AlternativesData | null>('api_alternatives', { p_slug: slug }, { signal })
+
+export const fetchAlternativesIndex = (signal?: Signal) => rpc<AlternativesIndexItem[]>('api_alternatives_index', {}, { signal })
+
+export const fetchCompare = (slugs: string[], signal?: Signal) => rpc<CompareData>('api_compare_tools', { p_slugs: slugs }, { signal })
+
+export const fetchLearningPaths = (signal?: Signal) => rpc<LearningPathCard[]>('api_learning_paths', {}, { signal })
+
+export async function fetchLearningPath(slug: string, preview = false, signal?: Signal) {
+  return rpc<LearningPathData | null>('api_learning_path', { p_slug: slug, p_preview: preview }, { signal, accessToken: await previewToken(preview) })
+}
+
+export const watchTool = (slug: string, email: string, consent: boolean, website: string) =>
+  rpc<ActionResult>('watch_tool', { p_tool_slug: slug, p_email: email, p_consent: consent, p_website: website })
+
+export const confirmWatch = (id: string, token: string) =>
+  rpc<ActionResult & { tool_name?: string; tool_slug?: string }>('confirm_watch', { p_id: id, p_token: token })
+
+export const unwatchTool = (id: string, token: string) => rpc<ActionResult>('unwatch_tool', { p_id: id, p_token: token })

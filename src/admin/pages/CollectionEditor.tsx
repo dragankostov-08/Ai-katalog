@@ -1,7 +1,7 @@
 import { useParams } from 'react-router'
 import { adminApi } from '../api'
 import { blankToNull, EditorShell, useAsync, useEditorState, type BaseForm } from '../components/EditorShell'
-import { Checkbox, controlClass, MarkdownField, OrderedPicker, Panel, TextArea } from '../components/ui'
+import { Checkbox, controlClass, MarkdownField, OrderedPicker, Panel, SelectField, TextArea, TextField } from '../components/ui'
 
 interface Entry {
   tool_id: string
@@ -10,6 +10,8 @@ interface Entry {
 }
 
 interface CollectionForm extends BaseForm {
+  kind: 'topic' | 'audience'
+  audience_label: string
   description: string
   intro: string
   methodology: string
@@ -23,6 +25,8 @@ const EMPTY: CollectionForm = {
   is_featured: false,
   seo_title: '',
   seo_description: '',
+  kind: 'topic',
+  audience_label: '',
   description: '',
   intro: '',
   methodology: '',
@@ -33,7 +37,7 @@ export function CollectionEditor() {
   const { id } = useParams()
   const record = useAsync(() => (id ? adminApi.getCollection(id) : Promise.resolve(null)), [id])
   const options = useAsync(() => adminApi.options(), [])
-  const { form, set, setSlug, setDirty } = useEditorState(EMPTY, record.data, (r, base) => ({
+  const { form, set, setSlug, setDirty } = useEditorState<CollectionForm>(EMPTY, record.data, (r, base) => ({
     ...base,
     entries: ((r.entries as Entry[]) ?? []).map((e) => ({ tool_id: e.tool_id, editorial_reason: e.editorial_reason ?? '', is_sponsored: Boolean(e.is_sponsored) })),
   }))
@@ -61,6 +65,7 @@ export function CollectionEditor() {
         ...(f.status === 'published' && f.methodology.trim().length < 60 ? ['За објавување е потребна методологија од најмалку 60 знаци.'] : []),
         ...(f.status === 'published' && f.description.trim().length < 20 ? ['За објавување е потребен опис од најмалку 20 знаци.'] : []),
         ...(f.status === 'published' && !f.entries.length ? ['Листата нема алатки.'] : []),
+        ...(f.kind === 'audience' && !f.audience_label.trim() ? ['Внеси ја професијата (на пр. „Наставници“).'] : []),
       ]}
       save={() =>
         adminApi.saveCollection({
@@ -74,6 +79,8 @@ export function CollectionEditor() {
           is_featured: form.is_featured,
           seo_title: blankToNull(form.seo_title),
           seo_description: blankToNull(form.seo_description),
+          kind: form.kind,
+          audience_label: blankToNull(form.audience_label),
           entries: form.entries,
         })
       }
@@ -84,6 +91,20 @@ export function CollectionEditor() {
     >
       <Panel title="Опис и методологија">
         <div className="space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <SelectField
+              label="Вид листа"
+              value={form.kind}
+              onChange={(v) => set('kind', (v || 'topic') as CollectionForm['kind'])}
+              options={[
+                { value: 'topic', label: 'По тема' },
+                { value: 'audience', label: 'За професија' },
+              ]}
+            />
+            {form.kind === 'audience' ? (
+              <TextField label="Професија" value={form.audience_label} onChange={(v) => set('audience_label', v)} placeholder="на пр. Наставници" />
+            ) : null}
+          </div>
           <TextArea label="Краток опис" required value={form.description} onChange={(v) => set('description', v)} rows={2} max={320} />
           <MarkdownField label="Вовед" value={form.intro} onChange={(v) => set('intro', v)} rows={5} />
           <MarkdownField

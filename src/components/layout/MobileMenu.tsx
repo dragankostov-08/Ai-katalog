@@ -44,6 +44,26 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
         ) : null}
         <ul className="mt-8 space-y-2 border-t border-ink/15 pt-4 text-sm">
           <li>
+            <NavLink to="/kategorii" className="hover:underline">
+              Сите категории
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/recnik" className="hover:underline">
+              AI речник
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/alternativi" className="hover:underline">
+              Бесплатни алтернативи
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/testirano-na-makedonski" className="hover:underline">
+              Тестирано на македонски
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/predlozi" className="hover:underline">
               Предложи алатка
             </NavLink>
