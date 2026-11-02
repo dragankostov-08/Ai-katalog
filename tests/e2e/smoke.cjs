@@ -286,8 +286,9 @@ function assert(condition, message) {
 
   await step('weekly digest is generated for channels', async () => {
     await page.goto(BASE + '/admin/pregled-nedela')
-    await page.getByText('НОВИ ПРОМПТОВИ', { exact: true }).waitFor()
-    await page.getByText('Тест промпт од E2E').first().waitFor()
+    const digest = page.locator('pre').filter({ hasText: 'НОВИ ПРОМПТОВИ' })
+    await digest.waitFor()
+    assert((await digest.textContent()).includes('Тест промпт од E2E'), 'digest must list the new prompt')
   })
 
   await step('no uncaught page errors', async () => {

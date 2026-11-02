@@ -372,9 +372,10 @@ export function Component() {
               {tool.platforms.length ? tool.platforms.map((platform) => platformLabels[platform]).join(', ') : <Unknown />}
             </Fact>
             <Fact label="Македонски">
-              {tool.macedonian_support === 'unknown' ? <Unknown /> : languageSupportLabels[tool.macedonian_support]}
+              {tool.macedonian_support !== 'unknown' ? languageSupportLabels[tool.macedonian_support] : language_tests[0] ? null : <Unknown />}
               {language_tests[0] ? (
                 <span className="mt-1 block">
+                  <span className="mb-1 block text-xs text-graphite">Наш тест ({formatDate(language_tests[0].tested_at)}):</span>
                   <LanguageVerdictBadge verdict={language_tests[0].verdict} />
                 </span>
               ) : null}

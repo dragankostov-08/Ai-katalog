@@ -125,7 +125,7 @@ Editors add Cyrillic and Latin spellings as keywords (e.g. „чатгпт“).
 - **Keys.** Only the publishable/anon key is used in the browser. `vite.config.ts`
   refuses to build if `VITE_SUPABASE_ANON_KEY` is a service-role or secret key.
 
-The security tests in `supabase/tests/security_test.sql` (95 assertions) cover
+The security tests in `supabase/tests/security_test.sql` (141 assertions) cover
 anonymous reads, unauthorized writes, role escalation, editor vs admin rights,
 publishing constraints, preview access, rate limits, newsletter consent and analytics
 whitelisting.
