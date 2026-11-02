@@ -94,7 +94,7 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
 
       {error ? <ErrorBox message={error} onRetry={reload} /> : loading && !data ? <LoadingRows /> : data ? (
         data.items.length ? (
-          <div className="overflow-x-auto rounded-2xl border border-light bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-light bg-surface">
             <table className="w-full min-w-[40rem] text-sm">
               <thead>
                 <tr className="border-b border-light text-left">
@@ -109,7 +109,7 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
               </thead>
               <tbody>
                 {data.items.map((row) => (
-                  <tr key={row.id} className="border-b border-light hover:bg-paper">
+                  <tr key={row.id} className="border-b border-light hover:bg-cream">
                     <td className="px-3 py-2">
                       <Link to={`${config.base}/${row.id}`} className="font-medium hover:underline">
                         {row.name ?? row.title ?? row.term}
@@ -149,7 +149,7 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
             ) : null}
           </div>
         ) : (
-          <p className="border border-dashed border-light bg-white p-6 text-center text-sm text-graphite rounded-2xl">Нема записи за избраните филтри.</p>
+          <p className="border border-dashed border-light bg-surface p-6 text-center text-sm text-graphite rounded-2xl">Нема записи за избраните филтри.</p>
         )
       ) : null}
     </>

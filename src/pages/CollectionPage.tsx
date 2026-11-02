@@ -64,13 +64,13 @@ export function Component() {
         <p className="label-mono text-tomato-ink">
           Уреднична листа · {entries.length} алатки · ажурирано {formatDate(collection.updated_at)}
         </p>
-        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{collection.title}</h1>
+        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">{collection.title}</h1>
         <p className="mt-5 max-w-2xl text-xl leading-relaxed text-graphite">{collection.description}</p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_22rem]">
         <div>{collection.intro ? <Markdown source={collection.intro} /> : null}</div>
-        <aside className="relative self-start border border-light bg-white p-5 rounded-2xl" aria-labelledby="methodology-title">
+        <aside className="relative self-start border border-light bg-surface p-5 rounded-2xl" aria-labelledby="methodology-title">
           <span aria-hidden className="absolute -top-3 right-4 rotate-[4deg] border-2 border-tomato px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-[0.2em] text-tomato-ink uppercase">
             Методологија
           </span>
@@ -89,14 +89,14 @@ export function Component() {
       <ol className="mt-14 space-y-6">
         {entries.map((entry, index) => (
           <li key={entry.tool.id} className="grid gap-5 border-t border-light pt-5 md:grid-cols-[5rem_1fr_16rem] md:gap-8">
-            <span className="font-display text-5xl leading-none font-extrabold text-transparent md:text-7xl" style={{ WebkitTextStroke: '1.5px var(--color-ink)' }} aria-hidden>
+            <span className="font-display text-5xl leading-none font-semibold text-transparent md:text-7xl" style={{ WebkitTextStroke: '1.5px var(--color-ink)' }} aria-hidden>
               {String(index + 1).padStart(2, '0')}
             </span>
             <div className="min-w-0">
               <div className="flex items-center gap-3">
                 <ToolLogo name={entry.tool.name} src={entry.tool.logo_url} />
                 <div className="min-w-0">
-                  <h2 className="font-display text-2xl leading-tight font-extrabold">
+                  <h2 className="font-display text-2xl leading-tight font-semibold">
                     <span className="sr-only">{index + 1}. </span>
                     <Link to={`/alatka/${entry.tool.slug}`} className="hover:underline hover:decoration-tomato hover:underline-offset-4">
                       {entry.tool.name}

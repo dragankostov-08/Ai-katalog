@@ -269,11 +269,11 @@ export function extractHeadings(blocks: Block[]) {
 /* ------------------------------------------------------------------------- */
 
 const calloutStyles: Record<CalloutVariant, string> = {
-  napomena: 'border-light bg-white',
-  sovet: 'border-teal bg-white',
-  upozorduvanje: 'border-tomato bg-white',
+  napomena: 'border-light bg-surface',
+  sovet: 'border-teal bg-surface',
+  upozorduvanje: 'border-tomato bg-surface',
   mislenje: 'border-warn/30 bg-warn-soft',
-  sponzorirano: 'border-raspberry bg-white',
+  sponzorirano: 'border-raspberry bg-surface',
 }
 
 function renderBlock(block: Block, key: string): ReactNode {

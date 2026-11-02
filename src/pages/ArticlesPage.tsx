@@ -43,7 +43,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Водичи' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Научи</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Водичи</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Водичи</h1>
         <p className="mt-4 text-lg text-graphite">Како да ги користиш AI алатките паметно, безбедно и со проверени информации.</p>
       </header>
       {lead ? (

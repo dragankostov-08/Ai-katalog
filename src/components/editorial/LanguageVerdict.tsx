@@ -2,9 +2,9 @@ import { verdictLabels } from '../../lib/labels'
 import type { LanguageVerdict } from '../../lib/types'
 
 const styles: Record<LanguageVerdict, string> = {
-  excellent: 'bg-teal text-white',
+  excellent: 'bg-teal text-paper',
   good: 'bg-warn-soft text-warn',
-  mixed: 'border border-light bg-white text-ink',
+  mixed: 'border border-light bg-surface text-ink',
   poor: 'bg-graphite text-paper',
 }
 

@@ -56,12 +56,12 @@ export function Component() {
       <header className="grid gap-6 border-b border-light pb-8 md:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="max-w-3xl">
           <p className="label-mono text-tomato-ink">Алтернативи</p>
-          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Бесплатни алтернативи на {tool.name}</h1>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Бесплатни алтернативи на {tool.name}</h1>
           <p className="mt-4 text-lg text-graphite">
             Алатки од истата категорија или за истата намена што може да се користат бесплатно — целосно, со бесплатен план или како отворен код.
           </p>
         </div>
-        <div className="self-start border border-light bg-white p-4 rounded-2xl">
+        <div className="self-start border border-light bg-surface p-4 rounded-2xl">
           <div className="flex items-center gap-3">
             <ToolLogo name={tool.name} src={tool.logo_url} />
             <div>
@@ -79,7 +79,7 @@ export function Component() {
       </header>
 
       <section className="mt-10" aria-labelledby="alt-verified">
-        <h2 id="alt-verified" className="mb-2 font-display text-2xl font-extrabold">
+        <h2 id="alt-verified" className="mb-2 font-display text-2xl font-semibold">
           Проверени бесплатни алтернативи
         </h2>
         <p className="mb-6 text-sm text-graphite">Бесплатниот пристап е потврден на официјалната страница од уредништвото.</p>
@@ -102,7 +102,7 @@ export function Component() {
 
       {unverified.length ? (
         <section className="mt-14" aria-labelledby="alt-unverified">
-          <h2 id="alt-unverified" className="mb-2 font-display text-2xl font-extrabold">
+          <h2 id="alt-unverified" className="mb-2 font-display text-2xl font-semibold">
             Можеби бесплатни — непроверено
           </h2>
           <p className="mb-6 text-sm text-graphite">Според внесените податоци имаат бесплатен пристап, но уредништвото сè уште не ги провери условите.</p>

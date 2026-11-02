@@ -105,7 +105,7 @@ export function LanguageTestsPanel({ toolId, toolName }: { toolId: string; toolN
       </p>
       {tests.error ? <ErrorBox message={tests.error} onRetry={tests.reload} /> : null}
       {tests.data?.length ? (
-        <ul className="mb-4 divide-y divide-light overflow-hidden rounded-xl border border-light bg-white">
+        <ul className="mb-4 divide-y divide-light overflow-hidden rounded-xl border border-light bg-surface">
           {tests.data.map((test) => (
             <li key={test.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
               <span className="min-w-0 flex-1">

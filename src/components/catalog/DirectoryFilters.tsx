@@ -5,7 +5,7 @@ import { platformLabels, pricingLabels } from '../../lib/labels'
 import { PLATFORMS, type CategorySummary, type PricingType, type UseCase } from '../../lib/types'
 
 const selectClasses =
-  'block w-full rounded-xs border border-light bg-white px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato'
+  'block w-full rounded-xs border border-light bg-surface px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato'
 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -127,7 +127,7 @@ export function ActiveFilterChips({ filters, categories, useCases, onChange, onC
           key={chip.key}
           type="button"
           onClick={chip.remove}
-          className="inline-flex items-center gap-1.5 rounded-xs border border-light bg-tomato py-1 pr-1.5 pl-2.5 text-sm text-white hover:bg-tomato-ink"
+          className="inline-flex items-center gap-1.5 rounded-xs border border-light bg-tomato py-1 pr-1.5 pl-2.5 text-sm text-paper hover:bg-white"
           aria-label={`Отстрани филтер: ${chip.label}`}
         >
           {chip.label}

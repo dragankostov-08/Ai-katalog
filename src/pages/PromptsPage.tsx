@@ -68,14 +68,14 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Промптови' }]} />
       <header className="mb-8 max-w-3xl">
         <p className="label-mono text-tomato-ink">Библиотека</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Готови промптови на македонски</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Готови промптови на македонски</h1>
         <p className="mt-4 text-lg text-graphite">
           Копирај, замени ги деловите во [загради] со свои податоци и залепи во AI асистентот. Секој промпт има упатство и предупредувања.
         </p>
       </header>
 
       <Form method="get" action="/promptovi" role="search" className="mb-6 flex flex-wrap gap-2">
-        <div className="flex min-w-0 flex-1 rounded-full border border-light bg-white p-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft">
+        <div className="flex min-w-0 flex-1 rounded-full border border-light bg-surface p-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft">
           <Search className="ml-3 h-5 w-5 shrink-0 self-center text-graphite" aria-hidden />
           <label htmlFor="prompt-search" className="sr-only">
             Пребарај промптови
@@ -90,7 +90,7 @@ export function Component() {
             className="h-12 min-w-0 flex-1 bg-transparent px-3 focus:outline-none"
           />
           {namena ? <input type="hidden" name="namena" value={namena} /> : null}
-          <button type="submit" className="m-1 bg-tomato px-4 text-sm font-medium text-white">
+          <button type="submit" className="m-1 bg-tomato px-4 text-sm font-medium text-paper">
             Барај
           </button>
         </div>
@@ -101,7 +101,7 @@ export function Component() {
           type="button"
           onClick={() => setSearchParams(q ? { q } : {})}
           aria-pressed={!namena}
-          className={`rounded-xs border px-2.5 py-1 text-sm ${!namena ? 'border-light bg-tomato text-white' : 'border-light bg-white hover:border-brand-line'}`}
+          className={`rounded-xs border px-2.5 py-1 text-sm ${!namena ? 'border-light bg-tomato text-paper' : 'border-light bg-surface hover:border-white/20'}`}
         >
           Сите
         </button>
@@ -111,7 +111,7 @@ export function Component() {
             type="button"
             onClick={() => setSearchParams({ ...(q ? { q } : {}), namena: useCase.slug })}
             aria-pressed={namena === useCase.slug}
-            className={`rounded-xs border px-2.5 py-1 text-sm ${namena === useCase.slug ? 'border-light bg-tomato text-white' : 'border-light bg-white hover:border-brand-line'}`}
+            className={`rounded-xs border px-2.5 py-1 text-sm ${namena === useCase.slug ? 'border-light bg-tomato text-paper' : 'border-light bg-surface hover:border-white/20'}`}
           >
             {useCase.name}
           </button>

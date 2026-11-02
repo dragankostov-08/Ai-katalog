@@ -67,7 +67,7 @@ export function AdminLayout({ children }: { children: ReactNode }) {
               to={item.to}
               end={'end' in item}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 rounded-xs px-3 py-2 text-sm ${isActive ? 'bg-paper font-medium text-ink' : 'text-cream/85 hover:bg-graphite hover:text-white'}`
+                `flex items-center gap-2.5 rounded-xs px-3 py-2 text-sm ${isActive ? 'bg-cream font-medium text-ink' : 'text-graphite hover:bg-cream hover:text-ink'}`
               }
             >
               <item.icon className="h-4 w-4" aria-hidden />
@@ -81,32 +81,32 @@ export function AdminLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-dvh bg-paper lg:grid lg:grid-cols-[15rem_1fr]">
-      <aside className={`${open ? 'fixed inset-0 z-40 block' : 'hidden'} bg-ink p-4 text-cream lg:sticky lg:top-0 lg:block lg:h-dvh lg:overflow-y-auto`}>
+      <aside className={`${open ? 'fixed inset-0 z-40 block' : 'hidden'} border-r border-light bg-elevated p-4 text-graphite lg:sticky lg:top-0 lg:block lg:h-dvh lg:overflow-y-auto`}>
         <div className="mb-6 flex items-center gap-2">
           <LogoSymbol className="h-7 w-7" />
-          <span className="font-display font-extrabold text-paper">AI KATALOG</span>
+          <span className="font-display font-semibold text-ink">AI KATALOG</span>
           <button type="button" className="ml-auto lg:hidden" onClick={() => setOpen(false)} aria-label="Затвори мени">
             <X className="h-5 w-5" />
           </button>
         </div>
         {nav}
-        <div className="mt-8 border-t border-cream/20 pt-4 text-xs text-light">
+        <div className="mt-8 border-t border-light pt-4 text-xs text-graphite">
           <p className="truncate">{me.email}</p>
-          <p className="label-mono mt-1 text-tomato">{me.role === 'admin' ? 'Администратор' : 'Уредник'}</p>
-          <Link to="/" className="mt-3 flex items-center gap-1.5 hover:text-white">
+          <p className="label-mono mt-1 text-tomato-ink">{me.role === 'admin' ? 'Администратор' : 'Уредник'}</p>
+          <Link to="/" className="mt-3 flex items-center gap-1.5 hover:text-ink">
             <ExternalLink className="h-3.5 w-3.5" /> Јавен сајт
           </Link>
-          <button type="button" onClick={() => getSupabase().auth.signOut()} className="mt-2 flex items-center gap-1.5 hover:text-white">
+          <button type="button" onClick={() => getSupabase().auth.signOut()} className="mt-2 flex items-center gap-1.5 hover:text-ink">
             <LogOut className="h-3.5 w-3.5" /> Одјави се
           </button>
         </div>
       </aside>
       <div className="min-w-0">
-        <div className="flex items-center gap-3 border-b border-light bg-white px-4 py-2 lg:hidden">
+        <div className="flex items-center gap-3 border-b border-light bg-surface px-4 py-2 lg:hidden">
           <button type="button" onClick={() => setOpen(true)} aria-label="Отвори мени" className="p-1">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-display font-extrabold">Админ</span>
+          <span className="font-display font-semibold">Админ</span>
         </div>
         <main className="mx-auto max-w-6xl px-4 py-6 md:px-8 md:py-8">{children}</main>
       </div>

@@ -40,10 +40,10 @@ export function NewsletterPage() {
         <div className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <Panel title="Активни">
-              <p className="font-display text-3xl font-extrabold">{data.subscribed}</p>
+              <p className="font-display text-3xl font-semibold">{data.subscribed}</p>
             </Panel>
             <Panel title="Одјавени">
-              <p className="font-display text-3xl font-extrabold">{data.unsubscribed}</p>
+              <p className="font-display text-3xl font-semibold">{data.unsubscribed}</p>
             </Panel>
           </div>
           <Panel title="Претплатници">

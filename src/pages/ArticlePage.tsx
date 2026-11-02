@@ -85,7 +85,7 @@ export function Component() {
 
       <header className="mx-auto max-w-4xl text-center">
         <p className="label-mono text-tomato-ink">{article.category?.name ?? 'Водич'}</p>
-        <h1 className="mt-4 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{article.title}</h1>
+        <h1 className="mt-4 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">{article.title}</h1>
         <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-graphite md:text-2xl">{article.excerpt}</p>
         <p className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 font-mono text-xs text-graphite">
           {article.author_name ? <span>{article.author_name}</span> : null}

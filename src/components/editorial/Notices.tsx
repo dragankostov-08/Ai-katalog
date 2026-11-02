@@ -17,7 +17,7 @@ export function PriceChangeNotice({ className = '' }: { className?: string }) {
 
 export function SponsoredNotice({ note }: { note?: string | null }) {
   return (
-    <div role="note" className="border-l-4 border-raspberry bg-white px-4 py-3 text-sm">
+    <div role="note" className="border-l-4 border-raspberry bg-surface px-4 py-3 text-sm">
       <p className="label-mono mb-1 text-raspberry">Спонзорирано</p>
       <p className="text-graphite">
         {note || 'Оваа содржина е платено истакнување.'} Плаќањето не влијае на уредничките оценки и препораки.{' '}

@@ -1,7 +1,7 @@
 import { useId, type ReactNode } from 'react'
 
 export const inputClasses =
-  'block w-full rounded-xs border border-light bg-white px-3 py-2.5 text-[0.95rem] text-ink placeholder:text-mid focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato aria-[invalid=true]:border-tomato'
+  'block w-full rounded-xs border border-light bg-surface px-3 py-2.5 text-[0.95rem] text-ink placeholder:text-mid focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato aria-[invalid=true]:border-tomato'
 
 interface FieldProps {
   label: string
@@ -55,7 +55,7 @@ export function FormMessage({ tone, children }: { tone: 'success' | 'error'; chi
   return (
     <div
       role={tone === 'error' ? 'alert' : 'status'}
-      className={`border-l-4 bg-white px-4 py-3 text-sm ${tone === 'error' ? 'border-tomato' : 'border-teal'}`}
+      className={`border-l-4 bg-surface px-4 py-3 text-sm ${tone === 'error' ? 'border-tomato' : 'border-teal'}`}
     >
       {children}
     </div>

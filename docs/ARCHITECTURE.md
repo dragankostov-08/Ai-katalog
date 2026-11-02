@@ -133,14 +133,27 @@ whitelisting.
 
 ## Design system
 
-Tokens are defined once in `src/styles/index.css` (`@theme`): a clean, modern
-directory look — slate greys on a light background, one violet brand colour
-(`tomato` token, #7c3aed) with soft/line tints, green/blue/amber status tones that meet
-WCAG AA for small text, Inter Variable for all UI text and IBM Plex Mono only for real
-code and prompts (`font-code`), generous radii (cards `rounded-2xl`, pills
-`rounded-full`) and soft shadows. Fonts are self-hosted (no third-party requests).
-Token names (`ink`, `paper`, `cream`, `tomato`…) are historical and kept stable; their
-values define the look. Layout follows the familiar AI-directory pattern: sticky header
-with search, a horizontal category strip, a centred hero search with popular tasks,
-"new / popular" tool lists next to the AI-news widget, and category boxes with their
-top tools. Motion respects `prefers-reduced-motion`.
+Tokens are defined once in `src/styles/index.css` (`@theme`): a dark, monochrome,
+glass look — near-black page (`paper`), light text greys (`ink` → `mid`), hairline
+white borders (`light`), translucent glass cards (`surface`, with a 1px top highlight),
+frosted layers for the header, dialogs, trays and banners (`glass`, `glass-panel`
+utilities with `backdrop-filter`), a near-white primary action (`tomato`) and one cool
+blue for accent text (`tomato-ink`). No gradients or glows; the only texture is a faint
+dot grid behind the page. Inter Variable for UI text, IBM Plex Mono only for code and
+prompts (`font-code`). Token names are historical and kept stable; their values define
+the look. Layout follows the AI-directory pattern: sticky header with search, category
+strip, large centred hero search, new/popular tools next to the AI-news widget, and
+category boxes with their top tools.
+
+Motion:
+
+- **GSAP** (`src/lib/motion.ts`, loaded lazily after hydration): hero headline words
+  rise in, hero elements fade up, sections marked `data-reveal` and cards below the
+  fold reveal on scroll (ScrollTrigger batch). Content is only hidden when an inline
+  script in `index.html` has added `js-motion` to `<html>`; it is removed again if
+  GSAP has not loaded within 3 s, and never added for `prefers-reduced-motion`. The
+  pre-rendered HTML is therefore always fully visible.
+- **Motion** (Framer Motion, `motion/react` with `LazyMotion` + `domAnimation`):
+  page fade on client-side navigation (not on first load), the animated active pill in
+  the main navigation (`layoutId`), and spring hover on tool cards.
+- Dialogs fade/scale in with CSS.

@@ -71,7 +71,7 @@ export function Component() {
     <div className="container-page pt-6 md:pt-10">
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'AI вести' }]} />
       <header className="mb-6 max-w-3xl">
-        <h1 className="inline-flex items-center gap-3 text-3xl font-extrabold tracking-tight md:text-4xl">
+        <h1 className="inline-flex items-center gap-3 text-3xl font-semibold tracking-tight md:text-4xl">
           <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-tomato-ink">
             <Newspaper className="h-5 w-5" aria-hidden />
           </span>
@@ -85,11 +85,11 @@ export function Component() {
 
       {sources.length > 1 ? (
         <nav aria-label="Извори" className="mb-6 flex flex-wrap gap-2">
-          <Link to={href(1, '')} className={`rounded-full px-3 py-1.5 text-sm font-medium ${!source ? 'bg-ink text-white' : 'bg-white text-graphite ring-1 ring-light hover:text-ink'}`}>
+          <Link to={href(1, '')} className={`rounded-full px-3 py-1.5 text-sm font-medium ${!source ? 'bg-ink text-paper' : 'bg-surface text-graphite ring-1 ring-light hover:text-ink'}`}>
             Сите извори
           </Link>
           {sources.map((s) => (
-            <Link key={s.id} to={href(1, s.id)} className={`rounded-full px-3 py-1.5 text-sm font-medium ${source === s.id ? 'bg-ink text-white' : 'bg-white text-graphite ring-1 ring-light hover:text-ink'}`}>
+            <Link key={s.id} to={href(1, s.id)} className={`rounded-full px-3 py-1.5 text-sm font-medium ${source === s.id ? 'bg-ink text-paper' : 'bg-surface text-graphite ring-1 ring-light hover:text-ink'}`}>
               {s.name}
             </Link>
           ))}
@@ -100,7 +100,7 @@ export function Component() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
           <div className="space-y-6">
             {groupByDay(items).map(([day, dayItems]) => (
-              <section key={day} aria-label={day} className="rounded-2xl border border-light bg-white p-2 shadow-sm">
+              <section key={day} aria-label={day} className="rounded-2xl border border-light bg-surface p-2 shadow-sm">
                 <h2 className="px-3 pt-2 pb-1 text-sm font-bold text-graphite">{day}</h2>
                 <ul className="divide-y divide-light/70">
                   {dayItems.map((item) => (
@@ -111,7 +111,7 @@ export function Component() {
             ))}
             <Pagination page={page} totalPages={totalPages} hrefForPage={(p) => href(p)} />
           </div>
-          <aside className="self-start rounded-2xl border border-light bg-white p-4 text-sm text-graphite shadow-sm">
+          <aside className="self-start rounded-2xl border border-light bg-surface p-4 text-sm text-graphite shadow-sm">
             <p className="font-semibold text-ink">Извори</p>
             <ul className="mt-2 space-y-1">
               {sources.map((s) => (

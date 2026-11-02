@@ -1,3 +1,4 @@
+import * as m from 'motion/react-m'
 import { Link } from 'react-router'
 import { formatShortDate } from '../../lib/format'
 import type { ToolCard as ToolCardData } from '../../lib/types'
@@ -15,7 +16,11 @@ export function CategoryMarker({ category }: { category: ToolCardData['category'
 export function ToolCard({ tool, headingLevel = 3 }: { tool: ToolCardData; headingLevel?: 2 | 3 }) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3'
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-white p-4 shadow-sm transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-brand-line hover:shadow-offset focus-within:border-brand-line">
+    <m.article
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      className="group relative flex h-full flex-col rounded-2xl border border-light bg-surface p-4 shadow-sm transition-[border-color,box-shadow] duration-200 hover:border-white/20 hover:shadow-offset focus-within:border-white/25"
+    >
       <div className="flex items-start gap-3">
         <ToolLogo name={tool.name} src={tool.logo_url} />
         <div className="min-w-0 flex-1">
@@ -41,14 +46,14 @@ export function ToolCard({ tool, headingLevel = 3 }: { tool: ToolCardData; headi
           <CompareButton slug={tool.slug} name={tool.name} />
         </span>
       </div>
-    </article>
+    </m.article>
   )
 }
 
 /** Dense row used for "latest" lists. */
 export function ToolRow({ tool, showDate = true }: { tool: ToolCardData; showDate?: boolean }) {
   return (
-    <li className="group relative flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-paper">
+    <li className="group relative flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-cream">
       <ToolLogo name={tool.name} src={tool.logo_url} size="sm" />
       <div className="min-w-0 flex-1">
         <h3 className="truncate text-sm font-semibold">

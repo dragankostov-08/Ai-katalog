@@ -13,7 +13,7 @@ function When({ value }: { value: string | null }) {
 
 export function NewsRow({ item, compact = false }: { item: NewsItem; compact?: boolean }) {
   return (
-    <li className="group relative rounded-xl px-3 py-3 transition-colors hover:bg-paper">
+    <li className="group relative rounded-xl px-3 py-3 transition-colors hover:bg-cream">
       <p className="flex flex-wrap items-center gap-x-2 text-xs text-graphite">
         <span className="font-semibold text-tomato-ink">{item.source.name}</span>
         <span aria-hidden>·</span>
@@ -33,7 +33,7 @@ export function NewsRow({ item, compact = false }: { item: NewsItem; compact?: b
 
 export function NewsWidget({ items }: { items: NewsItem[] }) {
   return (
-    <section className="flex h-full flex-col rounded-2xl border border-light bg-white p-3 shadow-sm" aria-labelledby="news-widget">
+    <section className="flex h-full flex-col rounded-2xl border border-light bg-surface p-3 shadow-sm" aria-labelledby="news-widget">
       <div className="flex items-center justify-between px-2 pt-1 pb-2">
         <h2 id="news-widget" className="inline-flex items-center gap-2 font-bold">
           <Newspaper className="h-4 w-4 text-tomato" aria-hidden /> AI вести

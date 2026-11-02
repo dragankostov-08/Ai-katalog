@@ -46,13 +46,13 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'AI речник' }]} />
       <header className="mb-8 max-w-3xl">
         <p className="label-mono text-tomato-ink">Речник</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">AI речник</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">AI речник</h1>
         <p className="mt-4 text-lg text-graphite">Поимите што ги среќаваш кај AI алатките, објаснети кратко и без жаргон.</p>
       </header>
 
       {terms.length ? (
         <>
-          <div className="mb-6 flex max-w-md rounded-full border border-light bg-white px-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft">
+          <div className="mb-6 flex max-w-md rounded-full border border-light bg-surface px-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft">
             <Search className="ml-3 h-5 w-5 shrink-0 self-center text-graphite" aria-hidden />
             <label htmlFor="glossary-filter" className="sr-only">
               Пребарај поим
@@ -87,7 +87,7 @@ export function Component() {
             <div className="space-y-10">
               {groups.map(([letter, items]) => (
                 <section key={letter} id={anchorFor(letter)} aria-labelledby={`${anchorFor(letter)}-title`} className="scroll-mt-40 grid gap-4 md:grid-cols-[5rem_1fr]">
-                  <h2 id={`${anchorFor(letter)}-title`} className={`font-display leading-none font-extrabold whitespace-nowrap text-transparent ${letter === LATIN_GROUP ? 'text-3xl' : 'text-5xl'}`} style={{ WebkitTextStroke: '1.5px var(--color-ink)' }}>
+                  <h2 id={`${anchorFor(letter)}-title`} className={`font-display leading-none font-semibold whitespace-nowrap text-transparent ${letter === LATIN_GROUP ? 'text-3xl' : 'text-5xl'}`} style={{ WebkitTextStroke: '1.5px var(--color-ink)' }}>
                     {letter}
                   </h2>
                   <dl className="grid gap-x-8 gap-y-5 border-t border-light pt-4 md:grid-cols-2">

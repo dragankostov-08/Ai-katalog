@@ -36,7 +36,7 @@ export function DigestPage() {
         title="Неделен преглед"
         description="Автоматски состав на новото во каталогот, подготвен за Viber, Telegram и билтенот. Прочитај го пред објавување."
         actions={
-          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-light bg-white px-2 text-sm rounded-2xl">
+          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-light bg-surface px-2 text-sm rounded-2xl">
             <option value={7}>Последни 7 дена</option>
             <option value={14}>Последни 14 дена</option>
             <option value={30}>Последни 30 дена</option>
@@ -45,7 +45,7 @@ export function DigestPage() {
       />
       {loading && !data ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data ? (
         isEmptyDigest(data) ? (
-          <p className="border border-dashed border-light bg-white p-6 text-center text-sm text-graphite rounded-2xl">Нема ново објавена содржина во избраниот период.</p>
+          <p className="border border-dashed border-light bg-surface p-6 text-center text-sm text-graphite rounded-2xl">Нема ново објавена содржина во избраниот период.</p>
         ) : (
           <div className="grid gap-6 lg:grid-cols-2">
             <Panel title="Viber / Telegram (обичен текст)" actions={<CopyButton text={text} label="Копирај" />}>
@@ -60,7 +60,7 @@ export function DigestPage() {
               </div>
             </Panel>
             <Panel title="Билтен (HTML)" actions={<CopyButton text={html} label="Копирај HTML" />}>
-              <div className="max-h-[32rem] overflow-y-auto border border-light bg-white p-4 text-sm [&_a]:underline [&_h1]:mb-2 [&_h1]:font-bold [&_h2]:font-bold [&_ul]:list-disc rounded-2xl">
+              <div className="max-h-[32rem] overflow-y-auto border border-light bg-surface p-4 text-sm [&_a]:underline [&_h1]:mb-2 [&_h1]:font-bold [&_h2]:font-bold [&_ul]:list-disc rounded-2xl">
                 {/* Preview of trusted, locally escaped markup generated from our own data. */}
                 <div dangerouslySetInnerHTML={{ __html: html }} />
               </div>

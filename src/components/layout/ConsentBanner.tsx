@@ -72,7 +72,7 @@ export function ConsentBanner() {
       {!consent.decided && !preferencesOpen ? (
         <section
           aria-label="Приватност и колачиња"
-          className="fixed inset-x-3 bottom-3 z-50 border border-light bg-paper p-4 shadow-paper md:right-auto md:left-5 md:max-w-md rounded-2xl"
+          className="glass fixed inset-x-3 bottom-3 z-50 border p-4 shadow-paper md:right-auto md:left-5 md:max-w-md rounded-2xl"
         >
           <p className="label-mono mb-1.5 text-tomato-ink">Приватност</p>
           <p className="text-sm text-charcoal">

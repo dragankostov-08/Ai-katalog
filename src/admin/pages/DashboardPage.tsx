@@ -61,9 +61,9 @@ export function DashboardPage() {
               { label: 'Нови пораки', value: data.new_messages, to: '/admin/poraki' },
               { label: 'Кликови (30 дена)', value: data.clicks_30d, to: '/admin/analitika' },
             ].map((stat) => (
-              <Link key={stat.label} to={stat.to} className="border border-light bg-white p-4 hover:shadow-offset-sm rounded-2xl">
+              <Link key={stat.label} to={stat.to} className="border border-light bg-surface p-4 hover:shadow-offset-sm rounded-2xl">
                 <p className="label-mono text-graphite">{stat.label}</p>
-                <p className="mt-1 font-display text-3xl font-extrabold">{stat.value}</p>
+                <p className="mt-1 font-display text-3xl font-semibold">{stat.value}</p>
               </Link>
             ))}
           </div>

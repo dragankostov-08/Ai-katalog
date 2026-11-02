@@ -67,7 +67,7 @@ function OptionCard({
   return (
     <label
       className={`relative flex cursor-pointer items-start gap-3 border p-4 transition-colors ${
- checked ? 'border-light bg-white shadow-offset-sm' : 'border-light bg-white/60 hover:border-brand-line'
+ checked ? 'border-light bg-surface shadow-offset-sm' : 'border-light bg-surface/60 hover:border-white/20'
  } rounded-2xl`}
     >
       <input type={type} name={name} checked={checked} onChange={onChange} className="mt-1 h-4 w-4 shrink-0 accent-tomato" />
@@ -92,7 +92,7 @@ function Step({ index, title, hint, children }: { index: number; title: string; 
     <fieldset className="min-w-0">
       <legend className="sr-only">{title}</legend>
       <p className="label-mono text-tomato-ink">Прашање {index + 1} од {STEPS.length}</p>
-      <h2 ref={headingRef} tabIndex={-1} className="mt-2 font-display text-3xl leading-tight font-extrabold focus:outline-none md:text-4xl">
+      <h2 ref={headingRef} tabIndex={-1} className="mt-2 font-display text-3xl leading-tight font-semibold focus:outline-none md:text-4xl">
         {title}
       </h2>
       {hint ? <p className="mt-2 text-graphite">{hint}</p> : null}
@@ -110,7 +110,7 @@ function ResultCard({ item, rank, onSelect }: { item: Recommendation; rank: numb
         <div className="flex items-center gap-3">
           <ToolLogo name={tool.name} src={tool.logo_url} />
           <div>
-            <h3 className="font-display text-2xl leading-tight font-extrabold">
+            <h3 className="font-display text-2xl leading-tight font-semibold">
               <Link to={`/alatka/${tool.slug}`} onClick={onSelect} className="hover:underline hover:decoration-tomato hover:underline-offset-4">
                 {tool.name}
               </Link>
@@ -201,7 +201,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Пронајди алатка' }]} />
       <header className="max-w-3xl">
         <p className="label-mono text-tomato-ink">Прашалник</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Пронајди алатка за твојата задача</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Пронајди алатка за твојата задача</h1>
         <p className="mt-4 text-lg text-graphite">
           Пет прашања. Препораките се пресметуваат според проверени податоци во каталогот — без вештачка интелигенција и без платени позиции.
         </p>
@@ -348,7 +348,7 @@ export function Component() {
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-light pb-4">
             <div>
               <p className="label-mono text-graphite">Резултати</p>
-              <h2 id="wizard-results" ref={resultsRef} tabIndex={-1} className="mt-1 font-display text-3xl font-extrabold focus:outline-none md:text-4xl">
+              <h2 id="wizard-results" ref={resultsRef} tabIndex={-1} className="mt-1 font-display text-3xl font-semibold focus:outline-none md:text-4xl">
                 {taskLabel ? `${taskLabel}: ` : ''}
                 {result?.matches.length ? `${result.matches.length} предлози` : 'нема точно совпаѓање'}
               </h2>
@@ -400,7 +400,7 @@ export function Component() {
 
           {result && result.unconfirmed.length ? (
             <section className="mt-14" aria-labelledby="wizard-unconfirmed">
-              <h2 id="wizard-unconfirmed" className="font-display text-2xl font-extrabold">
+              <h2 id="wizard-unconfirmed" className="font-display text-2xl font-semibold">
                 Можеби, но не е потврдено
               </h2>
               <p className="mt-1 max-w-2xl text-graphite">Овие алатки одговараат на задачата, но не сме потврдиле дали имаат бесплатен план.</p>

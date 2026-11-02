@@ -114,7 +114,7 @@ export function Component() {
             <ToolLogo name={tool.name} src={tool.logo_url} size="lg" />
             <div className="min-w-0">
               {primary ? <CategoryMarker category={primary} /> : null}
-              <h1 className="mt-1.5 font-display text-4xl leading-[1.1] font-extrabold tracking-tight break-words md:text-6xl">{tool.name}</h1>
+              <h1 className="mt-1.5 font-display text-4xl leading-[1.1] font-semibold tracking-tight break-words md:text-6xl">{tool.name}</h1>
               {tool.developer ? <p className="mt-2 font-mono text-sm text-graphite">од {tool.developer}</p> : null}
             </div>
           </div>
@@ -127,7 +127,7 @@ export function Component() {
                   <li key={useCase.slug}>
                     <Link
                       to={`/alatki?namena=${useCase.slug}`}
-                      className="inline-block rounded-xs border border-light bg-white px-2.5 py-1 text-sm hover:border-brand-line hover:bg-cream"
+                      className="inline-block rounded-xs border border-light bg-surface px-2.5 py-1 text-sm hover:border-white/20 hover:bg-cream"
                     >
                       {useCase.name}
                     </Link>
@@ -143,7 +143,7 @@ export function Component() {
           ) : null}
         </div>
 
-        <aside aria-label="Брз преглед" className="self-start border border-light bg-white p-5 shadow-offset rounded-2xl">
+        <aside aria-label="Брз преглед" className="self-start border border-light bg-surface p-5 shadow-offset rounded-2xl">
           <div className="flex items-center justify-between gap-2 border-b border-light pb-3">
             <p className="label-mono">Досие</p>
             <VerificationBadge status={tool.verification_status} date={tool.last_verified_at} />
@@ -185,7 +185,7 @@ export function Component() {
         <div className="min-w-0 space-y-14">
           {tool.description ? (
             <section aria-labelledby="tool-about">
-              <h2 id="tool-about" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-about" className="mb-4 border-t border-light pt-3 font-display text-2xl font-semibold md:text-3xl">
                 Што прави {tool.name}
               </h2>
               <Markdown source={tool.description} />
@@ -193,10 +193,10 @@ export function Component() {
           ) : null}
 
           <section aria-labelledby="tool-pricing">
-            <h2 id="tool-pricing" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
+            <h2 id="tool-pricing" className="mb-4 border-t border-light pt-3 font-display text-2xl font-semibold md:text-3xl">
               Цени и бесплатен план
             </h2>
-            <div className="max-w-2xl overflow-hidden rounded-2xl border border-light bg-white">
+            <div className="max-w-2xl overflow-hidden rounded-2xl border border-light bg-surface">
               <dl className="px-4">
                 <Fact label="Модел">
                   {tool.pricing_type !== 'unknown' ? (
@@ -224,7 +224,7 @@ export function Component() {
 
           {features.length ? (
             <section aria-labelledby="tool-features">
-              <h2 id="tool-features" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-features" className="mb-4 border-t border-light pt-3 font-display text-2xl font-semibold md:text-3xl">
                 Главни функции
               </h2>
               <ul className="grid max-w-3xl gap-x-8 sm:grid-cols-2">
@@ -246,7 +246,7 @@ export function Component() {
           {prompts.length ? (
             <section aria-labelledby="tool-prompts">
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
-                <h2 id="tool-prompts" className="font-display text-2xl font-extrabold md:text-3xl">
+                <h2 id="tool-prompts" className="font-display text-2xl font-semibold md:text-3xl">
                   Готови промптови за {tool.name}
                 </h2>
                 <Link to={`/promptovi?alatka=${tool.slug}`} className="text-sm underline underline-offset-2">
@@ -266,7 +266,7 @@ export function Component() {
           {language_tests.length ? (
             <section aria-labelledby="tool-mk-tests">
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
-                <h2 id="tool-mk-tests" className="font-display text-2xl font-extrabold md:text-3xl">
+                <h2 id="tool-mk-tests" className="font-display text-2xl font-semibold md:text-3xl">
                   Тестирано на македонски
                 </h2>
                 <Link to="/testirano-na-makedonski" className="text-sm underline underline-offset-2">
@@ -275,7 +275,7 @@ export function Component() {
               </div>
               <ol className="space-y-8">
                 {language_tests.map((test) => (
-                  <li key={test.id} className="border border-light bg-white p-5 rounded-2xl">
+                  <li key={test.id} className="border border-light bg-surface p-5 rounded-2xl">
                     <h3 className="mb-3 font-display text-lg font-bold">{test.task_title}</h3>
                     <TestResult test={test} toolName={tool.name} />
                   </li>
@@ -286,12 +286,12 @@ export function Component() {
 
           {tool.capabilities.length ? (
             <section aria-labelledby="tool-capabilities">
-              <h2 id="tool-capabilities" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-capabilities" className="mb-4 border-t border-light pt-3 font-display text-2xl font-semibold md:text-3xl">
                 Потврдени можности
               </h2>
               <ul className="flex flex-wrap gap-2">
                 {tool.capabilities.map((capability) => (
-                  <li key={capability} className="rounded-xs border border-light bg-white px-2.5 py-1 text-sm">
+                  <li key={capability} className="rounded-xs border border-light bg-surface px-2.5 py-1 text-sm">
                     {capabilityLabels[capability]}
                   </li>
                 ))}
@@ -302,7 +302,7 @@ export function Component() {
           {tool.pros.length || tool.cons.length || tool.editorial_verdict ? (
             <section aria-labelledby="tool-assessment">
               <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
-                <h2 id="tool-assessment" className="font-display text-2xl font-extrabold md:text-3xl">
+                <h2 id="tool-assessment" className="font-display text-2xl font-semibold md:text-3xl">
                   Уредничка проценка
                 </h2>
                 <Link to="/metodologija" className="text-sm underline underline-offset-2 hover:text-tomato-ink">
@@ -407,7 +407,7 @@ export function Component() {
           to={`/alternativi/${tool.slug}`}
           className="mt-16 flex flex-wrap items-center justify-between gap-3 border border-light bg-warn-soft px-5 py-4 transition-shadow hover:shadow-offset rounded-2xl"
         >
-          <span className="font-display text-xl font-extrabold">
+          <span className="font-display text-xl font-semibold">
             {free_alternative_count} {free_alternative_count === 1 ? 'проверена бесплатна алтернатива' : 'проверени бесплатни алтернативи'} на {tool.name}
           </span>
           <span className="font-mono text-sm">Види ги →</span>

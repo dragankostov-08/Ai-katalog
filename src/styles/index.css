@@ -6,42 +6,45 @@
 @import "@fontsource/ibm-plex-mono/latin-400.css";
 
 /* ---------------------------------------------------------------------------
-   Design tokens — clean, modern directory UI.
+   Design tokens — dark, glass, monochrome.
    Token names are kept stable across the codebase; values define the look:
-     ink/charcoal/graphite/mid = text greys, light = borders,
-     paper = page background, cream = subtle surface,
-     tomato = brand violet, mustard/teal/raspberry = supporting accents.
+     ink/charcoal/graphite/mid = text (light on dark), light = hairline borders,
+     paper = page background, cream = subtle hover surface, surface = glass card,
+     tomato = primary action (near-white), tomato-ink = accent text (cool blue).
    --------------------------------------------------------------------------- */
 @theme {
   --color-*: initial;
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-ink: #0f172a;
-  --color-charcoal: #1e293b;
-  --color-graphite: #475569;
-  --color-mid: #94a3b8;
-  --color-light: #e2e8f0;
-  --color-cream: #f1f5f9;
-  --color-paper: #f8fafc;
+  --color-ink: #ededf2;
+  --color-charcoal: #d0d0da;
+  --color-graphite: #a1a1ae;
+  --color-mid: #7d7d8a;
+  --color-light: rgb(255 255 255 / 0.09);
+  --color-cream: rgb(255 255 255 / 0.05);
+  --color-paper: #07070a;
+  --color-surface: rgb(255 255 255 / 0.035);
+  --color-elevated: #101016;
   --color-white: #ffffff;
+  --color-black: #000000;
 
-  --color-tomato: #7c3aed;
-  --color-tomato-ink: #6d28d9;
-  --color-brand-soft: #f5f3ff;
-  --color-brand-line: #ddd6fe;
-  --color-mustard: #f59e0b;
-  --color-teal: #10b981;
-  --color-teal-ink: #047857;
-  --color-raspberry: #db2777;
-  --color-sky: #0ea5e9;
+  --color-tomato: #f4f4f7;
+  --color-tomato-ink: #a5bdff;
+  --color-brand-soft: rgb(165 189 255 / 0.10);
+  --color-brand-line: rgb(165 189 255 / 0.30);
+  --color-mustard: #fbbf24;
+  --color-teal: #34d399;
+  --color-teal-ink: #6ee7b7;
+  --color-raspberry: #f472b6;
+  --color-sky: #7dd3fc;
 
-  --color-success: #047857;
-  --color-success-soft: #ecfdf5;
-  --color-info: #1d4ed8;
-  --color-info-soft: #eff6ff;
-  --color-warn: #b45309;
-  --color-warn-soft: #fffbeb;
+  --color-success: #4ade80;
+  --color-success-soft: rgb(74 222 128 / 0.10);
+  --color-info: #93c5fd;
+  --color-info-soft: rgb(147 197 253 / 0.10);
+  --color-warn: #fcd34d;
+  --color-warn-soft: rgb(252 211 77 / 0.08);
 
   --font-*: initial;
   --font-sans: "Inter Variable", "Inter", ui-sans-serif, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
@@ -65,10 +68,10 @@
   --radius-full: 9999px;
 
   --shadow-*: initial;
-  --shadow-sm: 0 1px 2px rgb(15 23 42 / 0.06);
-  --shadow-offset: 0 12px 32px -12px rgb(15 23 42 / 0.18), 0 2px 6px rgb(15 23 42 / 0.05);
-  --shadow-offset-sm: 0 6px 16px -8px rgb(15 23 42 / 0.18);
-  --shadow-paper: 0 20px 48px -20px rgb(15 23 42 / 0.25);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4), inset 0 1px 0 rgb(255 255 255 / 0.04);
+  --shadow-offset: 0 24px 48px -24px rgb(0 0 0 / 0.8), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --shadow-offset-sm: 0 12px 24px -12px rgb(0 0 0 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.05);
+  --shadow-paper: 0 32px 64px -24px rgb(0 0 0 / 0.85), inset 0 1px 0 rgb(255 255 255 / 0.06);
 
   --text-2xs: 0.6875rem;
   --text-2xs--line-height: 1rem;
@@ -84,6 +87,7 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
     scroll-padding-top: 7rem;
   }
@@ -93,20 +97,52 @@
     font-feature-settings: "cv11", "ss01";
   }
 
+  /* Faint dot grid fading out from the top: gives the glass something to sit on. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(255 255 255 / 0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 70%);
+  }
+
+  /* Glass cards: translucent surface + a 1px top highlight. */
+  .bg-surface {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  input, select, textarea {
+    color-scheme: dark;
+  }
+
   ::selection {
     background: var(--color-brand-line);
     color: var(--color-ink);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-tomato);
+    outline: 2px solid var(--color-tomato-ink);
     outline-offset: 2px;
     border-radius: 6px;
   }
 
   h1, h2, h3, h4 {
     text-wrap: balance;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+  }
+
+  /* Scroll reveals (GSAP). Only hidden when JS has opted in, so content is
+     always visible without JavaScript and in the pre-rendered HTML. */
+  .js-motion [data-reveal],
+  .js-motion [data-hero-fade] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .js-motion [data-hero-word] {
+    opacity: 0;
   }
 
   p {
@@ -146,16 +182,21 @@
   letter-spacing: 0.01em;
 }
 
-/* Soft brand glow used behind the hero and call-to-action bands. */
-@utility hero-glow {
-  background:
-    radial-gradient(60rem 28rem at 50% -8rem, rgb(124 58 237 / 0.14), transparent 70%),
-    radial-gradient(40rem 20rem at 90% 0, rgb(14 165 233 / 0.10), transparent 70%),
-    var(--color-white);
+/* Frosted glass for floating layers (header, dialogs, trays, banners). */
+@utility glass {
+  background-color: rgb(14 14 19 / 0.72);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-color: rgb(255 255 255 / 0.09);
 }
 
-@utility brand-gradient {
-  background-image: linear-gradient(135deg, #7c3aed 0%, #6366f1 55%, #0ea5e9 100%);
+/* Glass panel for large feature blocks. */
+@utility glass-panel {
+  background-color: rgb(255 255 255 / 0.03);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 32px 64px -32px rgb(0 0 0 / 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 @utility scrollbar-thin {
@@ -203,18 +244,18 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 3px;
   }
-  .prose-ak a:hover { text-decoration-color: var(--color-tomato); }
+  .prose-ak a:hover { text-decoration-color: var(--color-tomato-ink); }
   .prose-ak strong { color: var(--color-ink); font-weight: 650; }
   .prose-ak ul, .prose-ak ol { padding-left: 1.3em; }
   .prose-ak ul { list-style: disc; }
-  .prose-ak ul > li::marker { color: var(--color-tomato); }
+  .prose-ak ul > li::marker { color: var(--color-mid); }
   .prose-ak ol { list-style: decimal; }
   .prose-ak ol > li::marker { color: var(--color-graphite); font-weight: 600; }
   .prose-ak li + li { margin-top: 0.4em; }
   .prose-ak blockquote {
     font-size: 1.125rem;
     color: var(--color-ink);
-    border-left: 3px solid var(--color-tomato);
+    border-left: 2px solid var(--color-tomato-ink);
     padding-left: 1rem;
   }
   .prose-ak code {
@@ -228,8 +269,9 @@
     font-family: var(--font-code);
     font-size: 0.875rem;
     line-height: 1.6;
-    background: #0f172a;
-    color: #e2e8f0;
+    background: rgb(255 255 255 / 0.035);
+    border: 1px solid var(--color-light);
+    color: var(--color-charcoal);
     padding: 1rem 1.15rem;
     overflow-x: auto;
     border-radius: 12px;
@@ -245,12 +287,28 @@
     font-weight: 600;
     font-size: 0.8125rem;
     text-align: left;
-    background: var(--color-paper);
+    background: var(--color-cream);
     border-bottom: 1px solid var(--color-light);
     padding: 0.6rem 0.75rem;
   }
   .prose-ak td { border-bottom: 1px solid var(--color-light); padding: 0.6rem 0.75rem; vertical-align: top; }
   .prose-ak tr:last-child td { border-bottom: 0; }
+}
+
+/* Dialogs and drawers fade/scale in. */
+dialog[open] {
+  animation: dialog-in 220ms var(--ease-editorial) both;
+}
+dialog[open]::backdrop {
+  animation: backdrop-in 220ms ease-out both;
+}
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Lock page scroll while a modal dialog is open. */

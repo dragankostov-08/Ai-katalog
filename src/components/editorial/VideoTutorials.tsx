@@ -36,7 +36,7 @@ export function VideoCard({ video, index, as: Tag = 'li' }: { video: ToolVideo; 
             </span>
             <span className="relative flex items-end justify-between gap-4">
               <span className="line-clamp-3 font-display text-lg leading-tight font-bold">{video.title}</span>
-              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-tomato text-white transition-transform group-hover:scale-110">
+              <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-tomato text-paper transition-transform group-hover:scale-110">
                 <Play className="ml-0.5 h-5 w-5 fill-current" aria-hidden />
               </span>
             </span>
@@ -63,7 +63,7 @@ export function VideoTutorials({ videos, toolName }: { videos: ToolVideo[]; tool
   return (
     <section aria-labelledby="tool-videos">
       <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
-        <h2 id="tool-videos" className="font-display text-2xl font-extrabold md:text-3xl">
+        <h2 id="tool-videos" className="font-display text-2xl font-semibold md:text-3xl">
           Видео туторијали за {toolName}
         </h2>
         <p className="label-mono text-graphite">Рачно одбрани од уредништвото</p>

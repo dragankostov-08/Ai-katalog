@@ -43,7 +43,7 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <>
-      <details className="mb-8 overflow-hidden rounded-2xl border border-light bg-white lg:hidden">
+      <details className="mb-8 overflow-hidden rounded-2xl border border-light bg-surface lg:hidden">
         <summary className="cursor-pointer px-4 py-3 label-mono">Содржина на водичот</summary>
         <nav aria-label="Содржина" className="border-t border-light px-4 py-3">
           {list}

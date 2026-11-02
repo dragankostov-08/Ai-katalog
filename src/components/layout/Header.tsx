@@ -1,3 +1,4 @@
+import * as m from 'motion/react-m'
 import { Bookmark, Menu, Search, Sparkles, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Form, Link, NavLink, useLocation, useRouteLoaderData } from 'react-router'
@@ -28,7 +29,7 @@ function HeaderSearch({ id, autoFocus }: { id: string; autoFocus?: boolean }) {
         autoComplete="off"
         enterKeyHint="search"
         maxLength={100}
-        className="h-11 w-full rounded-full border border-light bg-paper pr-4 pl-10 text-sm placeholder:text-mid focus:border-tomato focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-soft"
+        className="h-10 w-full rounded-full border border-light bg-cream pr-4 pl-10 text-sm placeholder:text-mid focus:border-brand-line focus:outline-none focus:ring-4 focus:ring-brand-soft"
       />
     </Form>
   )
@@ -47,7 +48,7 @@ function CategoryStrip() {
             to="/alatki"
             end
             className={({ isActive }) =>
-              `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-white' : 'text-graphite hover:bg-cream hover:text-ink'}`
+              `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-paper' : 'text-graphite hover:bg-cream hover:text-ink'}`
             }
           >
             Сите алатки
@@ -58,7 +59,7 @@ function CategoryStrip() {
             <NavLink
               to={`/kategorii/${category.slug}`}
               className={({ isActive }) =>
-                `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-white' : 'text-graphite hover:bg-cream hover:text-ink'}`
+                `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-paper' : 'text-graphite hover:bg-cream hover:text-ink'}`
               }
             >
               <CategoryIcon name={category.icon} className="h-3.5 w-3.5" />
@@ -83,7 +84,7 @@ export function Header() {
   }, [location.pathname, location.search])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-light bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="glass sticky top-0 z-40 border-b">
       <div className="container-page flex h-16 items-center gap-4 lg:gap-6">
         <Logo />
 
@@ -98,10 +99,21 @@ export function Header() {
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `rounded-full px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'bg-brand-soft text-tomato-ink' : 'text-graphite hover:bg-cream hover:text-ink'}`
+                    `relative block rounded-full px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'text-ink' : 'text-graphite hover:text-ink'}`
                   }
                 >
-                  {item.label}
+                  {({ isActive }) => (
+                    <>
+                      {isActive ? (
+                        <m.span
+                          layoutId="nav-active"
+                          className="absolute inset-0 rounded-full border border-light bg-cream"
+                          transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                        />
+                      ) : null}
+                      <span className="relative">{item.label}</span>
+                    </>
+                  )}
                 </NavLink>
               </li>
             ))}
@@ -115,13 +127,13 @@ export function Header() {
         >
           <Bookmark className="h-5 w-5" aria-hidden />
           {favorites.length ? (
-            <span className="absolute -top-0.5 -right-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-tomato px-1 text-[0.625rem] font-bold text-white">
+            <span className="absolute -top-0.5 -right-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-tomato-ink px-1 text-[0.625rem] font-bold text-paper">
               {favorites.length}
             </span>
           ) : null}
         </Link>
 
-        <Link to="/pronajdi" className="hidden h-10 items-center gap-1.5 rounded-full bg-tomato px-4 text-sm font-semibold text-white shadow-sm hover:bg-tomato-ink lg:inline-flex">
+        <Link to="/pronajdi" className="hidden h-10 items-center gap-1.5 rounded-full bg-tomato px-4 text-sm font-semibold text-paper shadow-sm hover:bg-white lg:inline-flex">
           <Sparkles className="h-4 w-4" aria-hidden />
           Пронајди алатка
         </Link>
@@ -139,7 +151,7 @@ export function Header() {
           </button>
           <button
             type="button"
-            className="inline-flex h-10 items-center gap-2 rounded-full border border-light bg-white px-3.5 text-sm font-semibold hover:bg-paper"
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-light bg-surface px-3.5 text-sm font-semibold hover:bg-cream"
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}

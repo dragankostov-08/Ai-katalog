@@ -110,7 +110,7 @@ export function Component() {
 
       <header className="max-w-4xl">
         <p className="label-mono text-tomato-ink">Споредба · ажурирано {formatDate(comparison.updated_at)}</p>
-        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{comparison.title}</h1>
+        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">{comparison.title}</h1>
       </header>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_20rem]">
@@ -121,11 +121,11 @@ export function Component() {
       {/* Tool header strip */}
       <ul className={`mt-12 grid gap-4 sm:grid-cols-2 ${tools.length === 3 ? 'lg:grid-cols-3' : tools.length >= 4 ? 'lg:grid-cols-4' : ''}`}>
         {tools.map((tool) => (
-          <li key={tool.id} className="flex flex-col border border-light bg-white p-4 rounded-2xl">
+          <li key={tool.id} className="flex flex-col border border-light bg-surface p-4 rounded-2xl">
             <div className="flex items-center gap-3">
               <ToolLogo name={tool.name} src={tool.logo_url} />
               <div className="min-w-0">
-                <h2 className="font-display text-xl leading-tight font-extrabold">
+                <h2 className="font-display text-xl leading-tight font-semibold">
                   <Link to={`/alatka/${tool.slug}`} className="hover:underline hover:decoration-tomato hover:underline-offset-4">
                     {tool.name}
                   </Link>
@@ -157,7 +157,7 @@ export function Component() {
                 Критериум
               </th>
               {tools.map((tool) => (
-                <th key={tool.id} scope="col" className="py-3 pr-4 align-bottom font-display text-lg font-extrabold">
+                <th key={tool.id} scope="col" className="py-3 pr-4 align-bottom font-display text-lg font-semibold">
                   {tool.name}
                 </th>
               ))}
@@ -165,7 +165,7 @@ export function Component() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-light align-top even:bg-white/60">
+              <tr key={row.label} className="border-b border-light align-top even:bg-surface/60">
                 <th scope="row" className="py-3 pr-4 font-mono text-xs font-medium tracking-wide text-graphite uppercase">
                   {row.label}
                 </th>
@@ -207,7 +207,7 @@ export function Component() {
       {comparison.verdict ? (
         <section className="mt-14 max-w-3xl border-t border-light pt-4" aria-labelledby="comparison-verdict">
           <p className="label-mono text-graphite">Уредничко мислење</p>
-          <h2 id="comparison-verdict" className="mt-2 font-display text-3xl font-extrabold">
+          <h2 id="comparison-verdict" className="mt-2 font-display text-3xl font-semibold">
             Заклучок
           </h2>
           <div className="mt-4">

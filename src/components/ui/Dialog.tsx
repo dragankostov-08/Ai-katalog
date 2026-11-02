@@ -46,7 +46,7 @@ export function Dialog({ open, onClose, title, children, placement = 'center', f
       onClick={(event) => {
         if (event.target === ref.current) onClose()
       }}
-      className={`flex-col overflow-hidden border border-light bg-paper p-0 text-ink shadow-paper backdrop:bg-ink/55 open:flex ${placements[placement]} rounded-2xl`}
+      className={`flex-col overflow-hidden border border-light bg-elevated/90 p-0 text-ink shadow-paper backdrop-blur-2xl backdrop:bg-black/60 backdrop:backdrop-blur-sm open:flex ${placements[placement]} rounded-2xl`}
     >
       <div className="flex items-center justify-between gap-4 border-b border-light px-5 py-3">
         <h2 id={titleId} className={hideTitle ? 'sr-only' : 'font-display text-lg font-bold'}>

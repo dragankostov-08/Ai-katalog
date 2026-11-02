@@ -6,7 +6,7 @@ export function MetaLabel({ children, className = '' }: { children: ReactNode; c
 
 const tones = {
   paper: 'bg-cream text-graphite',
-  ink: 'bg-ink text-white',
+  ink: 'bg-ink text-paper',
   cream: 'bg-cream text-graphite',
   brand: 'bg-brand-soft text-tomato-ink',
   success: 'bg-success-soft text-success',

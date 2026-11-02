@@ -17,7 +17,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             <li key={item.to}>
               <NavLink
                 to={item.to}
-                className={({ isActive }) => `block py-3 font-display text-2xl font-extrabold ${isActive ? 'text-tomato-ink' : 'text-ink'}`}
+                className={({ isActive }) => `block py-3 font-display text-2xl font-semibold ${isActive ? 'text-tomato-ink' : 'text-ink'}`}
               >
                 {item.label}
               </NavLink>

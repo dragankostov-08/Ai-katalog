@@ -24,7 +24,7 @@ export function Footer() {
     .map(([label, url]) => ({ label, url: url as string }))
 
   return (
-    <footer className="mt-24 border-t border-light bg-white text-graphite">
+    <footer className="mt-24 border-t border-light bg-surface text-graphite">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
           <Logo />
@@ -36,7 +36,7 @@ export function Footer() {
             <ul className="mt-5 flex flex-wrap gap-2 text-sm" aria-label="Следи нè">
               {socials.map((social) => (
                 <li key={social.label}>
-                  <a href={social.url} target="_blank" rel="noopener noreferrer me" className="inline-flex rounded-full border border-light px-3 py-1 text-graphite hover:border-brand-line hover:bg-brand-soft hover:text-tomato-ink">
+                  <a href={social.url} target="_blank" rel="noopener noreferrer me" className="inline-flex rounded-full border border-light px-3 py-1 text-graphite hover:border-white/20 hover:bg-brand-soft hover:text-tomato-ink">
                     {social.label}
                   </a>
                 </li>

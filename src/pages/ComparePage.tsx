@@ -59,7 +59,7 @@ function ToolPicker({ exclude, onPick }: { exclude: string[]; onPick: (tool: Too
     }
   }, [query])
   return (
-    <div className="border border-light bg-white p-3 rounded-2xl">
+    <div className="border border-light bg-surface p-3 rounded-2xl">
       <div className="flex rounded-full border border-light px-1">
         <Search className="ml-2 h-4 w-4 shrink-0 self-center text-graphite" aria-hidden />
         <label htmlFor="compare-search" className="sr-only">
@@ -131,7 +131,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Спореди алатки' }]} />
       <header className="mb-8 max-w-3xl">
         <p className="label-mono text-tomato-ink">По твој избор</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Спореди алатки</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Спореди алатки</h1>
         <p className="mt-4 text-lg text-graphite">
           Избери до {MAX_COMPARE} алатки. Табелата се составува автоматски од податоците во каталогот; цените се прикажуваат само кога се проверени.
         </p>
@@ -139,14 +139,14 @@ export function Component() {
 
       <div className={`grid gap-4 ${tools.length >= 2 ? 'md:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
         {tools.map((tool) => (
-          <div key={tool.slug} className="relative flex flex-col border border-light bg-white p-4 rounded-2xl">
+          <div key={tool.slug} className="relative flex flex-col border border-light bg-surface p-4 rounded-2xl">
             <button type="button" onClick={() => go(slugs.filter((s) => s !== tool.slug))} aria-label={`Отстрани ${tool.name}`} className="absolute top-2 right-2 p-1 hover:text-tomato-ink">
               <X className="h-4 w-4" aria-hidden />
             </button>
             <div className="flex items-center gap-3 pr-6">
               <ToolLogo name={tool.name} src={tool.logo_url} />
               <div className="min-w-0">
-                <h2 className="font-display text-xl leading-tight font-extrabold">
+                <h2 className="font-display text-xl leading-tight font-semibold">
                   <Link to={`/alatka/${tool.slug}`} className="hover:underline">
                     {tool.name}
                   </Link>
@@ -174,7 +174,7 @@ export function Component() {
                     Критериум
                   </th>
                   {tools.map((tool) => (
-                    <th key={tool.slug} scope="col" className="py-3 pr-4 font-display text-lg font-extrabold">
+                    <th key={tool.slug} scope="col" className="py-3 pr-4 font-display text-lg font-semibold">
                       {tool.name}
                     </th>
                   ))}
@@ -182,7 +182,7 @@ export function Component() {
               </thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.label} className="border-b border-light align-top even:bg-white/60">
+                  <tr key={row.label} className="border-b border-light align-top even:bg-surface/60">
                     <th scope="row" className="py-3 pr-4 font-mono text-xs font-medium tracking-wide text-graphite uppercase">
                       {row.label}
                     </th>
@@ -222,7 +222,7 @@ export function Component() {
 
       {comparisons.length ? (
         <section className="mt-16" aria-labelledby="compare-editorial">
-          <h2 id="compare-editorial" className="mb-4 font-display text-2xl font-extrabold">
+          <h2 id="compare-editorial" className="mb-4 font-display text-2xl font-semibold">
             Уреднички споредби за овие алатки
           </h2>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

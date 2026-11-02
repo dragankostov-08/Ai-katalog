@@ -26,7 +26,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Бесплатни алтернативи' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Заштеди</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Бесплатни алтернативи</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Бесплатни алтернативи</h1>
         <p className="mt-4 text-lg text-graphite">Избери алатка и види кои слични алатки можеш да ги користиш бесплатно.</p>
       </header>
       {items.length ? (

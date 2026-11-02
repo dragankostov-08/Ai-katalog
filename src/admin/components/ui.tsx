@@ -12,7 +12,7 @@ export function AdminPageHeader({ title, description, actions }: { title: string
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-light pb-4">
       <div>
-        <h1 className="font-display text-3xl font-extrabold tracking-tight">{title}</h1>
+        <h1 className="font-display text-3xl font-semibold tracking-tight">{title}</h1>
         {description ? <p className="mt-1 text-sm text-graphite">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
@@ -22,7 +22,7 @@ export function AdminPageHeader({ title, description, actions }: { title: string
 
 export function Panel({ title, children, actions, className = '' }: { title?: string; children: ReactNode; actions?: ReactNode; className?: string }) {
   return (
-    <section className={`border border-light bg-white ${className}`}>
+    <section className={`border border-light bg-surface ${className}`}>
       {title ? (
         <div className="flex items-center justify-between gap-2 border-b border-light px-4 py-2.5">
           <h2 className="label-mono text-graphite">{title}</h2>
@@ -35,7 +35,7 @@ export function Panel({ title, children, actions, className = '' }: { title?: st
 }
 
 const statusStyles: Record<ContentStatus, string> = {
-  published: 'bg-teal text-white',
+  published: 'bg-teal text-paper',
   draft: 'bg-light text-ink',
   needs_review: 'bg-warn-soft text-warn',
   archived: 'bg-graphite text-paper',
@@ -50,7 +50,7 @@ export function StatusBadge({ status }: { status: ContentStatus }) {
 /* ------------------------------------------------------------------------- */
 
 export const controlClass =
-  'block w-full rounded-xs border border-light bg-white px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato disabled:bg-paper'
+  'block w-full rounded-xs border border-light bg-surface px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato disabled:bg-paper'
 
 interface BaseFieldProps {
   label: string
@@ -245,10 +245,10 @@ export function MarkdownField({ label, value, onChange, rows = 12, hint, require
           {required ? <span className="text-tomato-ink"> *</span> : null}
         </label>
         <div className="flex gap-1 text-xs">
-          <button type="button" onClick={() => setPreview(false)} className={`inline-flex items-center gap-1 px-2 py-1 ${!preview ? 'bg-tomato text-white' : 'border border-light'}`}>
+          <button type="button" onClick={() => setPreview(false)} className={`inline-flex items-center gap-1 px-2 py-1 ${!preview ? 'bg-tomato text-paper' : 'border border-light'}`}>
             <Pencil className="h-3 w-3" /> Уреди
           </button>
-          <button type="button" onClick={() => setPreview(true)} className={`inline-flex items-center gap-1 px-2 py-1 ${preview ? 'bg-tomato text-white' : 'border border-light'}`}>
+          <button type="button" onClick={() => setPreview(true)} className={`inline-flex items-center gap-1 px-2 py-1 ${preview ? 'bg-tomato text-paper' : 'border border-light'}`}>
             <Eye className="h-3 w-3" /> Преглед
           </button>
         </div>
@@ -375,7 +375,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={toast.id}
             role={toast.tone === 'error' ? 'alert' : 'status'}
-            className={`border-l-4 bg-white px-4 py-3 text-sm shadow-paper ${toast.tone === 'error' ? 'border-tomato' : 'border-teal'}`}
+            className={`border-l-4 bg-surface px-4 py-3 text-sm shadow-paper ${toast.tone === 'error' ? 'border-tomato' : 'border-teal'}`}
           >
             {toast.message}
           </div>
@@ -421,7 +421,7 @@ export function LoadingRows() {
 
 export function ErrorBox({ message, onRetry }: { message: string; onRetry?: () => void }) {
   return (
-    <div role="alert" className="border-l-4 border-tomato bg-white px-4 py-3 text-sm">
+    <div role="alert" className="border-l-4 border-tomato bg-surface px-4 py-3 text-sm">
       <p>{message}</p>
       {onRetry ? (
         <button type="button" onClick={onRetry} className="mt-2 underline">

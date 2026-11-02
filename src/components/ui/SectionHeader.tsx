@@ -16,7 +16,7 @@ export function SectionHeader({ index, title, description, link, id, as: Heading
     <div className="mb-5 flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
       <div className="max-w-2xl">
         {index ? <p className="mb-1 text-sm font-semibold text-tomato-ink">{index}</p> : null}
-        <Heading id={id} className="text-2xl font-extrabold tracking-tight md:text-[1.75rem]">
+        <Heading id={id} className="text-2xl font-semibold tracking-tight md:text-[1.75rem]">
           {title}
         </Heading>
         {description ? <p className="mt-1 text-graphite">{description}</p> : null}

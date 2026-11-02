@@ -26,7 +26,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Најдобри' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Уреднички листи</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Најдобри според намена</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Најдобри според намена</h1>
         <p className="mt-4 text-lg text-graphite">
           Секоја листа има објаснета методологија. Ако некоја позиција е платена, јасно е означена како спонзорирана — плаќањето не одлучува кој е
           во листата.
@@ -41,7 +41,7 @@ export function Component() {
             .filter((group) => group.items.length)
             .map((group) => (
               <section key={group.key} aria-labelledby={`collections-${group.key}`}>
-                <h2 id={`collections-${group.key}`} className="mb-5 border-t border-light pt-3 font-display text-2xl font-extrabold">
+                <h2 id={`collections-${group.key}`} className="mb-5 border-t border-light pt-3 font-display text-2xl font-semibold">
                   {group.title}
                 </h2>
                 <ul className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

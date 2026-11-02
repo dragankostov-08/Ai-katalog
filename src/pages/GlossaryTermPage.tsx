@@ -43,7 +43,7 @@ export function Component() {
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="min-w-0 max-w-3xl">
           <p className="label-mono text-tomato-ink">AI речник{term.english_term ? ` · ${term.english_term}` : ''}</p>
-          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{term.term}</h1>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">{term.term}</h1>
           <p className="mt-6 border-l-4 border-light pl-4 text-xl leading-relaxed md:text-2xl">{term.short_definition}</p>
           {term.body ? <Markdown source={term.body} className="prose-ak mt-8" /> : null}
         </div>

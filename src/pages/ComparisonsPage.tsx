@@ -26,7 +26,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Споредби' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Една до друга</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Споредби</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">Споредби</h1>
         <p className="mt-4 text-lg text-graphite">
           Споредуваме само проверени податоци. Кога некој податок не е проверен, тоа јасно го пишуваме наместо да претпоставуваме.
         </p>

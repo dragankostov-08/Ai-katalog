@@ -251,7 +251,7 @@ export const cookiesRoute = {
         title="Колачиња"
         intro="Јавниот дел од сајтот не користи колачиња за следење. Еве сè што се чува на твојот уред."
         aside={
-          <div className="border border-light bg-white p-5 rounded-2xl">
+          <div className="border border-light bg-surface p-5 rounded-2xl">
             <p className="mb-3 text-sm">Сакаш да го промениш изборот?</p>
             <Button onClick={openConsentPreferences}>Поставки за приватност</Button>
           </div>

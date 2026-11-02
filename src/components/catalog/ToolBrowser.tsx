@@ -85,7 +85,7 @@ export function ToolBrowser({ filters: loadedFilters, result, categories, useCas
             clearTimeout(debounce.current)
             update({ q: query.trim() })
           }}
-          className="flex rounded-full border border-light bg-white p-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft"
+          className="flex rounded-full border border-light bg-surface p-1 shadow-sm focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft"
         >
           <label htmlFor="directory-search" className="sr-only">
             Пребарај алатки
@@ -102,7 +102,7 @@ export function ToolBrowser({ filters: loadedFilters, result, categories, useCas
             enterKeyHint="search"
             className="h-12 min-w-0 flex-1 bg-transparent px-3 focus:outline-none"
           />
-          <button type="submit" className="m-1 shrink-0 bg-tomato px-4 text-sm font-medium text-white hover:bg-tomato-ink">
+          <button type="submit" className="m-1 shrink-0 bg-tomato px-4 text-sm font-medium text-paper hover:bg-white">
             Барај
           </button>
         </form>
@@ -123,7 +123,7 @@ export function ToolBrowser({ filters: loadedFilters, result, categories, useCas
               id="directory-sort"
               value={filters.sort || (filters.q ? 'relevantnost' : 'izbor')}
               onChange={(event) => update({ sort: event.target.value })}
-              className="h-8 rounded-xs border border-light bg-white px-2 text-sm"
+              className="h-8 rounded-xs border border-light bg-surface px-2 text-sm"
             >
               {SORT_OPTIONS.filter((option) => option.value !== 'relevantnost' || filters.q).map((option) => (
                 <option key={option.value} value={option.value}>

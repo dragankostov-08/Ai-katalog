@@ -5,10 +5,10 @@ import { ToolLogo } from '../catalog/ToolLogo'
 
 export function ComparisonCard({ comparison }: { comparison: ComparisonCardData }) {
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-white p-4 shadow-sm transition-[border-color,box-shadow] hover:border-brand-line hover:shadow-offset-sm">
+    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-surface p-4 shadow-sm transition-[border-color,box-shadow] hover:border-white/20 hover:shadow-offset-sm">
       <div className="flex items-center">
         {comparison.tools.slice(0, 4).map((tool, index) => (
-          <span key={tool.slug} className={`rounded-xl ring-2 ring-white ${index ? '-ml-2' : ''}`}>
+          <span key={tool.slug} className={`rounded-xl ring-2 ring-paper ${index ? '-ml-2' : ''}`}>
             <ToolLogo name={tool.name} src={tool.logo_url} size="sm" />
           </span>
         ))}

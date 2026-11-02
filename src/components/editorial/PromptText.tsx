@@ -44,7 +44,7 @@ export function CopyButton({ text, label = 'Копирај промпт', classN
           setTimeout(() => setCopied(false), 2000)
         }
       }}
-      className={`inline-flex items-center gap-1.5 rounded-sm bg-tomato px-3 py-1.5 text-sm font-semibold text-white hover:bg-tomato-ink ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-sm bg-tomato px-3 py-1.5 text-sm font-semibold text-paper hover:bg-white ${className}`}
     >
       {copied ? <Check className="h-4 w-4" aria-hidden /> : <Copy className="h-4 w-4" aria-hidden />}
       <span aria-live="polite">{copied ? 'Копирано' : label}</span>
@@ -54,7 +54,7 @@ export function CopyButton({ text, label = 'Копирај промпт', classN
 
 export function PromptText({ text, compact = false }: { text: string; compact?: boolean }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-light bg-white shadow-sm">
+    <div className="relative overflow-hidden rounded-2xl border border-light bg-surface shadow-sm">
       <div className="flex items-center justify-between gap-2 border-b border-light px-4 py-2">
         <span className="label-mono text-graphite">Промпт</span>
         <CopyButton text={text} />

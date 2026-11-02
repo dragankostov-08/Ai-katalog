@@ -156,7 +156,7 @@ export function EditorShell<F extends BaseForm>(props: EditorShellProps<F>) {
         }
       />
       {errors.length ? (
-        <div role="alert" className="mb-6 border-l-4 border-tomato bg-white px-4 py-3 text-sm">
+        <div role="alert" className="mb-6 border-l-4 border-tomato bg-surface px-4 py-3 text-sm">
           <p className="font-medium">Поправи ги следниве работи:</p>
           <ul className="mt-1 list-disc pl-5">
             {errors.map((error) => (

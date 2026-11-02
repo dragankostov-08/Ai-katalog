@@ -35,11 +35,11 @@ export function CategoryIndex({ categories }: { categories: CategorySummary[]; c
             </span>
           </>
         )
-        const card = 'flex items-start gap-3 rounded-2xl border border-light bg-white p-4'
+        const card = 'flex items-start gap-3 rounded-2xl border border-light bg-surface p-4'
         return (
           <li key={category.slug}>
             {category.tool_count ? (
-              <Link to={`/kategorii/${category.slug}`} className={`${card} shadow-sm transition-[border-color,box-shadow] hover:border-brand-line hover:shadow-offset-sm`}>
+              <Link to={`/kategorii/${category.slug}`} className={`${card} shadow-sm transition-[border-color,box-shadow] hover:border-white/20 hover:shadow-offset-sm`}>
                 {content}
               </Link>
             ) : (
@@ -65,7 +65,7 @@ export interface CategoryWithTools {
 /** Directory-style box: a category with its top tools listed inside. */
 export function CategoryBox({ category }: { category: CategoryWithTools }) {
   return (
-    <section className="flex h-full flex-col rounded-2xl border border-light bg-white p-4 shadow-sm" aria-labelledby={`box-${category.slug}`}>
+    <section className="flex h-full flex-col rounded-2xl border border-light bg-surface p-4 shadow-sm" aria-labelledby={`box-${category.slug}`}>
       <div className="mb-2 flex items-center gap-3">
         <span className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${accentTiles[category.accent ?? 'ink']}`}>
           <CategoryIcon name={category.icon} className="h-4.5 w-4.5" />
@@ -79,7 +79,7 @@ export function CategoryBox({ category }: { category: CategoryWithTools }) {
       </div>
       <ol className="flex-1">
         {category.tools.map((tool, index) => (
-          <li key={tool.id} className="group relative flex items-center gap-2.5 rounded-lg px-1.5 py-1.5 hover:bg-paper">
+          <li key={tool.id} className="group relative flex items-center gap-2.5 rounded-lg px-1.5 py-1.5 hover:bg-cream">
             <span className="w-4 text-right text-xs font-semibold text-mid">{index + 1}</span>
             <ToolLogo name={tool.name} src={tool.logo_url} size="sm" />
             <Link to={`/alatka/${tool.slug}`} className="min-w-0 flex-1 truncate text-sm font-medium after:absolute after:inset-0 after:content-[''] group-hover:text-tomato-ink">

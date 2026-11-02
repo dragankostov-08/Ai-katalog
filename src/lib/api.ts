@@ -40,7 +40,11 @@ async function previewToken(preview: boolean): Promise<string | undefined> {
 
 export const fetchSite = (signal?: Signal) => rpc<SiteData>('api_site', {}, { signal })
 
-export const fetchHome = (signal?: Signal) => rpc<HomeData>('api_home', {}, { signal })
+// Older databases (before the news migration) return no category_tools/news.
+export const fetchHome = async (signal?: Signal): Promise<HomeData> => {
+  const home = await rpc<HomeData>('api_home', {}, { signal })
+  return { ...home, category_tools: home.category_tools ?? [], news: home.news ?? [] }
+}
 
 export interface SearchParams {
   query?: string

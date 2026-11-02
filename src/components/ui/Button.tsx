@@ -5,11 +5,11 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'accent'
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap rounded-md transition-[background-color,color,box-shadow,border-color] duration-150 disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap rounded-full transition-[background-color,color,box-shadow,border-color] duration-150 disabled:pointer-events-none disabled:opacity-50'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-tomato text-white shadow-sm hover:bg-tomato-ink',
-  secondary: 'border border-light bg-white text-ink shadow-sm hover:border-mid hover:bg-paper',
+  primary: 'bg-tomato text-paper shadow-sm hover:bg-white',
+  secondary: 'border border-light bg-surface text-ink hover:border-white/20 hover:bg-cream',
   ghost: 'text-graphite hover:bg-cream hover:text-ink',
   accent: 'bg-brand-soft text-tomato-ink hover:bg-brand-line',
 }

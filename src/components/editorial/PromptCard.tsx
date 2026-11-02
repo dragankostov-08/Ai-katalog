@@ -4,7 +4,7 @@ import type { PromptCard as PromptCardData } from '../../lib/types'
 
 export function PromptCard({ prompt }: { prompt: PromptCardData }) {
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-white p-4 shadow-sm transition-[border-color,box-shadow] hover:border-brand-line hover:shadow-offset-sm">
+    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-surface p-4 shadow-sm transition-[border-color,box-shadow] hover:border-white/20 hover:shadow-offset-sm">
       <div className="flex items-center justify-between gap-2">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-tomato-ink">
           <MessageSquareText className="h-3.5 w-3.5" aria-hidden />

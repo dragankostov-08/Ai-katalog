@@ -44,7 +44,7 @@ export function AnalyticsPage() {
         title="Аналитика"
         description="Само збирни дневни бројки. Настаните (освен кликовите кон официјални страници) се бројат само кај посетители што дале согласност, па бројките се пониски од реалниот сообраќај."
         actions={
-          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-light bg-white px-2 text-sm rounded-2xl">
+          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-light bg-surface px-2 text-sm rounded-2xl">
             <option value={7}>Последни 7 дена</option>
             <option value={30}>Последни 30 дена</option>
             <option value={90}>Последни 90 дена</option>
@@ -55,7 +55,7 @@ export function AnalyticsPage() {
       {loading && !data ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data ? (
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel title={`Кликови кон официјални страници од ${formatShortDate(data.since)}`}>
-            <p className="font-display text-3xl font-extrabold">{data.outbound_total}</p>
+            <p className="font-display text-3xl font-semibold">{data.outbound_total}</p>
             {data.outbound_by_tool.length ? (
               <table className="mt-4 w-full text-sm">
                 <thead>

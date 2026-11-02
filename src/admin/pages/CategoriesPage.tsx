@@ -123,14 +123,14 @@ export function CategoriesPage() {
             type="button"
             aria-selected={kind === value}
             onClick={() => setKind(value)}
-            className={`px-3 py-1.5 text-sm ${kind === value ? 'bg-tomato text-white' : 'border border-light'}`}
+            className={`px-3 py-1.5 text-sm ${kind === value ? 'bg-tomato text-paper' : 'border border-light'}`}
           >
             {value === 'categories' ? 'Категории' : 'Намени'}
           </button>
         ))}
       </div>
       {loading && !data ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : (
-        <ul className="divide-y divide-light overflow-hidden rounded-2xl border border-light bg-white">
+        <ul className="divide-y divide-light overflow-hidden rounded-2xl border border-light bg-surface">
           {data?.items.map((row) => (
             <li key={String(row.id)} className="flex items-center gap-3 px-3 py-2.5">
               <span className="w-8 font-mono text-xs text-graphite">{row.sort_order}</span>

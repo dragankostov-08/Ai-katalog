@@ -43,7 +43,7 @@ function VideoRow({
 }) {
   const [note, setNote] = useState(video.note ?? '')
   return (
-    <li className={`border p-3 ${video.is_visible ? 'border-light bg-white' : 'border-dashed border-light bg-paper opacity-80'} rounded-2xl`}>
+    <li className={`border p-3 ${video.is_visible ? 'border-light bg-surface' : 'border-dashed border-light bg-paper opacity-80'} rounded-2xl`}>
       <div className="flex items-start gap-2">
         <span className="font-mono text-xs text-graphite">{index + 1}.</span>
         <div className="min-w-0 flex-1">
@@ -282,7 +282,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
                 setLanguage(preset.language)
                 setQuery(preset.query(toolName))
               }}
-              className={`px-2.5 py-1 text-xs ${language === preset.language ? 'bg-tomato text-white' : 'border border-light'}`}
+              className={`px-2.5 py-1 text-xs ${language === preset.language ? 'bg-tomato text-paper' : 'border border-light'}`}
             >
               {preset.label}
             </button>
@@ -304,7 +304,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
         results.length ? (
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {results.map((result) => (
-              <li key={result.youtube_id} className="flex gap-3 border border-light bg-white p-2 rounded-2xl">
+              <li key={result.youtube_id} className="flex gap-3 border border-light bg-surface p-2 rounded-2xl">
                 {result.thumbnail_url ? <img src={result.thumbnail_url} alt="" className="h-16 w-28 shrink-0 object-cover" loading="lazy" /> : null}
                 <div className="min-w-0 flex-1">
                   <a href={youtubeWatchUrl(result.youtube_id)} target="_blank" rel="noopener noreferrer" className="line-clamp-2 text-sm font-medium hover:underline">

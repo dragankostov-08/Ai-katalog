@@ -7,7 +7,7 @@ export function StaticPage({ label, title, intro, children, aside }: { label: st
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: title }]} />
       <header className="max-w-3xl border-b border-light pb-8">
         <p className="label-mono text-tomato-ink">{label}</p>
-        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{title}</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-semibold tracking-tight md:text-6xl">{title}</h1>
         {intro ? <div className="mt-5 text-xl leading-relaxed text-graphite">{intro}</div> : null}
       </header>
       <div className={`mt-10 grid gap-12 ${aside ? 'lg:grid-cols-[minmax(0,1fr)_20rem]' : ''}`}>
