@@ -110,18 +110,18 @@ export function Component() {
 
       <header className="max-w-4xl">
         <p className="label-mono text-tomato-ink">Споредба · ажурирано {formatDate(comparison.updated_at)}</p>
-        <h1 className="mt-3 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">{comparison.title}</h1>
+        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{comparison.title}</h1>
       </header>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_20rem]">
         <Markdown source={comparison.introduction} />
-        <PriceChangeNotice className="self-start border-l-2 border-ink/20 pl-4" />
+        <PriceChangeNotice className="self-start border-l-2 border-light pl-4" />
       </div>
 
       {/* Tool header strip */}
       <ul className={`mt-12 grid gap-4 sm:grid-cols-2 ${tools.length === 3 ? 'lg:grid-cols-3' : tools.length >= 4 ? 'lg:grid-cols-4' : ''}`}>
         {tools.map((tool) => (
-          <li key={tool.id} className="flex flex-col border border-ink bg-white p-4">
+          <li key={tool.id} className="flex flex-col border border-light bg-white p-4 rounded-2xl">
             <div className="flex items-center gap-3">
               <ToolLogo name={tool.name} src={tool.logo_url} />
               <div className="min-w-0">
@@ -152,7 +152,7 @@ export function Component() {
         <table className="w-full min-w-[40rem] border-collapse text-left text-[0.95rem]">
           <caption className="sr-only">Споредба: {comparison.title}</caption>
           <thead>
-            <tr className="border-b-2 border-ink">
+            <tr className="border-b border-light">
               <th scope="col" className="w-48 py-3 pr-4 align-bottom label-mono text-graphite">
                 Критериум
               </th>
@@ -165,7 +165,7 @@ export function Component() {
           </thead>
           <tbody>
             {rows.map((row) => (
-              <tr key={row.label} className="border-b border-ink/15 align-top even:bg-white/60">
+              <tr key={row.label} className="border-b border-light align-top even:bg-white/60">
                 <th scope="row" className="py-3 pr-4 font-mono text-xs font-medium tracking-wide text-graphite uppercase">
                   {row.label}
                 </th>
@@ -183,9 +183,9 @@ export function Component() {
       {/* Mobile: one block per criterion */}
       <div className="mt-10 space-y-6 md:hidden">
         {rows.map((row) => (
-          <section key={row.label} className="border-t-2 border-ink pt-2">
+          <section key={row.label} className="border-t border-light pt-2">
             <h3 className="label-mono text-graphite">{row.label}</h3>
-            <dl className="mt-2 divide-y divide-ink/15">
+            <dl className="mt-2 divide-y divide-light">
               {tools.map((tool) => (
                 <div key={tool.id} className="grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-[0.95rem]">
                   <dt className="font-display font-bold">{tool.name}</dt>
@@ -205,7 +205,7 @@ export function Component() {
       <AdSlot placement="comparison" className="mt-12" />
 
       {comparison.verdict ? (
-        <section className="mt-14 max-w-3xl border-t-2 border-ink pt-4" aria-labelledby="comparison-verdict">
+        <section className="mt-14 max-w-3xl border-t border-light pt-4" aria-labelledby="comparison-verdict">
           <p className="label-mono text-graphite">Уредничко мислење</p>
           <h2 id="comparison-verdict" className="mt-2 font-display text-3xl font-extrabold">
             Заклучок

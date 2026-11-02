@@ -24,7 +24,7 @@ export function Pagination({ page, totalPages, hrefForPage }: PaginationProps) {
   return (
     <nav aria-label="Страници" className="mt-10 flex flex-wrap items-center justify-center gap-1.5">
       {page > 1 ? (
-        <Link to={hrefForPage(page - 1)} className={`${linkClass} border-ink/30 hover:border-ink`} rel="prev">
+        <Link to={hrefForPage(page - 1)} className={`${linkClass} border-light hover:border-brand-line`} rel="prev">
           <ChevronLeft className="h-4 w-4" aria-hidden />
           <span className="sr-only md:not-sr-only md:ml-1">Претходна</span>
         </Link>
@@ -40,14 +40,14 @@ export function Pagination({ page, totalPages, hrefForPage }: PaginationProps) {
             to={hrefForPage(item)}
             aria-current={item === page ? 'page' : undefined}
             aria-label={`Страница ${item}`}
-            className={`${linkClass} ${item === page ? 'border-ink bg-ink text-paper' : 'border-ink/30 hover:border-ink'}`}
+            className={`${linkClass} ${item === page ? 'border-light bg-tomato text-white' : 'border-light hover:border-brand-line'}`}
           >
             {item}
           </Link>
         ),
       )}
       {page < totalPages ? (
-        <Link to={hrefForPage(page + 1)} className={`${linkClass} border-ink/30 hover:border-ink`} rel="next">
+        <Link to={hrefForPage(page + 1)} className={`${linkClass} border-light hover:border-brand-line`} rel="next">
           <span className="sr-only md:not-sr-only md:mr-1">Следна</span>
           <ChevronRight className="h-4 w-4" aria-hidden />
         </Link>

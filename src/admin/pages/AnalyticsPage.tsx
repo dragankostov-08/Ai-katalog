@@ -44,7 +44,7 @@ export function AnalyticsPage() {
         title="Аналитика"
         description="Само збирни дневни бројки. Настаните (освен кликовите кон официјални страници) се бројат само кај посетители што дале согласност, па бројките се пониски од реалниот сообраќај."
         actions={
-          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-ink/40 bg-white px-2 text-sm">
+          <select aria-label="Период" value={days} onChange={(e) => setDays(Number(e.target.value))} className="h-10 border border-light bg-white px-2 text-sm rounded-2xl">
             <option value={7}>Последни 7 дена</option>
             <option value={30}>Последни 30 дена</option>
             <option value={90}>Последни 90 дена</option>
@@ -55,18 +55,18 @@ export function AnalyticsPage() {
       {loading && !data ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data ? (
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel title={`Кликови кон официјални страници од ${formatShortDate(data.since)}`}>
-            <p className="font-display text-3xl font-black">{data.outbound_total}</p>
+            <p className="font-display text-3xl font-extrabold">{data.outbound_total}</p>
             {data.outbound_by_tool.length ? (
               <table className="mt-4 w-full text-sm">
                 <thead>
-                  <tr className="border-b border-ink/20 text-left">
+                  <tr className="border-b border-light text-left">
                     <th className="py-1.5 font-medium">Алатка</th>
                     <th className="py-1.5 text-right font-medium">Кликови</th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.outbound_by_tool.map((row) => (
-                    <tr key={row.slug} className="border-b border-ink/10">
+                    <tr key={row.slug} className="border-b border-light">
                       <td className="py-1.5">
                         <Link to={`/alatka/${row.slug}`} className="hover:underline">
                           {row.name}
@@ -83,7 +83,7 @@ export function AnalyticsPage() {
             {Object.keys(data.outbound_by_context).length ? (
               <dl className="mt-4 grid grid-cols-2 gap-2 text-sm">
                 {Object.entries(data.outbound_by_context).map(([context, clicks]) => (
-                  <div key={context} className="flex justify-between border-b border-ink/10 py-1">
+                  <div key={context} className="flex justify-between border-b border-light py-1">
                     <dt className="text-graphite">{CONTEXT_LABELS[context] ?? context}</dt>
                     <dd className="font-mono">{clicks}</dd>
                   </div>
@@ -92,7 +92,7 @@ export function AnalyticsPage() {
             ) : null}
           </Panel>
           <Panel title="Настани (со согласност)">
-            <dl className="divide-y divide-ink/10 text-sm">
+            <dl className="divide-y divide-light text-sm">
               {Object.keys(EVENT_LABELS).map((event) => (
                 <div key={event} className="flex justify-between py-1.5">
                   <dt>{EVENT_LABELS[event]}</dt>
@@ -105,7 +105,7 @@ export function AnalyticsPage() {
             {data.top_dimensions.length ? (
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-ink/20 text-left">
+                  <tr className="border-b border-light text-left">
                     <th className="py-1.5 font-medium">Настан</th>
                     <th className="py-1.5 font-medium">Слаг / вредност</th>
                     <th className="py-1.5 text-right font-medium">Број</th>
@@ -113,7 +113,7 @@ export function AnalyticsPage() {
                 </thead>
                 <tbody>
                   {data.top_dimensions.map((row) => (
-                    <tr key={`${row.event}-${row.dimension}`} className="border-b border-ink/10">
+                    <tr key={`${row.event}-${row.dimension}`} className="border-b border-light">
                       <td className="py-1.5">{EVENT_LABELS[row.event] ?? row.event}</td>
                       <td className="py-1.5 font-mono text-xs">{row.dimension}</td>
                       <td className="py-1.5 text-right font-mono">{row.total}</td>

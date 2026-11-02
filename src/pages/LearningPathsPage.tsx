@@ -26,7 +26,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Патеки за учење' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Учи</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Патеки за учење</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Патеки за учење</h1>
         <p className="mt-4 text-lg text-graphite">Кратки чекори по ред: водичи, видеа, промптови и вежби. Без регистрација — напредокот се чува кај тебе.</p>
       </header>
       {paths.length ? (

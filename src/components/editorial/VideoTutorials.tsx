@@ -13,7 +13,7 @@ export function VideoCard({ video, index, as: Tag = 'li' }: { video: ToolVideo; 
 
   return (
     <Tag className="flex flex-col">
-      <div className="relative aspect-video overflow-hidden border border-ink bg-ink">
+      <div className="relative aspect-video overflow-hidden rounded-2xl bg-linear-to-br from-[#4c1d95] via-[#3730a3] to-[#0369a1]">
         {playing ? (
           <iframe
             src={youtubeEmbedUrl(video.youtube_id)}
@@ -30,7 +30,6 @@ export function VideoCard({ video, index, as: Tag = 'li' }: { video: ToolVideo; 
             className="group absolute inset-0 flex h-full w-full flex-col justify-between p-4 text-left text-paper"
             aria-label={`Пушти го видеото: ${video.title}`}
           >
-            <span aria-hidden className="absolute -right-8 -bottom-10 h-48 w-48 rounded-full opacity-30 halftone-coarse invert" />
             <span className="relative flex items-center justify-between gap-2 font-mono text-[0.6875rem] tracking-wide uppercase">
               <span>№ {String(index + 1).padStart(2, '0')}</span>
               {duration ? <span className="bg-paper px-1.5 py-0.5 text-ink">{duration}</span> : null}
@@ -45,7 +44,7 @@ export function VideoCard({ video, index, as: Tag = 'li' }: { video: ToolVideo; 
         )}
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-graphite">
-        <span className={`rounded-xs px-1.5 py-0.5 ${video.language === 'mk' ? 'bg-mustard text-ink' : 'border border-ink/30'}`}>
+        <span className={`rounded-xs px-1.5 py-0.5 ${video.language === 'mk' ? 'bg-warn-soft text-ink' : 'border border-light'}`}>
           {videoLanguageLabels[video.language]}
         </span>
         {video.channel_title ? <span>{video.channel_title}</span> : null}
@@ -63,7 +62,7 @@ export function VideoTutorials({ videos, toolName }: { videos: ToolVideo[]; tool
   if (!videos.length) return null
   return (
     <section aria-labelledby="tool-videos">
-      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+      <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
         <h2 id="tool-videos" className="font-display text-2xl font-extrabold md:text-3xl">
           Видео туторијали за {toolName}
         </h2>

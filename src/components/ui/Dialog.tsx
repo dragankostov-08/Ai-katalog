@@ -46,9 +46,9 @@ export function Dialog({ open, onClose, title, children, placement = 'center', f
       onClick={(event) => {
         if (event.target === ref.current) onClose()
       }}
-      className={`flex-col overflow-hidden border border-ink bg-paper p-0 text-ink shadow-paper backdrop:bg-ink/55 open:flex ${placements[placement]}`}
+      className={`flex-col overflow-hidden border border-light bg-paper p-0 text-ink shadow-paper backdrop:bg-ink/55 open:flex ${placements[placement]} rounded-2xl`}
     >
-      <div className="flex items-center justify-between gap-4 border-b border-ink px-5 py-3">
+      <div className="flex items-center justify-between gap-4 border-b border-light px-5 py-3">
         <h2 id={titleId} className={hideTitle ? 'sr-only' : 'font-display text-lg font-bold'}>
           {title}
         </h2>
@@ -62,7 +62,7 @@ export function Dialog({ open, onClose, title, children, placement = 'center', f
         </button>
       </div>
       <div className="flex-1 overflow-y-auto px-5 py-4">{children}</div>
-      {footer ? <div className="border-t border-ink/20 px-5 py-3">{footer}</div> : null}
+      {footer ? <div className="border-t border-light px-5 py-3">{footer}</div> : null}
     </dialog>
   )
 }

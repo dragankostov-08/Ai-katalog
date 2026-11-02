@@ -87,17 +87,17 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
             </option>
           ))}
         </select>
-        <button type="submit" className="border border-ink px-3 text-sm hover:bg-cream">
+        <button type="submit" className="border border-light px-3 text-sm hover:bg-cream rounded-2xl">
           Барај
         </button>
       </form>
 
       {error ? <ErrorBox message={error} onRetry={reload} /> : loading && !data ? <LoadingRows /> : data ? (
         data.items.length ? (
-          <div className="overflow-x-auto border border-ink/25 bg-white">
+          <div className="overflow-x-auto rounded-2xl border border-light bg-white">
             <table className="w-full min-w-[40rem] text-sm">
               <thead>
-                <tr className="border-b border-ink text-left">
+                <tr className="border-b border-light text-left">
                   <th className="px-3 py-2 font-medium">Наслов</th>
                   <th className="px-3 py-2 font-medium">Статус</th>
                   {entity === 'tools' ? <th className="px-3 py-2 font-medium">Проверка</th> : null}
@@ -109,7 +109,7 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
               </thead>
               <tbody>
                 {data.items.map((row) => (
-                  <tr key={row.id} className="border-b border-ink/10 hover:bg-paper">
+                  <tr key={row.id} className="border-b border-light hover:bg-paper">
                     <td className="px-3 py-2">
                       <Link to={`${config.base}/${row.id}`} className="font-medium hover:underline">
                         {row.name ?? row.title ?? row.term}
@@ -142,14 +142,14 @@ export function ContentList({ entity }: { entity: keyof typeof CONFIG }) {
             </table>
             {data.total > data.items.length ? (
               <div className="p-3 text-center">
-                <button type="button" className="border border-ink px-4 py-1.5 text-sm hover:bg-cream" onClick={() => setLimit(limit + PAGE)} disabled={loading}>
+                <button type="button" className="border border-light px-4 py-1.5 text-sm hover:bg-cream rounded-2xl" onClick={() => setLimit(limit + PAGE)} disabled={loading}>
                   {loading ? 'Се вчитува…' : `Прикажи уште (${data.total - data.items.length})`}
                 </button>
               </div>
             ) : null}
           </div>
         ) : (
-          <p className="border border-dashed border-ink/30 bg-white p-6 text-center text-sm text-graphite">Нема записи за избраните филтри.</p>
+          <p className="border border-dashed border-light bg-white p-6 text-center text-sm text-graphite rounded-2xl">Нема записи за избраните филтри.</p>
         )
       ) : null}
     </>

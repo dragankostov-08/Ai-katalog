@@ -417,4 +417,47 @@ select public.admin_save_settings('{"telegram_url":"https://t.me/primer"}');
 select tests.ok(public.api_site() -> 'settings' ->> 'telegram_url' = 'https://t.me/primer', 'admin can set social links');
 rollback;
 
+-- ===========================================================================
+-- 10. AI news aggregator
+-- ===========================================================================
+begin;
+insert into public.news_sources (id, name, site_url, feed_url) values
+  ('00000000-0000-0000-0000-0000000000f1', 'Активен извор', 'https://primer.mk', 'https://primer.mk/feed/');
+insert into public.news_sources (id, name, site_url, feed_url, is_active) values
+  ('00000000-0000-0000-0000-0000000000f2', 'Исклучен извор', 'https://drug.mk', 'https://drug.mk/feed/', false);
+set local role anon;
+select tests.throws($$select public.ingest_news('00000000-0000-0000-0000-0000000000f1', '[]')$$, '42501', 'anon cannot ingest news');
+select tests.throws($$insert into public.news_items (source_id, title, url) values ('00000000-0000-0000-0000-0000000000f1', 'Наслов', 'https://x.mk/a')$$, '42501', 'anon cannot write news');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000b","role":"authenticated"}', true);
+set local role authenticated;
+select tests.throws($$select public.ingest_news('00000000-0000-0000-0000-0000000000f1', '[]')$$, '42501', 'users cannot ingest news');
+reset role;
+select set_config('request.jwt.claims', '', true);
+set local role service_role;
+select tests.ok(public.ingest_news('00000000-0000-0000-0000-0000000000f1', '[
+  {"title":"OpenAI објави нов модел","url":"https://primer.mk/a","summary":"Краток опис.","published_at":"2026-11-01T10:00:00Z"},
+  {"title":"Втора вест","url":"https://primer.mk/b","published_at":"2099-01-01T00:00:00Z"},
+  {"title":"x","url":"https://primer.mk/c"},
+  {"title":"Лош линк","url":"javascript:alert(1)"}
+]') = 2, 'ingest keeps valid items only');
+select tests.ok(public.ingest_news('00000000-0000-0000-0000-0000000000f1', '[{"title":"OpenAI објави нов модел","url":"https://primer.mk/a"}]') = 0, 'duplicate links are not inserted twice');
+select public.ingest_news('00000000-0000-0000-0000-0000000000f2', '[{"title":"Вест од исклучен извор","url":"https://drug.mk/a"}]');
+select public.record_news_error('00000000-0000-0000-0000-0000000000f2', 'HTTP 404');
+reset role;
+select tests.ok((select published_at <= now() from public.news_items where url = 'https://primer.mk/b'), 'future dates are clamped to now');
+select tests.ok((select last_status = 'error' from public.news_sources where name = 'Исклучен извор'), 'fetch errors are recorded');
+set local role anon;
+select tests.ok((public.api_news() ->> 'total')::int = 2, 'news from inactive sources are hidden');
+select tests.ok(jsonb_array_length(public.api_home() -> 'news') = 2, 'home shows latest news');
+reset role;
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-0000-0000-00000000000e","role":"authenticated"}', true);
+set local role authenticated;
+select public.admin_set_news_hidden((select id from public.news_items where url = 'https://primer.mk/b'), true);
+reset role;
+select set_config('request.jwt.claims', '', true);
+set local role anon;
+select tests.ok((public.api_news() ->> 'total')::int = 1, 'hidden news are not public');
+rollback;
+
 \echo 'All database tests passed.'

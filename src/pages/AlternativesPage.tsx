@@ -53,15 +53,15 @@ export function Component() {
   return (
     <div className="container-page pt-8 md:pt-12">
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Бесплатни алтернативи', path: '/alternativi' }, { name: tool.name }]} />
-      <header className="grid gap-6 border-b-2 border-ink pb-8 md:grid-cols-[minmax(0,1fr)_20rem]">
+      <header className="grid gap-6 border-b border-light pb-8 md:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="max-w-3xl">
           <p className="label-mono text-tomato-ink">Алтернативи</p>
-          <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Бесплатни алтернативи на {tool.name}</h1>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Бесплатни алтернативи на {tool.name}</h1>
           <p className="mt-4 text-lg text-graphite">
             Алатки од истата категорија или за истата намена што може да се користат бесплатно — целосно, со бесплатен план или како отворен код.
           </p>
         </div>
-        <div className="self-start border border-ink bg-white p-4">
+        <div className="self-start border border-light bg-white p-4 rounded-2xl">
           <div className="flex items-center gap-3">
             <ToolLogo name={tool.name} src={tool.logo_url} />
             <div>

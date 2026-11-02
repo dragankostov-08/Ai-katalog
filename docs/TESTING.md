@@ -2,9 +2,9 @@
 
 | Layer | Command | What it covers |
 | --- | --- | --- |
-| Types + lint + unit | `npm run check` | TypeScript strict mode, ESLint, 39 Vitest tests: safe Markdown renderer (no raw HTML, link/image filtering), recommendation rules, directory URL state, slugs, Macedonian plurals, date/price formatting, SEO head escaping, YouTube URL parsing, Macedonian alphabetical order, weekly digest |
-| Database security | `npm run test:db` | 141 assertions on a throwaway PostgreSQL database with all migrations + seed: RLS, grants, role escalation, editor vs admin, publishing constraints, preview, search, rate limits, newsletter, analytics, video visibility, prompts, glossary, paths, language tests, free alternatives, custom comparison, price alerts and the e-mail queue |
-| End-to-end | `node tests/e2e/smoke.cjs` | 27 browser steps against the full local stack: consent, search, filters, favorites, wizard, forms, newsletter, 404, mobile menu, admin login, editing, verification, YouTube tutorials, moderation, prompt library, glossary, learning-path progress, compare tray, alternatives, profession lists, language tests, CMS prompt publishing, weekly digest |
+| Types + lint + unit | `npm run check` | TypeScript strict mode, ESLint, 49 Vitest tests: safe Markdown renderer (no raw HTML, link/image filtering), recommendation rules, directory URL state, slugs, Macedonian plurals, date/price formatting, SEO head escaping, YouTube URL parsing, Macedonian alphabetical order, weekly digest, RSS/Atom feed parsing and the AI-news keyword filter |
+| Database security | `npm run test:db` | 151 assertions on a throwaway PostgreSQL database with all migrations + seed: RLS, grants, role escalation, editor vs admin, publishing constraints, preview, search, rate limits, newsletter, analytics, video visibility, prompts, glossary, paths, language tests, free alternatives, custom comparison, price alerts, the e-mail queue and the AI-news aggregator |
+| End-to-end | `node tests/e2e/smoke.cjs` | 29 browser steps against the full local stack: consent, search, filters, favorites, wizard, forms, newsletter, 404, mobile menu, admin login, editing, verification, YouTube tutorials, moderation, prompt library, glossary, learning-path progress, compare tray, alternatives, profession lists, language tests, CMS prompt publishing, weekly digest, AI news (public list + hiding from the admin) |
 | Build | `npm run build` | Production bundle, SSR bundle, pre-rendering of every published page |
 
 ## Database tests
@@ -25,11 +25,12 @@ a **non-production** project after the seed (it rolls back every block).
 
 `scripts/local-api.mjs` is a test-only stand-in for the Supabase REST RPC endpoint
 and password Auth, running the real SQL functions under `anon`/`authenticated` roles
-with RLS. It does not emulate Storage (logo uploads), Edge Functions (YouTube search, e-mail sending, Telegram), e-mail or the dashboard.
+with RLS. It does not emulate Storage (logo uploads), Edge Functions (YouTube search, e-mail sending, Telegram, live RSS fetching — `scripts/fetch-news.mjs` uses the same parser against Postgres directly), e-mail or the dashboard.
 
 ```bash
 npm run local:db -- --publish-seed   # fresh DB, seed published but unverified
 npm run local:api                    # :54321
+npm run news:fetch -- --file tests/e2e/fixtures-feed.xml --feed https://it.mk/feed/
 npm run build && npm run preview     # :4173, with .env.local pointing at :54321
 node tests/e2e/smoke.cjs
 ```

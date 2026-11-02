@@ -48,7 +48,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Алатки' }]} />
       <header className="mb-8 max-w-3xl">
         <p className="label-mono text-tomato-ink">Каталог</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Сите AI алатки</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Сите AI алатки</h1>
         <p className="mt-4 text-lg text-graphite">
           Пребарувај по име или задача и филтрирај по категорија, цена и платформа. Цените ги прикажуваме само кога се проверени.
         </p>

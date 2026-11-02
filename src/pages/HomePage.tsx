@@ -1,15 +1,16 @@
-import { ArrowRight, Search } from 'lucide-react'
+import { ArrowRight, BookA, Search, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 import { Form, Link, useLoaderData, useRouteLoaderData } from 'react-router'
-import { CategoryIndex } from '../components/catalog/CategoryIndex'
+import { CategoryBox } from '../components/catalog/CategoryIndex'
 import { ToolCard, ToolRow } from '../components/catalog/ToolCard'
 import { AdSlot } from '../components/editorial/AdSlot'
 import { ArticleCard } from '../components/editorial/ArticleCard'
 import { CollectionCard } from '../components/editorial/CollectionCard'
 import { ComparisonCard } from '../components/editorial/ComparisonCard'
-import { HeroAnnotation, HeroCollage } from '../components/editorial/HeroCollage'
 import { LearningPathCard } from '../components/editorial/LearningPathCard'
-import { PromptCard } from '../components/editorial/PromptCard'
 import { NewsletterSignup } from '../components/editorial/NewsletterSignup'
+import { NewsWidget } from '../components/editorial/NewsList'
+import { PromptCard } from '../components/editorial/PromptCard'
 import { ButtonLink } from '../components/ui/Button'
 import { SectionHeader } from '../components/ui/SectionHeader'
 import { fetchHome } from '../lib/api'
@@ -26,45 +27,31 @@ export const handle: RouteHandle = {
     title: '',
     description: DEFAULT_DESCRIPTION,
     path: '/',
-    jsonLd: [
-      {
-        '@context': 'https://schema.org',
-        '@type': 'WebSite',
-        name: 'AI KATALOG',
-        inLanguage: 'mk',
-        url: absoluteUrl('/'),
-      },
-    ],
+    jsonLd: [{ '@context': 'https://schema.org', '@type': 'WebSite', name: 'AI Katalog', inLanguage: 'mk', url: absoluteUrl('/') }],
   }),
 }
 
-const WIZARD_QUESTIONS = [
-  'Што сакаш да направиш?',
-  'Колку искуство имаш со AI?',
-  'Ти треба ли бесплатна алатка?',
-  'Кои можности се неопходни?',
-  'На која платформа и на кој јазик?',
-]
+const WIZARD_QUESTIONS = ['Што сакаш да направиш?', 'Колку искуство имаш?', 'Ти треба ли бесплатна?', 'Кои можности се неопходни?', 'Платформа и јазик?']
 
 function HeroSearch() {
   return (
-    <Form action="/alatki" method="get" role="search" className="mt-8 max-w-xl">
-      <label htmlFor="hero-search" className="label-mono mb-2 block text-graphite">
-        Пребарај по име, задача или категорија
+    <Form action="/alatki" method="get" role="search" className="mx-auto mt-8 max-w-2xl">
+      <label htmlFor="hero-search" className="sr-only">
+        Пребарај AI алатки по име, задача или категорија
       </label>
-      <div className="flex border-2 border-ink bg-white shadow-offset">
-        <Search className="ml-4 h-5 w-5 shrink-0 self-center text-graphite" aria-hidden />
+      <div className="flex items-center rounded-full border border-light bg-white p-1.5 shadow-offset focus-within:border-tomato focus-within:ring-4 focus-within:ring-brand-soft">
+        <Search className="ml-3 h-5 w-5 shrink-0 text-mid" aria-hidden />
         <input
           id="hero-search"
           name="q"
           type="search"
-          placeholder="на пр. превод, презентација, видео…"
+          placeholder="На пр. превод, презентација, видео…"
           autoComplete="off"
           enterKeyHint="search"
           maxLength={100}
-          className="h-14 min-w-0 flex-1 bg-transparent px-3 text-base placeholder:text-mid focus:outline-none md:text-lg"
+          className="h-11 min-w-0 flex-1 bg-transparent px-3 text-base placeholder:text-mid focus:outline-none"
         />
-        <button type="submit" className="m-1.5 shrink-0 bg-ink px-4 text-sm font-medium text-paper transition-colors hover:bg-graphite md:px-6 md:text-base">
+        <button type="submit" className="h-11 shrink-0 rounded-full bg-tomato px-5 text-sm font-semibold text-white hover:bg-tomato-ink md:px-7">
           Пребарај
         </button>
       </div>
@@ -76,68 +63,50 @@ export function Component() {
   const home = useLoaderData() as HomeData
   const site = useRouteLoaderData('root') as SiteData
   const activeCategories = site.categories.filter((category) => category.tool_count > 0)
-  const [leadArticle, ...otherArticles] = home.articles
+  const [tab, setTab] = useState<'recent' | 'featured'>('recent')
+  const listed = tab === 'recent' || !home.featured_tools.length ? home.recent_tools : home.featured_tools
 
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden border-b border-ink">
-        <div className="container-page grid grid-cols-[minmax(0,1fr)] items-center gap-10 pt-10 pb-12 md:pt-14 lg:grid-cols-[1.12fr_1fr] lg:gap-4 lg:pb-16">
-          <div className="animate-rise">
-            <p className="flex flex-wrap items-center gap-2 label-mono text-graphite">
-              <span aria-hidden className="h-2 w-2 bg-tomato" />
-              {home.tool_count > 0
-                ? `Во каталогот: ${home.tool_count} ${plural(home.tool_count, 'алатка', 'алатки')} · ${activeCategories.length} ${plural(activeCategories.length, 'категорија', 'категории')}`
-                : 'Каталогот се пополнува'}
-            </p>
-            <h1 className="mt-5 font-display text-[3rem] leading-[0.9] font-black tracking-[-0.035em] sm:text-[4.25rem] xl:text-[5.4rem]">
-              AI алатки.
-              <br />
-              Без бескрајно{' '}
-              <span className="relative inline-block">
-                барање.
-                <svg viewBox="0 0 300 24" preserveAspectRatio="none" className="absolute -bottom-2 left-0 h-3 w-full text-tomato md:-bottom-3 md:h-4" aria-hidden>
-                  <path d="M3 15c60-9 140-13 204-9 30 2 58 5 90 9" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-                </svg>
-              </span>
-            </h1>
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-graphite md:text-xl">
-              Откриј, спореди и научи да користиш AI алатки за работа, учење и креативност.
-            </p>
-            <HeroSearch />
-            {activeCategories.length ? (
-              <div className="mt-6 flex flex-wrap items-center gap-x-1 gap-y-2">
-                <span className="mr-2 label-mono text-graphite">Брз пристап:</span>
-                {activeCategories.slice(0, 5).map((category) => (
+      <section className="hero-glow border-b border-light">
+        <div className="container-page pt-12 pb-10 text-center md:pt-16 md:pb-14">
+          <p className="inline-flex items-center gap-2 rounded-full border border-brand-line bg-white px-3 py-1 text-sm font-medium text-tomato-ink shadow-sm">
+            <Sparkles className="h-4 w-4" aria-hidden />
+            {home.tool_count > 0
+              ? `${home.tool_count} ${plural(home.tool_count, 'алатка', 'алатки')} · ${activeCategories.length} ${plural(activeCategories.length, 'категорија', 'категории')} · на македонски`
+              : 'Каталогот се пополнува'}
+          </p>
+          <h1 className="mx-auto mt-5 max-w-3xl text-4xl leading-[1.08] font-extrabold tracking-tight md:text-6xl">
+            Најди ја вистинската <span className="bg-linear-to-r from-[#7c3aed] to-[#0ea5e9] bg-clip-text text-transparent">AI алатка</span>
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-graphite">
+            Каталог, споредби, готови промптови и вести за вештачка интелигенција — проверено и објаснето на македонски.
+          </p>
+          <HeroSearch />
+          {site.use_cases.length ? (
+            <ul className="mx-auto mt-5 flex max-w-3xl flex-wrap justify-center gap-2" aria-label="Популарни задачи">
+              {site.use_cases.slice(0, 8).map((useCase) => (
+                <li key={useCase.slug}>
                   <Link
-                    key={category.slug}
-                    to={`/kategorii/${category.slug}`}
-                    className="rounded-xs border border-ink/30 bg-white px-2.5 py-1 text-sm hover:border-ink hover:bg-cream"
+                    to={`/alatki?namena=${useCase.slug}`}
+                    className="inline-flex rounded-full border border-light bg-white px-3 py-1.5 text-sm text-graphite shadow-sm hover:border-brand-line hover:text-tomato-ink"
                   >
-                    {category.name}
+                    {useCase.name}
                   </Link>
-                ))}
-              </div>
-            ) : null}
-            <div className="mt-10 hidden lg:block">
-              <HeroAnnotation />
-            </div>
-          </div>
-          <div className="relative mx-auto w-full max-w-[21rem] sm:max-w-[26rem] lg:max-w-none">
-            <HeroCollage />
-          </div>
-          <div className="lg:hidden">
-            <HeroAnnotation />
-          </div>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </section>
 
       {home.tool_count === 0 ? (
-        <div className="container-page mt-10">
-          <div className="border-l-4 border-mustard bg-white px-5 py-4">
-            <p className="font-medium">Уредниците ги проверуваат првите алатки.</p>
+        <div className="container-page mt-8">
+          <div className="rounded-2xl border border-warn/30 bg-warn-soft px-5 py-4 text-sm">
+            <p className="font-semibold">Уредниците ги проверуваат првите алатки.</p>
             <p className="mt-1 text-graphite">
-              Секоја алатка се објавува дури откако ќе ги провериме описот, цените и условите на официјалната страница. Во меѓувреме, погледни ги{' '}
+              Секоја алатка се објавува откако ќе ги провериме описот, цените и условите на официјалната страница. Во меѓувреме погледни ги{' '}
               <Link to="/vodici" className="underline">
                 водичите
               </Link>{' '}
@@ -151,33 +120,128 @@ export function Component() {
         </div>
       ) : null}
 
-      {/* Categories */}
-      <section className="container-page mt-16 md:mt-20" aria-labelledby="home-categories">
-        <SectionHeader
-          id="home-categories"
-          index="№ 01 — Индекс"
-          title="Категории"
-          description="Од пишување до програмирање: избери област и види ги проверените алатки во неа."
-          link={{ to: '/kategorii', label: 'Сите категории' }}
-        />
-        <CategoryIndex categories={site.categories} />
+      {/* Latest tools + news */}
+      {home.recent_tools.length || home.news.length ? (
+        <section className="container-page mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]" aria-label="Најново">
+          {home.recent_tools.length ? (
+            <div className="rounded-2xl border border-light bg-white p-3 shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2 px-2 pt-1 pb-2">
+                <div role="tablist" aria-label="Листа на алатки" className="inline-flex rounded-full bg-cream p-1">
+                  {(
+                    [
+                      ['recent', 'Најнови AI алатки'],
+                      ['featured', 'Избор на уредништвото'],
+                    ] as const
+                  )
+                    .filter(([key]) => key === 'recent' || home.featured_tools.length)
+                    .map(([key, label]) => (
+                      <button
+                        key={key}
+                        type="button"
+                        role="tab"
+                        aria-selected={tab === key}
+                        onClick={() => setTab(key)}
+                        className={`rounded-full px-3 py-1.5 text-sm font-semibold ${tab === key ? 'bg-white text-ink shadow-sm' : 'text-graphite hover:text-ink'}`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                </div>
+                <Link to={tab === 'recent' ? '/alatki?sort=novi' : '/alatki?sort=izbor'} className="text-sm font-semibold text-tomato-ink hover:text-tomato">
+                  Сите →
+                </Link>
+              </div>
+              <ul className="grid sm:grid-cols-2 sm:gap-x-2">
+                {listed.slice(0, 10).map((tool) => (
+                  <ToolRow key={tool.id} tool={tool} showDate={tab === 'recent'} />
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          {home.news.length ? (
+            <NewsWidget items={home.news} />
+          ) : (
+            <div className="flex flex-col justify-between rounded-2xl brand-gradient p-6 text-white shadow-sm">
+              <div>
+                <p className="text-sm font-semibold text-white/80">Прашалник · 5 прашања</p>
+                <p className="mt-2 text-2xl leading-tight font-extrabold">Не знаеш која алатка ти треба?</p>
+              </div>
+              <Link to="/pronajdi" className="mt-6 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-semibold text-tomato-ink">
+                Започни <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </div>
+          )}
+        </section>
+      ) : null}
+
+      {/* Categories with their top tools */}
+      {home.category_tools.length ? (
+        <section className="container-page mt-14" aria-labelledby="home-categories">
+          <SectionHeader id="home-categories" title="AI алатки по категорија" description="Најдобрите алатки во секоја област, на едно место." link={{ to: '/kategorii', label: 'Сите категории' }} />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {home.category_tools.map((category) => (
+              <li key={category.slug}>
+                <CategoryBox category={category} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      <AdSlot placement="home" className="container-page mt-12" />
+
+      {/* Featured */}
+      {home.featured_tools.length ? (
+        <section className="container-page mt-14" aria-labelledby="home-featured">
+          <SectionHeader id="home-featured" title="Избор на уредништвото" description="Добра почетна точка во својата категорија." link={{ to: '/alatki?sort=izbor', label: 'Види повеќе' }} />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {home.featured_tools.slice(0, 8).map((tool) => (
+              <li key={tool.id}>
+                <ToolCard tool={tool} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {/* Wizard band */}
+      <section className="container-page mt-14" aria-labelledby="home-wizard">
+        <div className="grid gap-8 overflow-hidden rounded-3xl brand-gradient px-6 py-10 text-white shadow-offset md:grid-cols-2 md:px-12">
+          <div>
+            <p className="text-sm font-semibold text-white/80">Прашалник · без регистрација</p>
+            <h2 id="home-wizard" className="mt-2 text-3xl leading-tight font-extrabold md:text-4xl">
+              Не знаеш која алатка ти треба?
+            </h2>
+            <p className="mt-3 max-w-md text-white/85">Пет кратки прашања. Препораките се засноваат на проверени податоци и за секоја алатка гледаш зошто е предложена.</p>
+            <Link to="/pronajdi" className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-white px-6 font-semibold text-tomato-ink shadow-sm hover:bg-brand-soft">
+              Започни <ArrowRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+          <ol className="grid gap-2 self-center">
+            {WIZARD_QUESTIONS.map((question, index) => (
+              <li key={question} className="flex items-center gap-3 rounded-xl bg-white/12 px-4 py-3 backdrop-blur">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-sm font-bold text-tomato-ink">{index + 1}</span>
+                <span className="font-medium">{question}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
       </section>
 
+      {/* Professions */}
       {home.audience_collections.length ? (
-        <section className="container-page mt-16" aria-labelledby="home-audiences">
-          <SectionHeader id="home-audiences" index="№ 02 — Професии" title="За твојата работа" description="Уреднички листи на алатки според професијата." link={{ to: '/najdobri', label: 'Сите листи' }} />
+        <section className="container-page mt-14" aria-labelledby="home-audiences">
+          <SectionHeader id="home-audiences" title="AI алатки за твојата професија" link={{ to: '/najdobri', label: 'Сите листи' }} />
           <ul className="flex flex-wrap gap-3">
             {home.audience_collections.map((collection) => (
               <li key={collection.id}>
                 <Link
                   to={`/najdobri/${collection.slug}`}
-                  className="group inline-flex items-center gap-3 border border-ink bg-white px-4 py-3 transition-shadow hover:shadow-offset"
+                  className="group inline-flex items-center gap-3 rounded-2xl border border-light bg-white px-4 py-3 shadow-sm hover:border-brand-line hover:shadow-offset-sm"
                 >
-                  <span className="font-display text-xl font-extrabold">{collection.audience_label ?? collection.title}</span>
-                  <span className="font-mono text-xs text-graphite">
-                    {collection.tool_count} {plural(collection.tool_count, 'алатка', 'алатки')}
-                  </span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                  <span className="font-bold">{collection.audience_label ?? collection.title}</span>
+                  <span className="rounded-full bg-cream px-2 py-0.5 text-xs font-semibold text-graphite">{collection.tool_count}</span>
+                  <ArrowRight className="h-4 w-4 text-mid transition-transform group-hover:translate-x-0.5 group-hover:text-tomato" aria-hidden />
                 </Link>
               </li>
             ))}
@@ -185,47 +249,11 @@ export function Component() {
         </section>
       ) : null}
 
-      <AdSlot placement="home" className="container-page mt-14" />
-
-      {/* Featured + recent */}
-      {home.featured_tools.length || home.recent_tools.length ? (
-        <section className="container-page mt-16 grid gap-12 md:mt-20 lg:grid-cols-[2fr_1fr] lg:gap-10" aria-label="Алатки">
-          {home.featured_tools.length ? (
-            <div>
-              <SectionHeader index="№ 03 — Уреднички избор" title="Издвоени алатки" description="Алатки што уредништвото ги издвојува како добра почетна точка во својата категорија." />
-              <ul className="grid gap-5 sm:grid-cols-2">
-                {home.featured_tools.map((tool) => (
-                  <li key={tool.id}>
-                    <ToolCard tool={tool} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-          {home.recent_tools.length ? (
-            <div className={home.featured_tools.length ? '' : 'lg:col-span-2'}>
-              <SectionHeader index="№ 04 — Ново" title="Нови во каталогот" link={{ to: '/alatki?sort=novi', label: 'Сите' }} />
-              <ul className="border-t border-ink/15">
-                {home.recent_tools.map((tool) => (
-                  <ToolRow key={tool.id} tool={tool} />
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </section>
-      ) : null}
-
       {/* Prompts */}
       {home.prompts.length ? (
-        <section className="container-page mt-20" aria-labelledby="home-prompts">
-          <SectionHeader
-            id="home-prompts"
-            index="№ 05 — Библиотека"
-            title="Готови промптови на македонски"
-            description="Копирај, прилагоди и залепи во AI асистентот."
-            link={{ to: '/promptovi', label: 'Сите промптови' }}
-          />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="container-page mt-14" aria-labelledby="home-prompts">
+          <SectionHeader id="home-prompts" title="Готови промптови на македонски" description="Копирај, прилагоди и залепи во AI асистентот." link={{ to: '/promptovi', label: 'Сите промптови' }} />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {home.prompts.map((prompt) => (
               <li key={prompt.id}>
                 <PromptCard prompt={prompt} />
@@ -235,101 +263,11 @@ export function Component() {
         </section>
       ) : null}
 
-      {/* Wizard band */}
-      <section className="relative mt-20 overflow-hidden bg-ink text-paper md:mt-24" aria-labelledby="home-wizard">
-        <div aria-hidden className="absolute -top-24 -right-24 h-80 w-80 rounded-full opacity-25 halftone-coarse invert" />
-        <div className="container-page relative grid gap-10 py-14 md:grid-cols-2 md:py-20">
-          <div>
-            <p className="label-mono text-mustard">Прашалник · 5 прашања</p>
-            <h2 id="home-wizard" className="mt-3 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] ink-offset md:text-6xl">
-              Не знаеш која алатка ти треба?
-            </h2>
-            <p className="mt-5 max-w-md text-lg text-light">
-              Одговори на пет кратки прашања. Препораките се засноваат на проверени податоци и за секоја алатка гледаш зошто е предложена.
-            </p>
-            <ButtonLink to="/pronajdi" variant="accent" size="lg" className="mt-8">
-              Започни <ArrowRight className="h-4 w-4" aria-hidden />
-            </ButtonLink>
-          </div>
-          <ol className="self-center border-t border-paper/20">
-            {WIZARD_QUESTIONS.map((question, index) => (
-              <li key={question} className="flex items-baseline gap-4 border-b border-paper/20 py-3.5">
-                <span className="font-mono text-sm text-mustard">0{index + 1}</span>
-                <span className="text-lg">{question}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* Learn */}
-      {home.learning_paths.length ? (
-        <section className="container-page mt-20" aria-labelledby="home-learn">
-          <SectionHeader id="home-learn" index="№ 06 — Учи" title="Учи чекор по чекор" link={{ to: '/patki', label: 'Сите патеки' }} />
-          <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
-            <ul className="grid gap-5 sm:grid-cols-2">
-              {home.learning_paths.map((path) => (
-                <li key={path.id}>
-                  <LearningPathCard path={path} />
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-col justify-between gap-4 border border-ink bg-white p-5">
-              <div>
-                <p className="label-mono text-tomato-ink">AI речник</p>
-                <p className="mt-2 font-display text-2xl leading-tight font-extrabold">Токен? Халуцинација? RAG?</p>
-                <p className="mt-2 text-graphite">Поимите од светот на AI, објаснети кратко на македонски.</p>
-              </div>
-              <ButtonLink to="/recnik" variant="secondary">
-                Отвори го речникот
-              </ButtonLink>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {/* Collections */}
-      {home.collections.length ? (
-        <section className="container-page mt-20" aria-labelledby="home-collections">
-          <SectionHeader
-            id="home-collections"
-            index="№ 07 — Листи"
-            title="Најдобри според намена"
-            description="Уреднички листи со објаснета методологија. Позициите не се продаваат."
-            link={{ to: '/najdobri', label: 'Сите листи' }}
-          />
-          <ul className="grid gap-6 md:grid-cols-3">
-            {home.collections.map((collection, index) => (
-              <li key={collection.id}>
-                <CollectionCard collection={collection} index={index} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-
-      {/* Guides */}
-      {leadArticle ? (
-        <section className="container-page mt-20" aria-labelledby="home-guides">
-          <SectionHeader id="home-guides" index="№ 08 — Водичи" title="Научи да ги користиш" link={{ to: '/vodici', label: 'Сите водичи' }} />
-          <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
-            <ArticleCard article={leadArticle} variant="lead" />
-            {otherArticles.length ? (
-              <div className="border-t border-ink/20 lg:border-t-0 lg:border-l lg:pl-8">
-                {otherArticles.map((article) => (
-                  <ArticleCard key={article.id} article={article} variant="compact" />
-                ))}
-              </div>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
-
       {/* Comparisons */}
       {home.comparisons.length ? (
-        <section className="container-page mt-20" aria-labelledby="home-comparisons">
-          <SectionHeader id="home-comparisons" index="№ 09 — Споредби" title="Една до друга" link={{ to: '/sporedbi', label: 'Сите споредби' }} />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="container-page mt-14" aria-labelledby="home-comparisons">
+          <SectionHeader id="home-comparisons" title="Споредби" link={{ to: '/sporedbi', label: 'Сите споредби' }} />
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {home.comparisons.map((comparison) => (
               <li key={comparison.id}>
                 <ComparisonCard comparison={comparison} />
@@ -339,15 +277,55 @@ export function Component() {
         </section>
       ) : null}
 
+      {/* Learn */}
+      {home.learning_paths.length || home.articles.length ? (
+        <section className="container-page mt-14" aria-labelledby="home-learn">
+          <SectionHeader id="home-learn" title="Учи да ги користиш" link={{ to: '/vodici', label: 'Сите водичи' }} />
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {home.learning_paths.slice(0, 1).map((path) => (
+              <LearningPathCard key={path.id} path={path} />
+            ))}
+            {home.articles.slice(0, home.learning_paths.length ? 2 : 3).map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+            <div className="flex flex-col justify-between rounded-2xl border border-light bg-white p-5 shadow-sm">
+              <div>
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-info-soft text-info">
+                  <BookA className="h-5 w-5" aria-hidden />
+                </span>
+                <p className="mt-3 text-lg font-bold">AI речник</p>
+                <p className="mt-1 text-sm text-graphite">Токен, промпт, халуцинација, RAG — поимите објаснети на македонски.</p>
+              </div>
+              <ButtonLink to="/recnik" variant="secondary" className="mt-4">
+                Отвори го речникот
+              </ButtonLink>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Lists */}
+      {home.collections.length ? (
+        <section className="container-page mt-14" aria-labelledby="home-collections">
+          <SectionHeader id="home-collections" title="Најдобри листи" description="Уреднички избор со објаснета методологија. Позициите не се продаваат." link={{ to: '/najdobri', label: 'Сите листи' }} />
+          <ul className="grid gap-4 md:grid-cols-3">
+            {home.collections.map((collection) => (
+              <li key={collection.id}>
+                <CollectionCard collection={collection} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       {/* Newsletter */}
-      <section className="container-page mt-20" aria-labelledby="home-newsletter">
-        <div className="relative grid gap-8 border border-ink bg-cream px-5 py-8 md:grid-cols-[1fr_1.2fr] md:px-10 md:py-10">
+      <section className="container-page mt-14" aria-labelledby="home-newsletter">
+        <div className="grid gap-6 rounded-3xl border border-light bg-white p-6 shadow-sm md:grid-cols-[1fr_1.2fr] md:items-center md:p-10">
           <div>
-            <p className="label-mono text-tomato-ink">Билтен</p>
-            <h2 id="home-newsletter" className="mt-2 font-display text-3xl leading-tight font-extrabold">
-              Новото од каталогот, без спам.
+            <h2 id="home-newsletter" className="text-2xl font-extrabold tracking-tight">
+              Новото во AI, еднаш неделно
             </h2>
-            <p className="mt-2 text-graphite">Повремен преглед на нови алатки, споредби и водичи. Одјава со еден клик.</p>
+            <p className="mt-2 text-graphite">Нови алатки, промени на цени, водичи и вести. Без спам, одјава со еден клик.</p>
           </div>
           <NewsletterSignup />
         </div>

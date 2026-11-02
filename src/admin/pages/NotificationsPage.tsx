@@ -16,14 +16,14 @@ export function NotificationsPage() {
         description="Посетителите добиваат е-пошта кога уредник ќе потврди промена на цената или планот на алатка што ја следат (со двојна потврда)."
       />
       {!env.featureAlerts ? (
-        <p className="mb-6 border-l-4 border-mustard bg-white px-4 py-3 text-sm">
+        <p className="mb-6 rounded-2xl border border-warn/25 bg-warn-soft px-4 py-3 text-sm">
           Формуларот за следење не е вклучен на сајтот (VITE_FEATURE_ALERTS). Прво постави ја функцијата за праќање е-пошта — види docs/ALERTS.md.
         </p>
       ) : null}
       {loading ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data ? (
         <div className="grid gap-6 lg:grid-cols-2">
           <Panel title="Ред за праќање">
-            <dl className="divide-y divide-ink/10 text-sm">
+            <dl className="divide-y divide-light text-sm">
               {Object.keys(QUEUE_LABELS).map((key) => (
                 <div key={key} className="flex justify-between py-1.5">
                   <dt>{QUEUE_LABELS[key]}</dt>
@@ -33,7 +33,7 @@ export function NotificationsPage() {
             </dl>
           </Panel>
           <Panel title="Следачи">
-            <dl className="divide-y divide-ink/10 text-sm">
+            <dl className="divide-y divide-light text-sm">
               {Object.keys(WATCHER_LABELS).map((key) => (
                 <div key={key} className="flex justify-between py-1.5">
                   <dt>{WATCHER_LABELS[key]}</dt>
@@ -44,7 +44,7 @@ export function NotificationsPage() {
           </Panel>
           <Panel title="Најследени алатки">
             {data.top_tools.length ? (
-              <ul className="divide-y divide-ink/10 text-sm">
+              <ul className="divide-y divide-light text-sm">
                 {data.top_tools.map((tool) => (
                   <li key={tool.slug} className="flex justify-between py-1.5">
                     <Link to={`/alatka/${tool.slug}`} className="hover:underline">
@@ -62,7 +62,7 @@ export function NotificationsPage() {
             {data.failures.length ? (
               <ul className="space-y-2 text-sm">
                 {data.failures.map((failure, index) => (
-                  <li key={index} className="border-b border-ink/10 pb-2">
+                  <li key={index} className="border-b border-light pb-2">
                     <span className="font-mono text-xs">
                       {failure.kind} · {failure.attempts} обиди · {formatShortDate(failure.updated_at)}
                     </span>

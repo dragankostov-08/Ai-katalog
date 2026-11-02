@@ -56,8 +56,8 @@ export function Component() {
           )}
           {prompt.skill_level ? ` · ${skillLabels[prompt.skill_level]}` : ''}
         </p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-5xl">{prompt.title}</h1>
-        <p className="mt-4 font-serif text-xl leading-relaxed text-graphite italic">{prompt.summary}</p>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-5xl">{prompt.title}</h1>
+        <p className="mt-4 text-xl leading-relaxed text-graphite">{prompt.summary}</p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
@@ -65,7 +65,7 @@ export function Component() {
           <PromptText text={prompt.prompt_text} />
           {prompt.how_to_use ? (
             <section aria-labelledby="prompt-how">
-              <h2 id="prompt-how" className="mb-3 border-t border-ink pt-3 font-display text-2xl font-extrabold">
+              <h2 id="prompt-how" className="mb-3 border-t border-light pt-3 font-display text-2xl font-extrabold">
                 Како да го користиш
               </h2>
               <Markdown source={prompt.how_to_use} />
@@ -73,17 +73,17 @@ export function Component() {
           ) : null}
           {prompt.example_output ? (
             <section aria-labelledby="prompt-example">
-              <h2 id="prompt-example" className="mb-3 border-t border-ink pt-3 font-display text-2xl font-extrabold">
+              <h2 id="prompt-example" className="mb-3 border-t border-light pt-3 font-display text-2xl font-extrabold">
                 Пример за резултат
               </h2>
               <p className="mb-3 text-sm text-graphite">Резултатите се разликуваат меѓу алатките и при секое ново барање.</p>
-              <div className="border-l-4 border-mustard bg-white px-5 py-4">
+              <div className="rounded-2xl border border-warn/25 bg-warn-soft px-5 py-4">
                 <Markdown source={prompt.example_output} />
               </div>
             </section>
           ) : null}
         </div>
-        <aside className="space-y-4 self-start border border-ink/25 bg-white p-5 text-sm">
+        <aside className="space-y-4 self-start border border-light bg-white p-5 text-sm rounded-2xl">
           <p className="label-mono text-graphite">Пред да го користиш</p>
           <ul className="list-disc space-y-1.5 pl-4">
             <li>Не внесувај лични или доверливи податоци.</li>

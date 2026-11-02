@@ -6,7 +6,7 @@ export function NotFoundContent() {
   return (
     <div className="container-page py-16 md:py-24">
       <p className="label-mono text-tomato-ink">Грешка 404</p>
-      <h1 className="mt-3 max-w-3xl font-display text-5xl leading-[0.95] font-black tracking-[-0.03em] md:text-7xl">
+      <h1 className="mt-3 max-w-3xl font-display text-5xl leading-[1.1] font-extrabold tracking-tight md:text-7xl">
         Оваа страница ја нема во каталогот.
       </h1>
       <p className="mt-5 max-w-xl text-lg text-graphite">
@@ -26,7 +26,7 @@ export function ServerErrorContent({ message }: { message?: string }) {
   return (
     <div className="container-page py-16 md:py-24">
       <p className="label-mono text-tomato-ink">Привремена грешка</p>
-      <h1 className="mt-3 max-w-3xl font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">
+      <h1 className="mt-3 max-w-3xl font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">
         Страницата моментално не може да се вчита.
       </h1>
       <p className="mt-5 max-w-xl text-lg text-graphite">
@@ -37,7 +37,7 @@ export function ServerErrorContent({ message }: { message?: string }) {
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="inline-flex h-10 items-center rounded-sm bg-ink px-4 font-medium text-paper"
+          className="inline-flex h-10 items-center rounded-sm bg-tomato px-4 font-medium text-white"
         >
           Обиди се повторно
         </button>
@@ -61,9 +61,9 @@ export function PageErrorBoundary() {
 export function RootErrorBoundary() {
   return (
     <div className="min-h-dvh bg-paper">
-      <div className="border-b border-ink">
+      <div className="border-b border-light">
         <div className="container-page flex h-16 items-center">
-          <a href="/" className="font-display text-xl font-black">
+          <a href="/" className="font-display text-xl font-extrabold">
             AI KATALOG
           </a>
         </div>
@@ -77,9 +77,9 @@ export function RootErrorBoundary() {
 export function HydrateFallback() {
   return (
     <div className="min-h-dvh bg-paper" aria-busy="true" aria-live="polite">
-      <div className="border-b border-ink">
+      <div className="border-b border-light">
         <div className="container-page flex h-16 items-center gap-3">
-          <span className="font-display text-xl font-black">AI KATALOG</span>
+          <span className="font-display text-xl font-extrabold">AI KATALOG</span>
         </div>
       </div>
       <div className="container-page py-12">

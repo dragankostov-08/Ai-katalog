@@ -40,10 +40,10 @@ export function NewsletterPage() {
         <div className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-2">
             <Panel title="Активни">
-              <p className="font-display text-3xl font-black">{data.subscribed}</p>
+              <p className="font-display text-3xl font-extrabold">{data.subscribed}</p>
             </Panel>
             <Panel title="Одјавени">
-              <p className="font-display text-3xl font-black">{data.unsubscribed}</p>
+              <p className="font-display text-3xl font-extrabold">{data.unsubscribed}</p>
             </Panel>
           </div>
           <Panel title="Претплатници">
@@ -51,7 +51,7 @@ export function NewsletterPage() {
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[32rem] text-sm">
                   <thead>
-                    <tr className="border-b border-ink/20 text-left">
+                    <tr className="border-b border-light text-left">
                       <th className="py-1.5 font-medium">Е-пошта</th>
                       <th className="py-1.5 font-medium">Согласност</th>
                       <th className="py-1.5 font-medium">Статус</th>
@@ -59,7 +59,7 @@ export function NewsletterPage() {
                   </thead>
                   <tbody>
                     {data.subscribers.map((row) => (
-                      <tr key={row.email} className="border-b border-ink/10">
+                      <tr key={row.email} className="border-b border-light">
                         <td className="py-1.5">{row.email}</td>
                         <td className="py-1.5 font-mono text-xs">
                           {formatShortDate(row.consent_at)} · {row.consent_version}

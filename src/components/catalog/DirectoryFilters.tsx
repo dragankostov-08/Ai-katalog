@@ -5,11 +5,11 @@ import { platformLabels, pricingLabels } from '../../lib/labels'
 import { PLATFORMS, type CategorySummary, type PricingType, type UseCase } from '../../lib/types'
 
 const selectClasses =
-  'block w-full rounded-xs border border-ink/40 bg-white px-2.5 py-2 text-sm focus:border-ink focus:outline-2 focus:outline-offset-0 focus:outline-tomato'
+  'block w-full rounded-xs border border-light bg-white px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato'
 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <fieldset className="border-t border-ink/20 pt-3 pb-5">
+    <fieldset className="border-t border-light pt-3 pb-5">
       <legend className="float-left mb-2 w-full label-mono text-graphite">{title}</legend>
       <div className="clear-both">{children}</div>
     </fieldset>
@@ -67,14 +67,14 @@ export function FilterPanel({ filters, categories, useCases, onChange, hideCateg
           {PRICING_FILTERS.map((value) => (
             <li key={value}>
               <label className="flex cursor-pointer items-center gap-2.5 text-sm">
-                <input type="checkbox" className="h-4 w-4 accent-ink" checked={filters.cena.includes(value)} onChange={() => togglePricing(value)} />
+                <input type="checkbox" className="h-4 w-4 accent-tomato" checked={filters.cena.includes(value)} onChange={() => togglePricing(value)} />
                 {pricingLabels[value]}
               </label>
             </li>
           ))}
         </ul>
-        <label className="mt-3 flex cursor-pointer items-center gap-2.5 border-t border-dashed border-ink/20 pt-3 text-sm font-medium">
-          <input type="checkbox" className="h-4 w-4 accent-ink" checked={filters.besplatno} onChange={(e) => onChange({ besplatno: e.target.checked })} />
+        <label className="mt-3 flex cursor-pointer items-center gap-2.5 border-t border-dashed border-light pt-3 text-sm font-medium">
+          <input type="checkbox" className="h-4 w-4 accent-tomato" checked={filters.besplatno} onChange={(e) => onChange({ besplatno: e.target.checked })} />
           Има потврден бесплатен план
         </label>
       </Group>
@@ -127,7 +127,7 @@ export function ActiveFilterChips({ filters, categories, useCases, onChange, onC
           key={chip.key}
           type="button"
           onClick={chip.remove}
-          className="inline-flex items-center gap-1.5 rounded-xs border border-ink bg-ink py-1 pr-1.5 pl-2.5 text-sm text-paper hover:bg-graphite"
+          className="inline-flex items-center gap-1.5 rounded-xs border border-light bg-tomato py-1 pr-1.5 pl-2.5 text-sm text-white hover:bg-tomato-ink"
           aria-label={`Отстрани филтер: ${chip.label}`}
         >
           {chip.label}

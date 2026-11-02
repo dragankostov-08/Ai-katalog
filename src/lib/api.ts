@@ -10,6 +10,7 @@ import type {
   LanguageTestGroup,
   LearningPathCard,
   LearningPathData,
+  NewsData,
   PromptCard,
   PromptDetailData,
   ArticleCard,
@@ -209,3 +210,6 @@ export const confirmWatch = (id: string, token: string) =>
   rpc<ActionResult & { tool_name?: string; tool_slug?: string }>('confirm_watch', { p_id: id, p_token: token })
 
 export const unwatchTool = (id: string, token: string) => rpc<ActionResult>('unwatch_tool', { p_id: id, p_token: token })
+
+export const fetchNews = (params: { source?: string; limit: number; offset: number }, signal?: Signal) =>
+  rpc<NewsData>('api_news', { p_source: params.source || null, p_limit: params.limit, p_offset: params.offset }, { signal })

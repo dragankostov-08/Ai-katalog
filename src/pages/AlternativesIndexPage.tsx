@@ -26,13 +26,13 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Бесплатни алтернативи' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Заштеди</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Бесплатни алтернативи</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Бесплатни алтернативи</h1>
         <p className="mt-4 text-lg text-graphite">Избери алатка и види кои слични алатки можеш да ги користиш бесплатно.</p>
       </header>
       {items.length ? (
         <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
-            <li key={item.id} className="group relative flex items-center gap-3 border-b border-ink/15 py-3">
+            <li key={item.id} className="group relative flex items-center gap-3 border-b border-light py-3">
               <ToolLogo name={item.name} src={item.logo_url} size="sm" />
               <div className="min-w-0">
                 <Link to={`/alternativi/${item.slug}`} className="font-display font-bold after:absolute after:inset-0 after:content-[''] group-hover:underline group-hover:decoration-tomato group-hover:underline-offset-4">

@@ -142,7 +142,7 @@ export function LearningPathEditor() {
           {form.steps.map((step, index) => {
             const update = (patch: Partial<StepForm>) => set('steps', form.steps.map((s, i) => (i === index ? { ...s, ...patch } : s)))
             return (
-              <li key={step.id || `new-${index}`} className="border border-ink/20 bg-paper p-3">
+              <li key={step.id || `new-${index}`} className="border border-light bg-paper p-3 rounded-2xl">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs text-graphite">{index + 1}.</span>
                   <input aria-label="Наслов на чекорот" placeholder="Наслов на чекорот" value={step.title} onChange={(e) => update({ title: e.target.value })} className={controlClass} />

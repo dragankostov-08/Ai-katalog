@@ -40,10 +40,10 @@ export function Component() {
   return (
     <div className="container-page pt-8 md:pt-12">
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Омилени' }]} />
-      <header className="mb-10 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-6">
+      <header className="mb-10 flex flex-wrap items-end justify-between gap-4 border-b border-light pb-6">
         <div className="max-w-2xl">
           <p className="label-mono text-tomato-ink">Само во овој прелистувач</p>
-          <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Омилени алатки</h1>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Омилени алатки</h1>
           <p className="mt-3 text-graphite">Зачуваните алатки се чуваат локално — без регистрација и без да ни ги праќаш.</p>
         </div>
         {favorites.length ? (

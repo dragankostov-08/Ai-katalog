@@ -70,7 +70,7 @@ export function Component() {
       title="Предложи алатка"
       intro="Ни недостасува корисна алатка? Испрати ни ја. Секој предлог го прегледува уредник — ништо не се објавува автоматски."
       aside={
-        <div className="border border-ink bg-white p-5 text-sm">
+        <div className="border border-light bg-white p-5 text-sm rounded-2xl">
           <p className="label-mono mb-2 text-graphite">Што се случува потоа</p>
           <ol className="list-decimal space-y-2 pl-4">
             <li>Предлогот влегува во редот за модерација.</li>

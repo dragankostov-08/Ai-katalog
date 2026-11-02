@@ -56,19 +56,19 @@ export function Component() {
     <article className="container-page pt-8 md:pt-12">
       {preview ? <PreviewBanner /> : null}
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Патеки за учење', path: '/patki' }, { name: path.title }]} />
-      <header className="grid gap-8 border-b-2 border-ink pb-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <header className="grid gap-8 border-b border-light pb-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div className="max-w-3xl">
           <p className="label-mono text-tomato-ink">
             Патека{path.level ? ` · ${skillLabels[path.level]}` : ''}
             {path.estimated_days ? ` · ${path.estimated_days} дена` : ''}
           </p>
-          <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">{path.title}</h1>
-          <p className="mt-4 font-serif text-xl leading-relaxed text-graphite italic">{path.summary}</p>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{path.title}</h1>
+          <p className="mt-4 text-xl leading-relaxed text-graphite">{path.summary}</p>
           {path.intro ? <Markdown source={path.intro} className="prose-ak mt-4" /> : null}
         </div>
-        <aside className="self-start border border-ink bg-white p-5" aria-label="Напредок">
+        <aside className="self-start border border-light bg-white p-5 rounded-2xl" aria-label="Напредок">
           <p className="label-mono text-graphite">Твој напредок</p>
-          <p className="mt-1 font-display text-4xl font-black">{percent}%</p>
+          <p className="mt-1 font-display text-4xl font-extrabold">{percent}%</p>
           <div className="mt-2 h-2 bg-light" role="progressbar" aria-valuemin={0} aria-valuemax={steps.length} aria-valuenow={completed} aria-label={`${completed} од ${steps.length} чекори`}>
             <div className="h-full bg-tomato transition-[width] duration-500" style={{ width: `${percent}%` }} />
           </div>
@@ -95,9 +95,9 @@ export function Component() {
           const Icon = icons[step.step_type]
           const isDone = done.has(step.id)
           return (
-            <li key={step.id} id={`cekor-${step.id}`} className={`scroll-mt-28 grid gap-4 border p-5 md:grid-cols-[4rem_minmax(0,1fr)] ${isDone ? 'border-ink/20 bg-paper' : 'border-ink bg-white'}`}>
+            <li key={step.id} id={`cekor-${step.id}`} className={`scroll-mt-28 grid gap-4 border p-5 md:grid-cols-[4rem_minmax(0,1fr)] ${isDone ? 'border-light bg-paper' : 'border-light bg-white'} rounded-2xl`}>
               <div className="flex items-center gap-3 md:flex-col md:items-start">
-                <span className={`inline-flex h-11 w-11 items-center justify-center font-display text-lg font-black ${isDone ? 'bg-teal text-white' : 'bg-ink text-paper'}`}>
+                <span className={`inline-flex h-11 w-11 items-center justify-center font-display text-lg font-extrabold ${isDone ? 'bg-teal text-white' : 'bg-tomato text-white'}`}>
                   {isDone ? <Check className="h-5 w-5" aria-hidden /> : index + 1}
                 </span>
                 <span className="inline-flex items-center gap-1 label-mono text-graphite">
@@ -118,7 +118,7 @@ export function Component() {
                     </Link>
                   ) : null}
                   {step.tool ? (
-                    <Link to={`/alatka/${step.tool.slug}`} className="flex items-center gap-3 border border-ink/25 bg-paper px-4 py-3 hover:border-ink">
+                    <Link to={`/alatka/${step.tool.slug}`} className="flex items-center gap-3 border border-light bg-paper px-4 py-3 hover:border-brand-line rounded-2xl">
                       <ToolLogo name={step.tool.name} src={step.tool.logo_url} size="sm" />
                       <span>
                         <span className="label-mono text-graphite">Алатка</span>

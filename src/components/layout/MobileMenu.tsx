@@ -12,7 +12,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
   return (
     <Dialog open={open} onClose={onClose} title="Мени" placement="right">
       <nav aria-label="Мобилна навигација">
-        <ul className="divide-y divide-ink/15 border-y border-ink/15">
+        <ul className="divide-y divide-light border-y border-light">
           {primaryNav.map((item) => (
             <li key={item.to}>
               <NavLink
@@ -42,7 +42,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
             </ul>
           </>
         ) : null}
-        <ul className="mt-8 space-y-2 border-t border-ink/15 pt-4 text-sm">
+        <ul className="mt-8 space-y-2 border-t border-light pt-4 text-sm">
           <li>
             <NavLink to="/kategorii" className="hover:underline">
               Сите категории

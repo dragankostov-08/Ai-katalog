@@ -10,9 +10,9 @@ import type { ContentStatus } from '../../lib/types'
 
 export function AdminPageHeader({ title, description, actions }: { title: string; description?: ReactNode; actions?: ReactNode }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-4">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 border-b border-light pb-4">
       <div>
-        <h1 className="font-display text-3xl font-black tracking-tight">{title}</h1>
+        <h1 className="font-display text-3xl font-extrabold tracking-tight">{title}</h1>
         {description ? <p className="mt-1 text-sm text-graphite">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
@@ -22,9 +22,9 @@ export function AdminPageHeader({ title, description, actions }: { title: string
 
 export function Panel({ title, children, actions, className = '' }: { title?: string; children: ReactNode; actions?: ReactNode; className?: string }) {
   return (
-    <section className={`border border-ink/25 bg-white ${className}`}>
+    <section className={`border border-light bg-white ${className}`}>
       {title ? (
-        <div className="flex items-center justify-between gap-2 border-b border-ink/15 px-4 py-2.5">
+        <div className="flex items-center justify-between gap-2 border-b border-light px-4 py-2.5">
           <h2 className="label-mono text-graphite">{title}</h2>
           {actions}
         </div>
@@ -37,7 +37,7 @@ export function Panel({ title, children, actions, className = '' }: { title?: st
 const statusStyles: Record<ContentStatus, string> = {
   published: 'bg-teal text-white',
   draft: 'bg-light text-ink',
-  needs_review: 'bg-mustard text-ink',
+  needs_review: 'bg-warn-soft text-warn',
   archived: 'bg-graphite text-paper',
 }
 
@@ -50,7 +50,7 @@ export function StatusBadge({ status }: { status: ContentStatus }) {
 /* ------------------------------------------------------------------------- */
 
 export const controlClass =
-  'block w-full rounded-xs border border-ink/35 bg-white px-2.5 py-2 text-sm focus:border-ink focus:outline-2 focus:outline-offset-0 focus:outline-tomato disabled:bg-paper'
+  'block w-full rounded-xs border border-light bg-white px-2.5 py-2 text-sm focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato disabled:bg-paper'
 
 interface BaseFieldProps {
   label: string
@@ -134,7 +134,7 @@ export function SelectField<T extends string>({
 export function Checkbox({ label, checked, onChange, hint }: { label: string; checked: boolean; onChange: (value: boolean) => void; hint?: string }) {
   return (
     <label className="flex items-start gap-2 text-sm">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-0.5 h-4 w-4 accent-ink" />
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-0.5 h-4 w-4 accent-tomato" />
       <span>
         {label}
         {hint ? <span className="block text-xs text-graphite">{hint}</span> : null}
@@ -190,7 +190,7 @@ export function ListEditor({ label, value, onChange, placeholder, hint }: { labe
       {value.length ? (
         <ul className="mb-2 space-y-1">
           {value.map((item, index) => (
-            <li key={item} className="flex items-start gap-2 border border-ink/15 bg-paper px-2 py-1 text-sm">
+            <li key={item} className="flex items-start gap-2 border border-light bg-paper px-2 py-1 text-sm rounded-2xl">
               <span className="flex-1">{item}</span>
               <button type="button" aria-label={`Нагоре: ${item}`} disabled={index === 0} onClick={() => onChange(move(value, index, -1))} className="disabled:opacity-30">
                 <ArrowUp className="h-3.5 w-3.5" />
@@ -216,7 +216,7 @@ export function ListEditor({ label, value, onChange, placeholder, hint }: { labe
           }}
           className={controlClass}
         />
-        <button type="button" onClick={add} className="shrink-0 border border-ink px-3 text-sm hover:bg-cream">
+        <button type="button" onClick={add} className="shrink-0 border border-light px-3 text-sm hover:bg-cream rounded-2xl">
           Додај
         </button>
       </div>
@@ -245,20 +245,20 @@ export function MarkdownField({ label, value, onChange, rows = 12, hint, require
           {required ? <span className="text-tomato-ink"> *</span> : null}
         </label>
         <div className="flex gap-1 text-xs">
-          <button type="button" onClick={() => setPreview(false)} className={`inline-flex items-center gap-1 px-2 py-1 ${!preview ? 'bg-ink text-paper' : 'border border-ink/30'}`}>
+          <button type="button" onClick={() => setPreview(false)} className={`inline-flex items-center gap-1 px-2 py-1 ${!preview ? 'bg-tomato text-white' : 'border border-light'}`}>
             <Pencil className="h-3 w-3" /> Уреди
           </button>
-          <button type="button" onClick={() => setPreview(true)} className={`inline-flex items-center gap-1 px-2 py-1 ${preview ? 'bg-ink text-paper' : 'border border-ink/30'}`}>
+          <button type="button" onClick={() => setPreview(true)} className={`inline-flex items-center gap-1 px-2 py-1 ${preview ? 'bg-tomato text-white' : 'border border-light'}`}>
             <Eye className="h-3 w-3" /> Преглед
           </button>
         </div>
       </div>
       {preview ? (
-        <div className="min-h-32 border border-ink/25 bg-paper p-4">
+        <div className="min-h-32 border border-light bg-paper p-4 rounded-2xl">
           {value.trim() ? <Markdown source={value} /> : <p className="text-sm text-graphite">Нема содржина.</p>}
         </div>
       ) : (
-        <textarea id={id} rows={rows} value={value} onChange={(e) => onChange(e.target.value)} className={`${controlClass} font-mono text-[0.8125rem] leading-relaxed`} />
+        <textarea id={id} rows={rows} value={value} onChange={(e) => onChange(e.target.value)} className={`${controlClass} font-code text-[0.8125rem] leading-relaxed`} />
       )}
       <p className="mt-1 text-xs text-graphite">
         {hint ?? 'Markdown: ## наслов, **задебелено**, *курзив*, [линк](/alatka/slug), - листа, | табела |, :::sovet … ::: за забелешки.'}
@@ -296,7 +296,7 @@ export function OrderedPicker<T extends { tool_id: string }>({
         {value.map((item, index) => {
           const option = name(item.tool_id)
           return (
-            <li key={item.tool_id} className="border border-ink/20 bg-paper p-3">
+            <li key={item.tool_id} className="border border-light bg-paper p-3 rounded-2xl">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs text-graphite">{index + 1}.</span>
                 <span className="flex-1 font-medium">{option?.name ?? item.tool_id}</span>
@@ -338,7 +338,7 @@ export function OrderedPicker<T extends { tool_id: string }>({
             onChange([...value, create(selected)])
             setSelected('')
           }}
-          className="inline-flex shrink-0 items-center gap-1 border border-ink px-3 text-sm hover:bg-cream disabled:opacity-40"
+          className="inline-flex shrink-0 items-center gap-1 border border-light px-3 text-sm hover:bg-cream disabled:opacity-40 rounded-2xl"
         >
           <Plus className="h-4 w-4" /> Додај
         </button>

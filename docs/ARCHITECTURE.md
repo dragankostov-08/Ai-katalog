@@ -75,6 +75,7 @@ Migrations live in `supabase/migrations` and are applied in filename order.
 | `glossary_terms`, `glossary_links`, `glossary_tools` | AI glossary with related terms and tools | published |
 | `language_tests` | Real tests of Macedonian output: prompt, unedited excerpt, verdict, date, plan | published + tool published |
 | `learning_paths`, `learning_path_steps` | Step-by-step paths referencing guides, tools, prompts, videos | published |
+| `news_sources`, `news_items` | RSS/Atom sources and aggregated AI headlines (title, ≤400-char excerpt, date, link only) | active sources / non-hidden items; written by `ingest_news` (service role) |
 | `tool_watchers`, `notification_queue` | Double opt-in price alerts and the outgoing e-mail queue | admin only; written by functions / service role |
 | `site_settings` | Publisher/contact details supplied by the owner | all |
 | `user_roles` | `admin` / `editor` (no browser write access) | own row |
@@ -125,17 +126,21 @@ Editors add Cyrillic and Latin spellings as keywords (e.g. „чатгпт“).
 - **Keys.** Only the publishable/anon key is used in the browser. `vite.config.ts`
   refuses to build if `VITE_SUPABASE_ANON_KEY` is a service-role or secret key.
 
-The security tests in `supabase/tests/security_test.sql` (141 assertions) cover
+The security tests in `supabase/tests/security_test.sql` (151 assertions) cover
 anonymous reads, unauthorized writes, role escalation, editor vs admin rights,
 publishing constraints, preview access, rate limits, newsletter consent and analytics
 whitelisting.
 
 ## Design system
 
-Tokens are defined once in `src/styles/index.css` (`@theme`): the ink/paper palette,
-four restrained accents plus two darker accent tones for small text (WCAG AA), Rubik
-(display/body), Playfair Display (editorial standfirsts), IBM Plex Mono (metadata) and
-Caveat (rare margin notes), small radii and the signature offset shadow. Fonts are
-self-hosted (no third-party requests). Editorial textures — halftone, ruled index
-cards, torn edges, registration marks, the stamp — are CSS/SVG and respect
-`prefers-reduced-motion`.
+Tokens are defined once in `src/styles/index.css` (`@theme`): a clean, modern
+directory look — slate greys on a light background, one violet brand colour
+(`tomato` token, #7c3aed) with soft/line tints, green/blue/amber status tones that meet
+WCAG AA for small text, Inter Variable for all UI text and IBM Plex Mono only for real
+code and prompts (`font-code`), generous radii (cards `rounded-2xl`, pills
+`rounded-full`) and soft shadows. Fonts are self-hosted (no third-party requests).
+Token names (`ink`, `paper`, `cream`, `tomato`…) are historical and kept stable; their
+values define the look. Layout follows the familiar AI-directory pattern: sticky header
+with search, a horizontal category strip, a centred hero search with popular tasks,
+"new / popular" tool lists next to the AI-news widget, and category boxes with their
+top tools. Motion respects `prefers-reduced-motion`.

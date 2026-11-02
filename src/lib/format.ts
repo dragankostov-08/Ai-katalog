@@ -54,3 +54,18 @@ export function formatPrice(amount: number | null, currency: string | null, peri
   const suffix = period ? ` ${pricePeriodLabels[period]}` : ''
   return `${formatNumber(number, Number.isInteger(number) ? 0 : 2)} ${currency}${suffix}`
 }
+
+/** „пред 3 часа“, „вчера“, or a date for older items. */
+export function formatRelative(value: string | Date | null | undefined, now = new Date()): string {
+  const date = toDate(value)
+  if (!date) return ''
+  const minutes = Math.round((now.getTime() - date.getTime()) / 60_000)
+  if (minutes < 1) return 'сега'
+  if (minutes < 60) return `пред ${minutes} мин.`
+  const hours = Math.round(minutes / 60)
+  if (hours < 24) return `пред ${hours} ${hours === 1 ? 'час' : 'часа'}`
+  const days = Math.round(hours / 24)
+  if (days === 1) return 'вчера'
+  if (days < 7) return `пред ${days} дена`
+  return formatDate(date)
+}

@@ -19,13 +19,12 @@
     "test:db": "bash scripts/test-db.sh",
     "check": "npm run typecheck && npm run lint && npm run test",
     "local:db": "bash scripts/local-db.sh",
-    "local:api": "node scripts/local-api.mjs"
+    "local:api": "node scripts/local-api.mjs",
+    "news:fetch": "node --experimental-strip-types scripts/fetch-news.mjs"
   },
   "dependencies": {
-    "@fontsource-variable/rubik": "^5.3.0",
-    "@fontsource/caveat": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@fontsource/playfair-display": "^5.3.0",
     "@supabase/supabase-js": "^2.118.0",
     "lucide-react": "^1.62.0",
     "react": "^19.3.1",

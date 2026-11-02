@@ -31,8 +31,8 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
             href={`#${heading.id}`}
             aria-current={active === heading.id ? 'location' : undefined}
             className={`block border-l-2 py-0.5 pl-3 leading-snug transition-colors hover:text-ink ${
-              active === heading.id ? 'border-tomato font-medium text-ink' : 'border-transparent text-graphite'
-            }`}
+ active === heading.id ? 'border-tomato font-medium text-ink' : 'border-transparent text-graphite'
+ }`}
           >
             {heading.text}
           </a>
@@ -43,9 +43,9 @@ export function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <>
-      <details className="mb-8 border border-ink/30 bg-white lg:hidden">
+      <details className="mb-8 overflow-hidden rounded-2xl border border-light bg-white lg:hidden">
         <summary className="cursor-pointer px-4 py-3 label-mono">Содржина на водичот</summary>
-        <nav aria-label="Содржина" className="border-t border-ink/20 px-4 py-3">
+        <nav aria-label="Содржина" className="border-t border-light px-4 py-3">
           {list}
         </nav>
       </details>

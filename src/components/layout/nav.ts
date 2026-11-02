@@ -5,6 +5,7 @@ export const primaryNav = [
   { to: '/vodici', label: 'Водичи' },
   { to: '/najdobri', label: 'Најдобри' },
   { to: '/patki', label: 'Учи' },
+  { to: '/vesti', label: 'Вести' },
 ] as const
 
 export const footerNav = [
@@ -23,6 +24,7 @@ export const footerNav = [
   {
     title: 'Содржина',
     links: [
+      { to: '/vesti', label: 'AI вести' },
       { to: '/promptovi', label: 'Промптови' },
       { to: '/vodici', label: 'Водичи' },
       { to: '/sporedbi', label: 'Споредби' },

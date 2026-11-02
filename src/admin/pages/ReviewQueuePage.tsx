@@ -38,7 +38,7 @@ export function ReviewQueuePage() {
         <div className="space-y-6">
           <Panel title={`Чекаат преглед пред објавување (${data.needs_review.length})`}>
             {data.needs_review.length ? (
-              <ul className="divide-y divide-ink/10">
+              <ul className="divide-y divide-light">
                 {data.needs_review.map((item) => (
                   <li key={item.id} className="flex flex-wrap items-center gap-3 py-2">
                     <Link to={`/admin/alatki/${item.id}`} className="flex-1 font-medium hover:underline">
@@ -55,7 +55,7 @@ export function ReviewQueuePage() {
           </Panel>
           <Panel title={`Проверка на податоците (${data.verification.length})`}>
             {data.verification.length ? (
-              <ul className="divide-y divide-ink/10">
+              <ul className="divide-y divide-light">
                 {data.verification.map((item) => (
                   <li key={item.id} className="grid gap-1 py-2.5 sm:grid-cols-[1fr_auto_auto] sm:items-center sm:gap-4">
                     <div>

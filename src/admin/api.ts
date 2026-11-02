@@ -88,7 +88,7 @@ export async function call<T>(fn: string, args: Record<string, unknown> = {}): P
   return data as T
 }
 
-export type Entity = 'tools' | 'categories' | 'use_cases' | 'articles' | 'comparisons' | 'collections' | 'prompts' | 'glossary_terms' | 'learning_paths'
+export type Entity = 'tools' | 'categories' | 'use_cases' | 'articles' | 'comparisons' | 'collections' | 'prompts' | 'glossary_terms' | 'learning_paths' | 'news_sources'
 
 export interface ListResult<T> {
   total: number
@@ -144,6 +144,30 @@ export interface DigestData {
   learning_paths: { title: string; slug: string }[]
   glossary: { title: string; slug: string }[]
   language_tests: { title: string; tool: string; verdict: AdminLanguageTest['verdict'] }[]
+}
+
+export interface AdminNewsSource {
+  id: string
+  name: string
+  site_url: string
+  feed_url: string
+  language: 'mk' | 'en' | 'other'
+  ai_filter: boolean
+  is_active: boolean
+  last_fetched_at: string | null
+  last_status: 'ok' | 'error' | null
+  last_error: string | null
+  item_count: number
+}
+
+export interface AdminNewsItem {
+  id: string
+  title: string
+  url: string
+  summary: string | null
+  published_at: string | null
+  is_hidden: boolean
+  source: { id: string; name: string }
 }
 
 export interface NotificationStats {
@@ -206,6 +230,15 @@ export const adminApi = {
     const context = (error as { context?: Response }).context
     const detail = context && typeof context.json === 'function' ? ((await context.json().catch(() => null)) as { message?: string } | null) : null
     throw new AdminError(detail?.message ?? 'Telegram функцијата не е достапна (види docs/CHANNELS.md).')
+  },
+  newsSources: () => call<AdminNewsSource[]>('admin_news_sources'),
+  saveNewsSource: (payload: Record<string, unknown>) => call<string>('admin_save_news_source', { p: payload }),
+  newsItems: (query: string) => call<AdminNewsItem[]>('admin_news_items', { p_query: query || null, p_limit: 150 }),
+  setNewsHidden: (id: string, hidden: boolean) => call<void>('admin_set_news_hidden', { p_id: id, p_hidden: hidden }),
+  fetchNewsNow: async (sourceId?: string) => {
+    const { data, error } = await getSupabase().functions.invoke('fetch-news', { body: sourceId ? { source_id: sourceId } : {} })
+    if (!error) return data as { report: { source: string; added?: number; error?: string }[] }
+    throw new AdminError('Функцијата „fetch-news“ не е достапна. Види docs/NEWS.md (на локален сервер користи npm run news:fetch).')
   },
   youtubeSearch: (query: string, language: string) => youtube<{ items: YouTubeResult[] }>({ action: 'search', query, language }),
   youtubeLookup: (ids: string[]) => youtube<{ items: YouTubeResult[]; missing: string[] }>({ action: 'lookup', ids }),

@@ -3,8 +3,8 @@ import type { LanguageVerdict } from '../../lib/types'
 
 const styles: Record<LanguageVerdict, string> = {
   excellent: 'bg-teal text-white',
-  good: 'bg-mustard text-ink',
-  mixed: 'border border-ink/40 bg-white text-ink',
+  good: 'bg-warn-soft text-warn',
+  mixed: 'border border-light bg-white text-ink',
   poor: 'bg-graphite text-paper',
 }
 

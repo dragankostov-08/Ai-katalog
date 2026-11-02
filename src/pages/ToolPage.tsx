@@ -70,7 +70,7 @@ export const handle: RouteHandle<ToolPageData> = {
 
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-[8.5rem_1fr] gap-3 border-b border-ink/15 py-2.5 text-sm last:border-b-0">
+    <div className="grid grid-cols-[8.5rem_1fr] gap-3 border-b border-light py-2.5 text-sm last:border-b-0">
       <dt className="label-mono pt-0.5 text-graphite">{label}</dt>
       <dd className="min-w-0">{children}</dd>
     </div>
@@ -108,13 +108,13 @@ export function Component() {
       />
 
       {/* Identity + action panel */}
-      <header className="grid gap-8 border-b-2 border-ink pb-10 lg:grid-cols-[1fr_22rem] lg:gap-12">
+      <header className="grid gap-8 border-b border-light pb-10 lg:grid-cols-[1fr_22rem] lg:gap-12">
         <div className="min-w-0">
           <div className="flex items-center gap-4 md:gap-5">
             <ToolLogo name={tool.name} src={tool.logo_url} size="lg" />
             <div className="min-w-0">
               {primary ? <CategoryMarker category={primary} /> : null}
-              <h1 className="mt-1.5 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] break-words md:text-6xl">{tool.name}</h1>
+              <h1 className="mt-1.5 font-display text-4xl leading-[1.1] font-extrabold tracking-tight break-words md:text-6xl">{tool.name}</h1>
               {tool.developer ? <p className="mt-2 font-mono text-sm text-graphite">од {tool.developer}</p> : null}
             </div>
           </div>
@@ -127,7 +127,7 @@ export function Component() {
                   <li key={useCase.slug}>
                     <Link
                       to={`/alatki?namena=${useCase.slug}`}
-                      className="inline-block rounded-xs border border-ink/30 bg-white px-2.5 py-1 text-sm hover:border-ink hover:bg-cream"
+                      className="inline-block rounded-xs border border-light bg-white px-2.5 py-1 text-sm hover:border-brand-line hover:bg-cream"
                     >
                       {useCase.name}
                     </Link>
@@ -143,8 +143,8 @@ export function Component() {
           ) : null}
         </div>
 
-        <aside aria-label="Брз преглед" className="self-start border border-ink bg-white p-5 shadow-offset">
-          <div className="flex items-center justify-between gap-2 border-b border-ink pb-3">
+        <aside aria-label="Брз преглед" className="self-start border border-light bg-white p-5 shadow-offset rounded-2xl">
+          <div className="flex items-center justify-between gap-2 border-b border-light pb-3">
             <p className="label-mono">Досие</p>
             <VerificationBadge status={tool.verification_status} date={tool.last_verified_at} />
           </div>
@@ -154,7 +154,7 @@ export function Component() {
             <Fact label="Бесплатен план">{freePlan ?? <Unknown />}</Fact>
           </dl>
           {!verified ? (
-            <p className="mt-3 border-l-2 border-mustard bg-cream/50 px-3 py-2 text-xs text-charcoal">
+            <p className="mt-3 rounded-xl border border-warn/25 bg-warn-soft px-3 py-2 text-xs text-charcoal">
               Цените и плановите за оваа алатка сè уште не се проверени од уредништвото.
             </p>
           ) : null}
@@ -169,7 +169,7 @@ export function Component() {
               <CompareButton slug={tool.slug} name={tool.name} variant="full" className="w-full" />
             </div>
           </div>
-          <div className="mt-4 border-t border-ink/15 pt-3">
+          <div className="mt-4 border-t border-light pt-3">
             <WatchToolForm slug={tool.slug} name={tool.name} />
           </div>
         </aside>
@@ -185,7 +185,7 @@ export function Component() {
         <div className="min-w-0 space-y-14">
           {tool.description ? (
             <section aria-labelledby="tool-about">
-              <h2 id="tool-about" className="mb-4 border-t border-ink pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-about" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
                 Што прави {tool.name}
               </h2>
               <Markdown source={tool.description} />
@@ -193,10 +193,10 @@ export function Component() {
           ) : null}
 
           <section aria-labelledby="tool-pricing">
-            <h2 id="tool-pricing" className="mb-4 border-t border-ink pt-3 font-display text-2xl font-extrabold md:text-3xl">
+            <h2 id="tool-pricing" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
               Цени и бесплатен план
             </h2>
-            <div className="max-w-2xl border border-ink/30 bg-white">
+            <div className="max-w-2xl overflow-hidden rounded-2xl border border-light bg-white">
               <dl className="px-4">
                 <Fact label="Модел">
                   {tool.pricing_type !== 'unknown' ? (
@@ -213,7 +213,7 @@ export function Component() {
                 {tool.free_plan_limits ? <Fact label="Ограничувања">{tool.free_plan_limits}</Fact> : null}
                 {tool.pricing_notes ? <Fact label="Белешки">{renderInline(tool.pricing_notes)}</Fact> : null}
               </dl>
-              <p className="border-t border-ink/15 px-4 py-2.5 font-mono text-xs text-graphite">
+              <p className="border-t border-light px-4 py-2.5 font-mono text-xs text-graphite">
                 {verified && tool.last_verified_at
                   ? `Проверено на официјалната страница: ${formatDate(tool.last_verified_at)}`
                   : 'Статус: непроверено од уредништвото'}
@@ -224,12 +224,12 @@ export function Component() {
 
           {features.length ? (
             <section aria-labelledby="tool-features">
-              <h2 id="tool-features" className="mb-4 border-t border-ink pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-features" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
                 Главни функции
               </h2>
               <ul className="grid max-w-3xl gap-x-8 sm:grid-cols-2">
                 {features.map((feature) => (
-                  <li key={feature.id} className="flex gap-3 border-b border-ink/15 py-3">
+                  <li key={feature.id} className="flex gap-3 border-b border-light py-3">
                     <Check className="mt-1 h-4 w-4 shrink-0 text-teal-ink" aria-hidden />
                     <span>
                       <span className="font-medium">{feature.feature_name}</span>
@@ -245,7 +245,7 @@ export function Component() {
 
           {prompts.length ? (
             <section aria-labelledby="tool-prompts">
-              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
                 <h2 id="tool-prompts" className="font-display text-2xl font-extrabold md:text-3xl">
                   Готови промптови за {tool.name}
                 </h2>
@@ -265,7 +265,7 @@ export function Component() {
 
           {language_tests.length ? (
             <section aria-labelledby="tool-mk-tests">
-              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
                 <h2 id="tool-mk-tests" className="font-display text-2xl font-extrabold md:text-3xl">
                   Тестирано на македонски
                 </h2>
@@ -275,7 +275,7 @@ export function Component() {
               </div>
               <ol className="space-y-8">
                 {language_tests.map((test) => (
-                  <li key={test.id} className="border border-ink/25 bg-white p-5">
+                  <li key={test.id} className="border border-light bg-white p-5 rounded-2xl">
                     <h3 className="mb-3 font-display text-lg font-bold">{test.task_title}</h3>
                     <TestResult test={test} toolName={tool.name} />
                   </li>
@@ -286,12 +286,12 @@ export function Component() {
 
           {tool.capabilities.length ? (
             <section aria-labelledby="tool-capabilities">
-              <h2 id="tool-capabilities" className="mb-4 border-t border-ink pt-3 font-display text-2xl font-extrabold md:text-3xl">
+              <h2 id="tool-capabilities" className="mb-4 border-t border-light pt-3 font-display text-2xl font-extrabold md:text-3xl">
                 Потврдени можности
               </h2>
               <ul className="flex flex-wrap gap-2">
                 {tool.capabilities.map((capability) => (
-                  <li key={capability} className="rounded-xs border border-ink bg-white px-2.5 py-1 text-sm">
+                  <li key={capability} className="rounded-xs border border-light bg-white px-2.5 py-1 text-sm">
                     {capabilityLabels[capability]}
                   </li>
                 ))}
@@ -301,7 +301,7 @@ export function Component() {
 
           {tool.pros.length || tool.cons.length || tool.editorial_verdict ? (
             <section aria-labelledby="tool-assessment">
-              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-ink pt-3">
+              <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-t border-light pt-3">
                 <h2 id="tool-assessment" className="font-display text-2xl font-extrabold md:text-3xl">
                   Уредничка проценка
                 </h2>
@@ -341,9 +341,9 @@ export function Component() {
                 </div>
               ) : null}
               {tool.editorial_verdict ? (
-                <div className="mt-8 max-w-3xl border-l-4 border-mustard bg-cream/60 px-5 py-4">
+                <div className="mt-8 max-w-3xl rounded-2xl border border-warn/25 bg-warn-soft px-5 py-4">
                   <p className="label-mono mb-2 text-graphite">Заклучок</p>
-                  <Markdown source={tool.editorial_verdict} className="prose-ak max-w-none font-serif text-lg italic" />
+                  <Markdown source={tool.editorial_verdict} className="prose-ak max-w-none text-lg" />
                 </div>
               ) : null}
             </section>
@@ -354,7 +354,7 @@ export function Component() {
 
         <aside aria-label="Податоци за алатката" className="lg:sticky lg:top-28 lg:self-start">
           <h2 className="mb-1 label-mono text-graphite">Податоци</h2>
-          <dl className="border-t border-ink">
+          <dl className="border-t border-light">
             {categories.length ? (
               <Fact label="Категории">
                 <ul className="space-y-1">
@@ -405,7 +405,7 @@ export function Component() {
       {free_alternative_count > 0 ? (
         <Link
           to={`/alternativi/${tool.slug}`}
-          className="mt-16 flex flex-wrap items-center justify-between gap-3 border-2 border-ink bg-mustard px-5 py-4 transition-shadow hover:shadow-offset"
+          className="mt-16 flex flex-wrap items-center justify-between gap-3 border border-light bg-warn-soft px-5 py-4 transition-shadow hover:shadow-offset rounded-2xl"
         >
           <span className="font-display text-xl font-extrabold">
             {free_alternative_count} {free_alternative_count === 1 ? 'проверена бесплатна алтернатива' : 'проверени бесплатни алтернативи'} на {tool.name}
@@ -448,7 +448,7 @@ export function Component() {
       ) : null}
 
       {collections.length ? (
-        <section className="mt-16 border-t border-ink/20 pt-6" aria-labelledby="tool-collections">
+        <section className="mt-16 border-t border-light pt-6" aria-labelledby="tool-collections">
           <h2 id="tool-collections" className="label-mono text-graphite">
             Се наоѓа во листите
           </h2>

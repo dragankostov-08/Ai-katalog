@@ -105,7 +105,7 @@ export function LanguageTestsPanel({ toolId, toolName }: { toolId: string; toolN
       </p>
       {tests.error ? <ErrorBox message={tests.error} onRetry={tests.reload} /> : null}
       {tests.data?.length ? (
-        <ul className="mb-4 divide-y divide-ink/10 border border-ink/15 bg-white">
+        <ul className="mb-4 divide-y divide-light overflow-hidden rounded-xl border border-light bg-white">
           {tests.data.map((test) => (
             <li key={test.id} className="flex flex-wrap items-center gap-3 px-3 py-2 text-sm">
               <span className="min-w-0 flex-1">
@@ -129,7 +129,7 @@ export function LanguageTestsPanel({ toolId, toolName }: { toolId: string; toolN
       ) : null}
 
       {draft ? (
-        <div role="group" aria-label="Тест на македонски" className="space-y-3 border border-mustard bg-cream/30 p-3">
+        <div role="group" aria-label="Тест на македонски" className="space-y-3 border border-warn/25 bg-warn-soft/60 p-3 rounded-2xl">
           <TextField label="Задача (наслов)" required value={draft.task_title} onChange={(v) => update({ task_title: v })} placeholder="на пр. Е-порака до клиент" />
           <TextArea label="Промпт што го користеше" required value={draft.prompt_used} onChange={(v) => update({ prompt_used: v })} rows={4} max={4000} />
           <TextArea label="Извадок од одговорот (непроменет)" required value={draft.output_excerpt} onChange={(v) => update({ output_excerpt: v })} rows={6} max={6000} />

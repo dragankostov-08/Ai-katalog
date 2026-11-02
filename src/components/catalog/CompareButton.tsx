@@ -19,7 +19,7 @@ export function CompareButton({ slug, name, variant = 'small', className = '' }:
         type="button"
         onClick={onClick}
         aria-pressed={active}
-        className={`relative z-10 inline-flex h-10 items-center justify-center gap-2 rounded-sm border border-ink px-3 text-sm font-medium hover:bg-cream ${active ? 'bg-cream' : ''} ${className}`}
+        className={`relative z-10 inline-flex h-10 items-center justify-center gap-2 rounded-sm border border-light px-3 text-sm font-medium hover:bg-cream ${active ? 'bg-cream' : ''} ${className}`}
       >
         <Columns3 className="h-4 w-4" aria-hidden />
         {full ? `Најмногу ${MAX_COMPARE} алатки` : active ? 'Во споредба' : 'Спореди'}
@@ -35,7 +35,7 @@ export function CompareButton({ slug, name, variant = 'small', className = '' }:
       aria-label={active ? `Отстрани ${name} од споредба` : `Додај ${name} во споредба`}
       className={`relative z-10 inline-flex items-center gap-1 font-mono text-[0.6875rem] tracking-wide uppercase hover:text-ink ${active ? 'text-ink' : 'text-graphite'} ${className}`}
     >
-      <span aria-hidden className={`inline-flex h-3.5 w-3.5 items-center justify-center border ${active ? 'border-ink bg-ink text-paper' : 'border-ink/40'}`}>
+      <span aria-hidden className={`inline-flex h-3.5 w-3.5 items-center justify-center border ${active ? 'border-light bg-tomato text-white' : 'border-light'}`}>
         {active ? '✓' : ''}
       </span>
       {full ? `Макс. ${MAX_COMPARE}` : 'Спореди'}

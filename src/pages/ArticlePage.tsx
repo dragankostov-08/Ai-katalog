@@ -85,8 +85,8 @@ export function Component() {
 
       <header className="mx-auto max-w-4xl text-center">
         <p className="label-mono text-tomato-ink">{article.category?.name ?? 'Водич'}</p>
-        <h1 className="mt-4 font-display text-4xl leading-[0.98] font-black tracking-[-0.03em] md:text-6xl">{article.title}</h1>
-        <p className="mx-auto mt-6 max-w-2xl font-serif text-xl leading-relaxed text-graphite italic md:text-2xl">{article.excerpt}</p>
+        <h1 className="mt-4 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{article.title}</h1>
+        <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-graphite md:text-2xl">{article.excerpt}</p>
         <p className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-1 font-mono text-xs text-graphite">
           {article.author_name ? <span>{article.author_name}</span> : null}
           {article.published_at ? (
@@ -108,7 +108,7 @@ export function Component() {
           <img
             src={article.cover_image_url}
             alt={article.cover_image_alt ?? ''}
-            className="aspect-[16/8] w-full border border-ink object-cover"
+            className="aspect-[16/8] w-full rounded-2xl object-cover"
             width={1280}
             height={640}
             fetchPriority="high"
@@ -127,7 +127,7 @@ export function Component() {
         ) : null}
         <div className={showToc ? 'min-w-0' : 'mx-auto w-full max-w-2xl min-w-0'}>
           <Markdown blocks={blocks} insert={{ beforeHeading: 3, node: <AdSlot placement="article" className="my-10" /> }} />
-          <div className="mt-14 max-w-2xl border-t-2 border-ink pt-6">
+          <div className="mt-14 max-w-2xl border-t border-light pt-6">
             <p className="label-mono text-graphite">Билтен</p>
             <p className="mt-1 mb-4 font-display text-xl font-bold">Добивај нови водичи на е-пошта</p>
             <NewsletterSignup />

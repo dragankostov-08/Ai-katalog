@@ -47,7 +47,7 @@ export function WatchToolForm({ slug, name }: { slug: string; name: string }) {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="relative space-y-2 border border-ink/25 bg-paper p-3">
+    <form onSubmit={onSubmit} noValidate className="relative space-y-2 border border-light bg-paper p-3 rounded-2xl">
       <Honeypot value={website} onChange={setWebsite} />
       <label htmlFor="watch-email" className="block text-sm font-medium">
         Е-пошта за известување

@@ -1,7 +1,7 @@
 import { useId, type ReactNode } from 'react'
 
 export const inputClasses =
-  'block w-full rounded-xs border border-ink/40 bg-white px-3 py-2.5 text-[0.95rem] text-ink placeholder:text-mid focus:border-ink focus:outline-2 focus:outline-offset-0 focus:outline-tomato aria-[invalid=true]:border-tomato'
+  'block w-full rounded-xs border border-light bg-white px-3 py-2.5 text-[0.95rem] text-ink placeholder:text-mid focus:border-tomato focus:outline-2 focus:outline-offset-0 focus:outline-tomato aria-[invalid=true]:border-tomato'
 
 interface FieldProps {
   label: string

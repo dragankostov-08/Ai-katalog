@@ -64,13 +64,13 @@ export function Component() {
         <p className="label-mono text-tomato-ink">
           Уреднична листа · {entries.length} алатки · ажурирано {formatDate(collection.updated_at)}
         </p>
-        <h1 className="mt-3 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">{collection.title}</h1>
-        <p className="mt-5 max-w-2xl font-serif text-xl leading-relaxed text-graphite italic">{collection.description}</p>
+        <h1 className="mt-3 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{collection.title}</h1>
+        <p className="mt-5 max-w-2xl text-xl leading-relaxed text-graphite">{collection.description}</p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_22rem]">
         <div>{collection.intro ? <Markdown source={collection.intro} /> : null}</div>
-        <aside className="relative self-start border border-ink bg-white p-5" aria-labelledby="methodology-title">
+        <aside className="relative self-start border border-light bg-white p-5 rounded-2xl" aria-labelledby="methodology-title">
           <span aria-hidden className="absolute -top-3 right-4 rotate-[4deg] border-2 border-tomato px-2 py-0.5 font-mono text-[0.625rem] font-medium tracking-[0.2em] text-tomato-ink uppercase">
             Методологија
           </span>
@@ -79,7 +79,7 @@ export function Component() {
           </h2>
           <Markdown source={collection.methodology} className="prose-ak mt-2 text-[0.95rem] leading-relaxed" />
           {hasSponsored ? (
-            <p className="mt-3 border-t border-ink/15 pt-3 text-sm text-graphite">
+            <p className="mt-3 border-t border-light pt-3 text-sm text-graphite">
               Позициите означени како <SponsoredTag /> се платени. <Link to="/affiliate-izjava" className="underline">Повеќе</Link>
             </p>
           ) : null}
@@ -88,8 +88,8 @@ export function Component() {
 
       <ol className="mt-14 space-y-6">
         {entries.map((entry, index) => (
-          <li key={entry.tool.id} className="grid gap-5 border-t-2 border-ink pt-5 md:grid-cols-[5rem_1fr_16rem] md:gap-8">
-            <span className="font-display text-5xl leading-none font-black text-transparent md:text-7xl" style={{ WebkitTextStroke: '1.5px var(--color-ink)' }} aria-hidden>
+          <li key={entry.tool.id} className="grid gap-5 border-t border-light pt-5 md:grid-cols-[5rem_1fr_16rem] md:gap-8">
+            <span className="font-display text-5xl leading-none font-extrabold text-transparent md:text-7xl" style={{ WebkitTextStroke: '1.5px var(--color-ink)' }} aria-hidden>
               {String(index + 1).padStart(2, '0')}
             </span>
             <div className="min-w-0">
@@ -107,12 +107,12 @@ export function Component() {
                 {entry.is_sponsored ? <SponsoredTag className="ml-auto" /> : null}
               </div>
               <p className="mt-3 text-graphite">{entry.tool.short_description}</p>
-              <div className="mt-4 border-l-4 border-mustard bg-cream/50 px-4 py-3">
+              <div className="mt-4 rounded-2xl border border-warn/25 bg-warn-soft px-4 py-3">
                 <p className="label-mono mb-1 text-graphite">Зошто е во листата</p>
                 <p>{entry.editorial_reason}</p>
               </div>
             </div>
-            <div className="flex flex-col gap-3 md:border-l md:border-ink/15 md:pl-6">
+            <div className="flex flex-col gap-3 md:border-l md:border-light md:pl-6">
               <PricingBadge tool={entry.tool} />
               {entry.tool.verification_status === 'verified' && entry.tool.free_plan_limits ? (
                 <p className="text-sm text-graphite">

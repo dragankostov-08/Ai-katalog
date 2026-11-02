@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel><title>Тест фид (локален)</title>
+<item><title>Тест: OpenAI објави нов модел</title><link>https://example.com/vesti/openai-model</link>
+<pubDate>Sun, 02 Nov 2026 09:30:00 +0100</pubDate><description><![CDATA[<p>Тестна вест за локално тестирање на агрегаторот.</p>]]></description></item>
+<item><title>Тест: Вештачката интелигенција во училиштата</title><link>https://example.com/vesti/ai-uchilishta</link>
+<pubDate>Sat, 01 Nov 2026 12:00:00 +0100</pubDate><description>Втора тестна вест.</description></item>
+<item><title>Тест: Нов телефон на пазарот</title><link>https://example.com/vesti/telefon</link>
+<description>Вест без врска со темата, треба да се отфрли.</description></item>
+</channel></rss>

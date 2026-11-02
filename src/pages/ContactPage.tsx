@@ -68,7 +68,7 @@ export function Component() {
       title="Контакт"
       intro="Прашања, корекции на податоци или соработка — пиши ни."
       aside={
-        <div className="space-y-4 border border-ink bg-white p-5 text-sm">
+        <div className="space-y-4 border border-light bg-white p-5 text-sm rounded-2xl">
           <div>
             <p className="label-mono mb-1 text-graphite">Е-пошта</p>
             {email ? (

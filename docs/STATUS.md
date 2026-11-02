@@ -4,7 +4,8 @@
 
 | Area | Status |
 | --- | --- |
-| Home `/` | Editorial hero with working search, real catalogue counts, category index, featured and recently added tools, lists, guides, comparisons, wizard call-to-action, newsletter. Sections with no published content are hidden. |
+| Home `/` | Modern directory layout: centred hero search with popular tasks and real catalogue counts, new/popular tool tabs next to the AI-news widget, category boxes with their top tools, editor's picks, wizard call-to-action, profession lists, prompts, comparisons, guides, lists, newsletter. Sections with no published content are hidden. |
+| AI news `/vesti` | Headlines about AI aggregated hourly from the RSS/Atom feeds of Macedonian tech portals (IT.mk seeded; more added in Admin → AI вести), keyword filter for general portals, grouped by day, filter by source, title + short excerpt + link to the original only. Admin: sources with fetch status, test/refresh now, hide individual items. See docs/NEWS.md. |
 | Directory `/alatki` | Database search (prefix full-text + trigram + category/use-case names), category, use case, pricing, free plan and platform filters, 4 sort orders, pagination, shareable URLs, active filter chips, mobile filter dialog, skeletons, empty and error states. |
 | Categories `/kategorii`, `/kategorii/:slug` | Database-driven, unique SEO metadata, related guides/comparisons; empty categories are labelled „Во подготовка“, not linked, `noindex` and excluded from the sitemap. |
 | Tool profiles `/alatka/:slug` | Dossier layout: identity, official link (tracked in aggregate), pricing with explicit verification status, features, capabilities, platforms, Macedonian support, pros/cons and verdict marked as editorial opinion, verification date, related tools/guides/comparisons/lists, price-change notice, correction link. Only meaningful fields are shown. |

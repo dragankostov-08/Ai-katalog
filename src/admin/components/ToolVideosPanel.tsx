@@ -43,7 +43,7 @@ function VideoRow({
 }) {
   const [note, setNote] = useState(video.note ?? '')
   return (
-    <li className={`border p-3 ${video.is_visible ? 'border-ink/25 bg-white' : 'border-dashed border-ink/30 bg-paper opacity-80'}`}>
+    <li className={`border p-3 ${video.is_visible ? 'border-light bg-white' : 'border-dashed border-light bg-paper opacity-80'} rounded-2xl`}>
       <div className="flex items-start gap-2">
         <span className="font-mono text-xs text-graphite">{index + 1}.</span>
         <div className="min-w-0 flex-1">
@@ -70,7 +70,7 @@ function VideoRow({
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <LanguageSelect label="Јазик на видеото" value={video.language} onChange={(language) => onChange({ language })} />
         <label className="flex items-center gap-1.5 text-sm">
-          <input type="checkbox" checked={video.is_visible} onChange={(e) => onChange({ is_visible: e.target.checked })} className="h-4 w-4 accent-ink" />
+          <input type="checkbox" checked={video.is_visible} onChange={(e) => onChange({ is_visible: e.target.checked })} className="h-4 w-4 accent-tomato" />
           Видливо на сајтот
         </label>
         <input
@@ -255,7 +255,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
       </div>
 
       {manual ? (
-        <div className="mt-3 space-y-2 border border-mustard bg-cream/40 p-3">
+        <div className="mt-3 space-y-2 border border-warn/25 bg-warn-soft p-3 rounded-2xl">
           <p className="text-xs">YouTube функцијата не е достапна — внеси ги податоците рачно (видео: {manual.youtube_id}).</p>
           <input aria-label="Наслов" placeholder="Наслов на видеото" value={manual.title} onChange={(e) => setManual({ ...manual, title: e.target.value })} onKeyDown={onEnter(addManual)} className={controlClass} />
           <input aria-label="Канал" placeholder="Канал (автор)" value={manual.channel_title} onChange={(e) => setManual({ ...manual, channel_title: e.target.value })} onKeyDown={onEnter(addManual)} className={controlClass} />
@@ -271,7 +271,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
         </div>
       ) : null}
 
-      <div className="mt-5 border-t border-ink/15 pt-4">
+      <div className="mt-5 border-t border-light pt-4">
         <p className="mb-2 text-sm font-medium">Пребарај на YouTube</p>
         <div className="mb-2 flex flex-wrap gap-1">
           {SEARCH_PRESETS.map((preset) => (
@@ -282,7 +282,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
                 setLanguage(preset.language)
                 setQuery(preset.query(toolName))
               }}
-              className={`px-2.5 py-1 text-xs ${language === preset.language ? 'bg-ink text-paper' : 'border border-ink/30'}`}
+              className={`px-2.5 py-1 text-xs ${language === preset.language ? 'bg-tomato text-white' : 'border border-light'}`}
             >
               {preset.label}
             </button>
@@ -304,7 +304,7 @@ export function ToolVideosPanel({ toolId, toolName }: { toolId: string; toolName
         results.length ? (
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {results.map((result) => (
-              <li key={result.youtube_id} className="flex gap-3 border border-ink/20 bg-white p-2">
+              <li key={result.youtube_id} className="flex gap-3 border border-light bg-white p-2 rounded-2xl">
                 {result.thumbnail_url ? <img src={result.thumbnail_url} alt="" className="h-16 w-28 shrink-0 object-cover" loading="lazy" /> : null}
                 <div className="min-w-0 flex-1">
                   <a href={youtubeWatchUrl(result.youtube_id)} target="_blank" rel="noopener noreferrer" className="line-clamp-2 text-sm font-medium hover:underline">

@@ -72,9 +72,9 @@ export function Component() {
     <div className="container-page pt-8 md:pt-12">
       {preview ? <PreviewBanner /> : null}
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Категории', path: '/kategorii' }, { name: category.name }]} />
-      <header className="mb-10 grid gap-6 border-b-2 border-ink pb-8 md:grid-cols-[auto_1fr] md:items-end">
+      <header className="mb-10 grid gap-6 border-b border-light pb-8 md:grid-cols-[auto_1fr] md:items-end">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-16 w-16 items-center justify-center bg-ink text-paper md:h-20 md:w-20">
+          <span className="inline-flex h-16 w-16 items-center justify-center bg-tomato text-white md:h-20 md:w-20">
             <CategoryIcon name={category.icon} className="h-8 w-8 md:h-10 md:w-10" />
           </span>
           {position >= 0 ? <span className="font-mono text-sm text-graphite md:hidden">№ {String(position + 1).padStart(2, '0')}</span> : null}
@@ -85,7 +85,7 @@ export function Component() {
             <span className="hidden md:inline">{position >= 0 ? `№ ${String(position + 1).padStart(2, '0')} · ` : ''}</span>
             {tool_count} {plural(tool_count, 'алатка', 'алатки')}
           </p>
-          <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">{category.name}</h1>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{category.name}</h1>
           <p className="mt-3 max-w-2xl text-lg text-graphite">{category.description}</p>
         </div>
       </header>

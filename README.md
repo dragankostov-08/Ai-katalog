@@ -16,6 +16,7 @@ build-time pre-rendering) · Supabase (PostgreSQL, Auth, Storage, Row Level Secu
 | [docs/YOUTUBE.md](docs/YOUTUBE.md) | YouTube tutorials per tool, optional YouTube Data API setup |
 | [docs/ALERTS.md](docs/ALERTS.md) | Price-change e-mail alerts: provider, scheduler, feature flag |
 | [docs/CHANNELS.md](docs/CHANNELS.md) | Social links, weekly digest, Telegram auto-post |
+| [docs/NEWS.md](docs/NEWS.md) | AI news aggregator: RSS sources (IT.mk…), hourly fetch, legal rules |
 | [docs/STATUS.md](docs/STATUS.md) | What is implemented, what is deferred, launch checklist |
 
 ## Quick start (local, no Supabase account needed)

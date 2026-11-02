@@ -77,5 +77,5 @@ export function digestHtml(d: DigestInput, site: string, period: string): string
         '</ul>',
     )
     .join('')
-  return `<div style="font-family:Arial,sans-serif;color:#1b1714;max-width:600px"><h1 style="font-size:22px">AI KATALOG · преглед ${escapeHtml(period)}</h1>${body}<p style="margin-top:24px"><a href="${escapeHtml(site)}">Целиот каталог</a></p></div>`
+  return `<div style="font-family:Arial,sans-serif;color:#0f172a;max-width:600px"><h1 style="font-size:22px">AI KATALOG · преглед ${escapeHtml(period)}</h1>${body}<p style="margin-top:24px"><a href="${escapeHtml(site)}">Целиот каталог</a></p></div>`
 }

@@ -59,8 +59,8 @@ function ToolPicker({ exclude, onPick }: { exclude: string[]; onPick: (tool: Too
     }
   }, [query])
   return (
-    <div className="border border-ink/30 bg-white p-3">
-      <div className="flex border border-ink/40">
+    <div className="border border-light bg-white p-3 rounded-2xl">
+      <div className="flex rounded-full border border-light px-1">
         <Search className="ml-2 h-4 w-4 shrink-0 self-center text-graphite" aria-hidden />
         <label htmlFor="compare-search" className="sr-only">
           Најди алатка за споредба
@@ -131,7 +131,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Спореди алатки' }]} />
       <header className="mb-8 max-w-3xl">
         <p className="label-mono text-tomato-ink">По твој избор</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Спореди алатки</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Спореди алатки</h1>
         <p className="mt-4 text-lg text-graphite">
           Избери до {MAX_COMPARE} алатки. Табелата се составува автоматски од податоците во каталогот; цените се прикажуваат само кога се проверени.
         </p>
@@ -139,7 +139,7 @@ export function Component() {
 
       <div className={`grid gap-4 ${tools.length >= 2 ? 'md:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]' : 'md:grid-cols-2 lg:grid-cols-3'}`}>
         {tools.map((tool) => (
-          <div key={tool.slug} className="relative flex flex-col border border-ink bg-white p-4">
+          <div key={tool.slug} className="relative flex flex-col border border-light bg-white p-4 rounded-2xl">
             <button type="button" onClick={() => go(slugs.filter((s) => s !== tool.slug))} aria-label={`Отстрани ${tool.name}`} className="absolute top-2 right-2 p-1 hover:text-tomato-ink">
               <X className="h-4 w-4" aria-hidden />
             </button>
@@ -169,7 +169,7 @@ export function Component() {
           <div className="mt-10 hidden overflow-x-auto md:block" role="region" aria-label="Табела за споредба" tabIndex={0}>
             <table className="w-full min-w-[40rem] border-collapse text-left text-[0.95rem]">
               <thead>
-                <tr className="border-b-2 border-ink">
+                <tr className="border-b border-light">
                   <th scope="col" className="w-52 py-3 pr-4 label-mono text-graphite">
                     Критериум
                   </th>
@@ -182,7 +182,7 @@ export function Component() {
               </thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.label} className="border-b border-ink/15 align-top even:bg-white/60">
+                  <tr key={row.label} className="border-b border-light align-top even:bg-white/60">
                     <th scope="row" className="py-3 pr-4 font-mono text-xs font-medium tracking-wide text-graphite uppercase">
                       {row.label}
                     </th>
@@ -198,9 +198,9 @@ export function Component() {
           </div>
           <div className="mt-10 space-y-6 md:hidden">
             {rows.map((row) => (
-              <section key={row.label} className="border-t-2 border-ink pt-2">
+              <section key={row.label} className="border-t border-light pt-2">
                 <h3 className="label-mono text-graphite">{row.label}</h3>
-                <dl className="mt-2 divide-y divide-ink/15">
+                <dl className="mt-2 divide-y divide-light">
                   {tools.map((tool) => (
                     <div key={tool.slug} className="grid grid-cols-[6.5rem_1fr] gap-3 py-2.5 text-[0.95rem]">
                       <dt className="font-display font-bold">{tool.name}</dt>

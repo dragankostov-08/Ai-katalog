@@ -205,6 +205,16 @@ export interface HomeData {
   prompts: PromptCard[]
   learning_paths: LearningPathCard[]
   audience_collections: CollectionCard[]
+  category_tools: {
+    slug: string
+    name: string
+    icon: string | null
+    accent: Accent | null
+    description: string
+    tool_count: number
+    tools: ToolCard[]
+  }[]
+  news: NewsItem[]
 }
 
 export interface SearchResult {
@@ -476,4 +486,27 @@ export interface LearningPathData {
     status: ContentStatus
   }
   steps: LearningPathStep[]
+}
+
+/* --- AI news aggregator --------------------------------------------------- */
+
+export interface NewsSource {
+  id: string
+  name: string
+  site_url: string
+}
+
+export interface NewsItem {
+  id: string
+  title: string
+  url: string
+  summary: string | null
+  published_at: string | null
+  source: NewsSource
+}
+
+export interface NewsData {
+  total: number
+  items: NewsItem[]
+  sources: NewsSource[]
 }

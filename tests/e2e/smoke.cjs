@@ -1,5 +1,6 @@
 // End-to-end smoke test against a running local stack:
 //   npm run local:db -- --publish-seed && npm run local:api   (terminal 1)
+//   npm run news:fetch -- --file tests/e2e/fixtures-feed.xml --feed https://it.mk/feed/
 //   npm run build && npm run preview                           (terminal 2)
 //   node tests/e2e/smoke.cjs                                   (terminal 3)
 // Uses the Playwright package available in the environment (require('playwright')).
@@ -48,7 +49,7 @@ function assert(condition, message) {
 
   await step('hero search leads to directory results', async () => {
     await page.goto(BASE + '/')
-    await page.getByLabel('Пребарај по име, задача или категорија').fill('превод')
+    await page.getByLabel('Пребарај AI алатки по име, задача или категорија').fill('превод')
     await page.getByRole('button', { name: 'Пребарај', exact: true }).click()
     await page.waitForURL(/\/alatki\?q=/)
     await page.getByRole('link', { name: 'DeepL' }).first().waitFor()
@@ -289,6 +290,26 @@ function assert(condition, message) {
     const digest = page.locator('pre').filter({ hasText: 'НОВИ ПРОМПТОВИ' })
     await digest.waitFor()
     assert((await digest.textContent()).includes('Тест промпт од E2E'), 'digest must list the new prompt')
+  })
+
+  await step('AI news: /vesti lists the ingested headlines with their source', async () => {
+    await page.goto(BASE + '/vesti')
+    const item = page.getByRole('link', { name: /Тест: OpenAI објави нов модел/ })
+    await item.waitFor()
+    assert((await item.getAttribute('href')) === 'https://example.com/vesti/openai-model', 'news links to the original article')
+    assert((await page.getByText('IT.mk').count()) > 0, 'source name is shown')
+    assert((await page.getByText('Тест: Нов телефон на пазарот').count()) === 0, 'non-AI items are filtered out')
+  })
+
+  await step('AI news: editor hides a headline and it disappears publicly', async () => {
+    await page.goto(BASE + '/admin/vesti')
+    await page.getByText('https://it.mk/feed/').first().waitFor()
+    const row = page.locator('li').filter({ hasText: 'Тест: Вештачката интелигенција во училиштата' })
+    await row.getByRole('button', { name: 'Скриј' }).click()
+    await row.getByRole('button', { name: 'Прикажи' }).waitFor()
+    await page.goto(BASE + '/vesti')
+    await page.getByRole('link', { name: /Тест: OpenAI објави нов модел/ }).waitFor()
+    assert((await page.getByText('Тест: Вештачката интелигенција во училиштата').count()) === 0, 'hidden headline must not be public')
   })
 
   await step('no uncaught page errors', async () => {

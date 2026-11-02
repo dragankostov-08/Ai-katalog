@@ -20,7 +20,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Категории' }]} />
       <header className="mb-10 max-w-3xl">
         <p className="label-mono text-tomato-ink">Индекс</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Категории</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Категории</h1>
         <p className="mt-4 text-lg text-graphite">Секоја алатка има една главна категорија, а може да се појави и во други каде што е корисна.</p>
       </header>
       <CategoryIndex categories={site.categories} />

@@ -66,7 +66,7 @@ export function AdSlot({ placement, className = '' }: { placement: AdPlacement; 
   if (!consent.advertising) return null
 
   return (
-    <aside aria-label="Реклама" className={`border-y border-ink/15 py-3 ${className}`}>
+    <aside aria-label="Реклама" className={`border-y border-light py-3 ${className}`}>
       <p className="label-mono mb-2 text-graphite">Реклама</p>
       <div className="min-h-[100px]">
         <AdSenseUnit client={client} slot={slot} />

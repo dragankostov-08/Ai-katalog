@@ -269,10 +269,10 @@ export function extractHeadings(blocks: Block[]) {
 /* ------------------------------------------------------------------------- */
 
 const calloutStyles: Record<CalloutVariant, string> = {
-  napomena: 'border-ink bg-white',
+  napomena: 'border-light bg-white',
   sovet: 'border-teal bg-white',
   upozorduvanje: 'border-tomato bg-white',
-  mislenje: 'border-mustard bg-cream/60',
+  mislenje: 'border-warn/30 bg-warn-soft',
   sponzorirano: 'border-raspberry bg-white',
 }
 

@@ -14,7 +14,7 @@ function Toggle({ id, label, description, checked, disabled, onChange }: {
   onChange?: (value: boolean) => void
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-ink/15 py-4 last:border-b-0">
+    <div className="flex items-start justify-between gap-4 border-b border-light py-4 last:border-b-0">
       <div>
         <label htmlFor={id} className="font-medium">
           {label}
@@ -31,7 +31,7 @@ function Toggle({ id, label, description, checked, disabled, onChange }: {
         checked={checked}
         disabled={disabled}
         onChange={(event) => onChange?.(event.target.checked)}
-        className="mt-1 h-5 w-5 shrink-0 accent-ink disabled:opacity-60"
+        className="mt-1 h-5 w-5 shrink-0 accent-tomato disabled:opacity-60"
       />
     </div>
   )
@@ -72,7 +72,7 @@ export function ConsentBanner() {
       {!consent.decided && !preferencesOpen ? (
         <section
           aria-label="Приватност и колачиња"
-          className="fixed inset-x-3 bottom-3 z-50 border border-ink bg-paper p-4 shadow-paper md:right-auto md:left-5 md:max-w-md"
+          className="fixed inset-x-3 bottom-3 z-50 border border-light bg-paper p-4 shadow-paper md:right-auto md:left-5 md:max-w-md rounded-2xl"
         >
           <p className="label-mono mb-1.5 text-tomato-ink">Приватност</p>
           <p className="text-sm text-charcoal">

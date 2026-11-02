@@ -67,10 +67,10 @@ function OptionCard({
   return (
     <label
       className={`relative flex cursor-pointer items-start gap-3 border p-4 transition-colors ${
-        checked ? 'border-ink bg-white shadow-offset-sm' : 'border-ink/25 bg-white/60 hover:border-ink'
-      }`}
+ checked ? 'border-light bg-white shadow-offset-sm' : 'border-light bg-white/60 hover:border-brand-line'
+ } rounded-2xl`}
     >
-      <input type={type} name={name} checked={checked} onChange={onChange} className="mt-1 h-4 w-4 shrink-0 accent-ink" />
+      <input type={type} name={name} checked={checked} onChange={onChange} className="mt-1 h-4 w-4 shrink-0 accent-tomato" />
       <span>
         <span className="block font-medium">{label}</span>
         {hint ? <span className="mt-0.5 block text-sm text-graphite">{hint}</span> : null}
@@ -104,7 +104,7 @@ function Step({ index, title, hint, children }: { index: number; title: string; 
 function ResultCard({ item, rank, onSelect }: { item: Recommendation; rank: number; onSelect: () => void }) {
   const { tool } = item
   return (
-    <li className="grid gap-5 border-t-2 border-ink pt-5 md:grid-cols-[3rem_1fr_15rem]">
+    <li className="grid gap-5 border-t border-light pt-5 md:grid-cols-[3rem_1fr_15rem]">
       <span className="font-mono text-sm text-graphite">#{rank}</span>
       <div className="min-w-0">
         <div className="flex items-center gap-3">
@@ -145,7 +145,7 @@ function ResultCard({ item, rank, onSelect }: { item: Recommendation; rank: numb
           ) : null}
         </div>
       </div>
-      <div className="flex flex-col gap-3 md:border-l md:border-ink/15 md:pl-5">
+      <div className="flex flex-col gap-3 md:border-l md:border-light md:pl-5">
         <PricingBadge tool={tool} />
         <VerificationBadge status={tool.verification_status} date={tool.last_verified_at} />
         {tool.is_sponsored ? <SponsoredTag /> : null}
@@ -201,7 +201,7 @@ export function Component() {
       <Breadcrumbs items={[{ name: 'Почетна', path: '/' }, { name: 'Пронајди алатка' }]} />
       <header className="max-w-3xl">
         <p className="label-mono text-tomato-ink">Прашалник</p>
-        <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">Пронајди алатка за твојата задача</h1>
+        <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">Пронајди алатка за твојата задача</h1>
         <p className="mt-4 text-lg text-graphite">
           Пет прашања. Препораките се пресметуваат според проверени податоци во каталогот — без вештачка интелигенција и без платени позиции.
         </p>
@@ -209,7 +209,7 @@ export function Component() {
 
       {!showResults ? (
         <form
-          className="mt-10 max-w-3xl border border-ink bg-paper p-5 md:p-8"
+          className="mt-10 max-w-3xl border border-light bg-paper p-5 md:p-8 rounded-2xl"
           onSubmit={(event) => {
             event.preventDefault()
             if (!canContinue) return
@@ -334,7 +334,7 @@ export function Component() {
             </Step>
           ) : null}
 
-          <div className="mt-8 flex items-center justify-between gap-3 border-t border-ink/20 pt-5">
+          <div className="mt-8 flex items-center justify-between gap-3 border-t border-light pt-5">
             <Button variant="ghost" onClick={() => setStep(step - 1)} disabled={step === 0}>
               <ArrowLeft className="h-4 w-4" aria-hidden /> Назад
             </Button>
@@ -345,7 +345,7 @@ export function Component() {
         </form>
       ) : (
         <section className="mt-10" aria-labelledby="wizard-results">
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b-2 border-ink pb-4">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-light pb-4">
             <div>
               <p className="label-mono text-graphite">Резултати</p>
               <h2 id="wizard-results" ref={resultsRef} tabIndex={-1} className="mt-1 font-display text-3xl font-extrabold focus:outline-none md:text-4xl">

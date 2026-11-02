@@ -44,7 +44,7 @@ export function MessagesPage() {
             key={option.value}
             type="button"
             onClick={() => setStatus(option.value)}
-            className={`px-3 py-1.5 text-sm ${status === option.value ? 'bg-ink text-paper' : 'border border-ink/30'}`}
+            className={`px-3 py-1.5 text-sm ${status === option.value ? 'bg-tomato text-white' : 'border border-light'}`}
           >
             {option.label}
           </button>
@@ -53,7 +53,7 @@ export function MessagesPage() {
       {loading ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data?.length ? (
         <ul className="space-y-3">
           {data.map((message) => (
-            <li key={message.id} className="border border-ink/25 bg-white p-4">
+            <li key={message.id} className="border border-light bg-white p-4 rounded-2xl">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="font-medium">
                   {message.name} · <a className="underline" href={`mailto:${message.email}`}>{message.email}</a>
@@ -79,7 +79,7 @@ export function MessagesPage() {
           ))}
         </ul>
       ) : (
-        <p className="border border-dashed border-ink/30 bg-white p-6 text-center text-sm text-graphite">Нема пораки.</p>
+        <p className="border border-dashed border-light bg-white p-6 text-center text-sm text-graphite rounded-2xl">Нема пораки.</p>
       )}
     </>
   )

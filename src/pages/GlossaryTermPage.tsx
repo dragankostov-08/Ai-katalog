@@ -43,15 +43,15 @@ export function Component() {
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <div className="min-w-0 max-w-3xl">
           <p className="label-mono text-tomato-ink">AI речник{term.english_term ? ` · ${term.english_term}` : ''}</p>
-          <h1 className="mt-2 font-display text-4xl leading-[0.95] font-black tracking-[-0.03em] md:text-6xl">{term.term}</h1>
-          <p className="mt-6 border-l-4 border-ink pl-4 font-serif text-xl leading-relaxed md:text-2xl">{term.short_definition}</p>
+          <h1 className="mt-2 font-display text-4xl leading-[1.1] font-extrabold tracking-tight md:text-6xl">{term.term}</h1>
+          <p className="mt-6 border-l-4 border-light pl-4 text-xl leading-relaxed md:text-2xl">{term.short_definition}</p>
           {term.body ? <Markdown source={term.body} className="prose-ak mt-8" /> : null}
         </div>
         <aside className="space-y-6 self-start">
           {related.length ? (
             <div>
               <h2 className="label-mono mb-2 text-graphite">Поврзани поими</h2>
-              <ul className="divide-y divide-ink/15 border-y border-ink/15">
+              <ul className="divide-y divide-light border-y border-light">
                 {related.map((item) => (
                   <li key={item.slug} className="py-2.5">
                     <Link to={`/recnik/${item.slug}`} className="font-display font-bold hover:underline hover:decoration-tomato hover:underline-offset-4">

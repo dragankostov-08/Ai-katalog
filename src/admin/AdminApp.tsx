@@ -18,6 +18,7 @@ import { DashboardPage } from './pages/DashboardPage'
 import { DigestPage } from './pages/DigestPage'
 import { GlossaryEditor } from './pages/GlossaryEditor'
 import { LearningPathEditor } from './pages/LearningPathEditor'
+import { NewsAdminPage } from './pages/NewsAdminPage'
 import { NotificationsPage } from './pages/NotificationsPage'
 import { PromptEditor } from './pages/PromptEditor'
 import { ContentList } from './pages/ContentList'
@@ -34,7 +35,7 @@ export const useAdmin = () => useContext(AdminContext)
 function Centered({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-dvh items-center justify-center bg-paper px-4">
-      <div className="w-full max-w-sm border border-ink bg-white p-6 shadow-offset">
+      <div className="w-full max-w-sm border border-light bg-white p-6 shadow-offset rounded-2xl">
         <div className="mb-6 flex items-center gap-2">
           <LogoSymbol className="h-8 w-8" />
           <Wordmark className="text-lg" />
@@ -63,7 +64,7 @@ function Login() {
 
   return (
     <Centered>
-      <h1 className="font-display text-2xl font-black">Најава за уредници</h1>
+      <h1 className="font-display text-2xl font-extrabold">Најава за уредници</h1>
       <form onSubmit={onSubmit} className="mt-5 space-y-4">
         <div>
           <label htmlFor="admin-email" className="mb-1 block text-sm font-medium">
@@ -113,7 +114,7 @@ export function AdminApp() {
   if (!isBackendConfigured) {
     return (
       <Centered>
-        <h1 className="font-display text-xl font-black">Базата не е конфигурирана</h1>
+        <h1 className="font-display text-xl font-extrabold">Базата не е конфигурирана</h1>
         <p className="mt-2 text-sm text-graphite">
           Постави ги VITE_SUPABASE_URL и VITE_SUPABASE_ANON_KEY (види README → Поставување) и повторно изгради ја апликацијата.
         </p>
@@ -131,7 +132,7 @@ export function AdminApp() {
   if (me.error || !me.data?.role) {
     return (
       <Centered>
-        <h1 className="font-display text-xl font-black">Немаш уреднички пристап</h1>
+        <h1 className="font-display text-xl font-extrabold">Немаш уреднички пристап</h1>
         <p className="mt-2 text-sm text-graphite">
           {me.error ?? `Сметката ${session.user.email ?? ''} нема доделена улога. Улоги доделува администратор директно во базата на податоци.`}
         </p>
@@ -173,6 +174,7 @@ export function AdminApp() {
             <Route path="patki/nova" element={<LearningPathEditor />} />
             <Route path="patki/:id" element={<LearningPathEditor />} />
             <Route path="pregled-nedela" element={<DigestPage />} />
+            <Route path="vesti" element={<NewsAdminPage />} />
             <Route path="proverka" element={<ReviewQueuePage />} />
             <Route path="predlozi" element={<SubmissionsPage />} />
             <Route path="poraki" element={<MessagesPage />} />

@@ -23,6 +23,7 @@ import * as GlossaryPage from './pages/GlossaryPage'
 import * as GlossaryTermPage from './pages/GlossaryTermPage'
 import * as HomePage from './pages/HomePage'
 import * as LanguageTestsPage from './pages/LanguageTestsPage'
+import * as NewsPage from './pages/NewsPage'
 import * as LearningPathPage from './pages/LearningPathPage'
 import * as LearningPathsPage from './pages/LearningPathsPage'
 import * as PromptPage from './pages/PromptPage'
@@ -90,6 +91,7 @@ export const routes: RouteObject[] = [
           { path: 'alternativi', ...AlternativesIndexPage },
           { path: 'alternativi/:slug', ...AlternativesPage },
           { path: 'sporedi', ...ComparePage },
+          { path: 'vesti', ...NewsPage },
           { path: 'patki', ...LearningPathsPage },
           { path: 'patki/:slug', ...LearningPathPage },
           { path: 'sledi/potvrdi', ...watchConfirmRoute },
@@ -132,6 +134,7 @@ export const STATIC_PATHS = [
   '/recnik',
   '/patki',
   '/alternativi',
+  '/vesti',
   '/predlozi',
   '/kontakt',
   '/za-nas',

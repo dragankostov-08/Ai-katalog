@@ -1,9 +1,10 @@
-import { Bookmark, Menu, Search, X } from 'lucide-react'
+import { Bookmark, Menu, Search, Sparkles, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Form, Link, NavLink, useLocation } from 'react-router'
+import { Form, Link, NavLink, useLocation, useRouteLoaderData } from 'react-router'
 import { useFavorites } from '../../lib/favorites'
+import type { SiteData } from '../../lib/types'
 import { Logo } from '../brand/Logo'
-import { ButtonLink } from '../ui/Button'
+import { CategoryIcon } from '../catalog/CategoryIcon'
 import { MobileMenu } from './MobileMenu'
 import { primaryNav } from './nav'
 
@@ -17,7 +18,7 @@ function HeaderSearch({ id, autoFocus }: { id: string; autoFocus?: boolean }) {
       <label htmlFor={id} className="sr-only">
         Пребарај AI алатки
       </label>
-      <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-graphite" aria-hidden />
+      <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-mid" aria-hidden />
       <input
         ref={inputRef}
         id={id}
@@ -27,9 +28,46 @@ function HeaderSearch({ id, autoFocus }: { id: string; autoFocus?: boolean }) {
         autoComplete="off"
         enterKeyHint="search"
         maxLength={100}
-        className="h-10 w-full rounded-xs border border-ink/40 bg-white pr-3 pl-9 text-sm placeholder:text-graphite focus:border-ink focus:outline-2 focus:outline-offset-0 focus:outline-tomato"
+        className="h-11 w-full rounded-full border border-light bg-paper pr-4 pl-10 text-sm placeholder:text-mid focus:border-tomato focus:bg-white focus:outline-none focus:ring-4 focus:ring-brand-soft"
       />
     </Form>
+  )
+}
+
+/** Horizontal strip of categories, like the tabs of a directory. */
+function CategoryStrip() {
+  const site = useRouteLoaderData('root') as SiteData | undefined
+  const categories = (site?.categories ?? []).filter((category) => category.tool_count > 0)
+  if (!categories.length) return null
+  return (
+    <nav aria-label="Категории" className="border-t border-light/70">
+      <ul className="container-page scrollbar-none flex gap-1 overflow-x-auto py-2">
+        <li>
+          <NavLink
+            to="/alatki"
+            end
+            className={({ isActive }) =>
+              `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-white' : 'text-graphite hover:bg-cream hover:text-ink'}`
+            }
+          >
+            Сите алатки
+          </NavLink>
+        </li>
+        {categories.map((category) => (
+          <li key={category.slug}>
+            <NavLink
+              to={`/kategorii/${category.slug}`}
+              className={({ isActive }) =>
+                `inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap ${isActive ? 'bg-ink text-white' : 'text-graphite hover:bg-cream hover:text-ink'}`
+              }
+            >
+              <CategoryIcon name={category.icon} className="h-3.5 w-3.5" />
+              {category.name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
 
@@ -45,34 +83,22 @@ export function Header() {
   }, [location.pathname, location.search])
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink bg-paper/95 backdrop-blur-sm supports-[backdrop-filter]:bg-paper/85">
-      <div className="hidden border-b border-ink/15 md:block">
-        <div className="container-page flex h-8 items-center justify-between label-mono text-graphite">
-          <span>Независен каталог на AI алатки · на македонски</span>
-          <span className="flex items-center gap-5">
-            <Link to="/predlozi" className="hover:text-ink">
-              Предложи алатка
-            </Link>
-            <Link to="/omileni" className="inline-flex items-center gap-1 hover:text-ink">
-              <Bookmark className="h-3 w-3" aria-hidden /> Омилени{favorites.length ? ` (${favorites.length})` : ''}
-            </Link>
-          </span>
-        </div>
-      </div>
-
-      <div className="container-page flex h-16 items-center gap-4 lg:gap-8">
+    <header className="sticky top-0 z-40 border-b border-light bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+      <div className="container-page flex h-16 items-center gap-4 lg:gap-6">
         <Logo />
 
-        <nav aria-label="Главна навигација" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+        <div className="hidden max-w-xl flex-1 md:block">
+          <HeaderSearch id="header-search" />
+        </div>
+
+        <nav aria-label="Главна навигација" className="ml-auto hidden xl:block">
+          <ul className="flex items-center gap-0.5">
             {primaryNav.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
                   className={({ isActive }) =>
-                    `relative px-2 py-2 text-[0.95rem] font-medium transition-colors hover:text-tomato-ink ${
-                      isActive ? 'text-ink after:absolute after:inset-x-2.5 after:-bottom-[1px] after:h-[3px] after:bg-tomato' : 'text-graphite'
-                    }`
+                    `rounded-full px-3 py-2 text-sm font-medium transition-colors ${isActive ? 'bg-brand-soft text-tomato-ink' : 'text-graphite hover:bg-cream hover:text-ink'}`
                   }
                 >
                   {item.label}
@@ -82,27 +108,28 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="ml-auto hidden w-full max-w-64 md:block lg:hidden xl:block xl:max-w-64">
-          <HeaderSearch id="header-search" />
-        </div>
         <Link
-          to="/alatki"
-          aria-label="Пребарај алатки"
-          className="ml-auto hidden h-10 w-10 items-center justify-center rounded-sm hover:bg-cream lg:inline-flex xl:hidden"
+          to="/omileni"
+          className="relative hidden h-10 w-10 items-center justify-center rounded-full text-graphite hover:bg-cream hover:text-ink lg:inline-flex"
+          aria-label={`Омилени${favorites.length ? ` (${favorites.length})` : ''}`}
         >
-          <Search className="h-5 w-5" aria-hidden />
+          <Bookmark className="h-5 w-5" aria-hidden />
+          {favorites.length ? (
+            <span className="absolute -top-0.5 -right-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-tomato px-1 text-[0.625rem] font-bold text-white">
+              {favorites.length}
+            </span>
+          ) : null}
         </Link>
 
-        <div className="hidden shrink-0 lg:block">
-          <ButtonLink to="/pronajdi" variant="accent" size="md">
-            Пронајди алатка
-          </ButtonLink>
-        </div>
+        <Link to="/pronajdi" className="hidden h-10 items-center gap-1.5 rounded-full bg-tomato px-4 text-sm font-semibold text-white shadow-sm hover:bg-tomato-ink lg:inline-flex">
+          <Sparkles className="h-4 w-4" aria-hidden />
+          Пронајди алатка
+        </Link>
 
-        <div className="ml-auto flex items-center gap-1 md:ml-0 lg:hidden">
+        <div className="ml-auto flex items-center gap-1 md:ml-0 xl:hidden">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-sm hover:bg-cream md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full hover:bg-cream md:hidden"
             aria-expanded={searchOpen}
             aria-controls="mobile-search"
             onClick={() => setSearchOpen((open) => !open)}
@@ -112,7 +139,7 @@ export function Header() {
           </button>
           <button
             type="button"
-            className="inline-flex h-10 items-center gap-2 rounded-sm border border-ink px-3 text-sm font-medium hover:bg-cream"
+            className="inline-flex h-10 items-center gap-2 rounded-full border border-light bg-white px-3.5 text-sm font-semibold hover:bg-paper"
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
@@ -123,9 +150,11 @@ export function Header() {
         </div>
       </div>
 
-      <div id="mobile-search" hidden={!searchOpen} className="border-t border-ink/15 px-4 py-3 md:hidden">
+      <div id="mobile-search" hidden={!searchOpen} className="border-t border-light px-4 py-3 md:hidden">
         <HeaderSearch id="mobile-header-search" autoFocus={searchOpen} />
       </div>
+
+      <CategoryStrip />
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
     </header>

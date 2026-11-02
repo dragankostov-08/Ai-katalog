@@ -55,7 +55,7 @@ function SubmissionItem({ item, onDone }: { item: Submission; onDone: () => void
   }
 
   return (
-    <li className="border border-ink/25 bg-white p-4">
+    <li className="border border-light bg-white p-4 rounded-2xl">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <p className="font-display text-lg font-bold">{item.proposed_name}</p>
@@ -107,7 +107,7 @@ export function SubmissionsPage() {
             key={option.value}
             type="button"
             onClick={() => setStatus(option.value)}
-            className={`px-3 py-1.5 text-sm ${status === option.value ? 'bg-ink text-paper' : 'border border-ink/30'}`}
+            className={`px-3 py-1.5 text-sm ${status === option.value ? 'bg-tomato text-white' : 'border border-light'}`}
           >
             {option.label}
           </button>
@@ -120,7 +120,7 @@ export function SubmissionsPage() {
           ))}
         </ul>
       ) : (
-        <p className="border border-dashed border-ink/30 bg-white p-6 text-center text-sm text-graphite">Нема предлози.</p>
+        <p className="border border-dashed border-light bg-white p-6 text-center text-sm text-graphite rounded-2xl">Нема предлози.</p>
       )}
     </>
   )

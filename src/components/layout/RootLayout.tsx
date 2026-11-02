@@ -11,7 +11,7 @@ export function RootLayout() {
     <>
       <a
         href="#main"
-        className="sr-only z-[70] bg-ink px-4 py-2 text-paper focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+        className="sr-only z-[70] bg-tomato px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
       >
         Прескокни до содржината
       </a>

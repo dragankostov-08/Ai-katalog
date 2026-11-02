@@ -15,11 +15,11 @@ export function CompareTray() {
   return (
     <aside
       aria-label="Споредба"
-      className="fixed inset-x-3 bottom-3 z-40 flex flex-wrap items-center gap-2 border border-ink bg-paper px-3 py-2 shadow-paper md:right-5 md:left-auto md:max-w-xl"
+      className="fixed inset-x-3 bottom-3 z-40 flex flex-wrap items-center gap-2 border border-light bg-paper px-3 py-2 shadow-paper md:right-5 md:left-auto md:max-w-xl rounded-2xl"
     >
       <span className="label-mono text-graphite">Спореди:</span>
       {selected.map((item) => (
-        <span key={item.slug} className="inline-flex items-center gap-1 rounded-xs border border-ink/30 bg-white py-0.5 pr-1 pl-2 text-sm">
+        <span key={item.slug} className="inline-flex items-center gap-1 rounded-xs border border-light bg-white py-0.5 pr-1 pl-2 text-sm">
           {item.name}
           <button type="button" onClick={() => toggleCompare(item)} aria-label={`Отстрани ${item.name}`} className="p-0.5 hover:text-tomato-ink">
             <X className="h-3 w-3" aria-hidden />
@@ -31,7 +31,7 @@ export function CompareTray() {
           Исчисти
         </button>
         {selected.length >= 2 ? (
-          <Link to={compareHref(selected.map((item) => item.slug))} className="inline-flex h-8 items-center gap-1 rounded-sm bg-ink px-3 text-sm font-medium text-paper">
+          <Link to={compareHref(selected.map((item) => item.slug))} className="inline-flex h-8 items-center gap-1 rounded-sm bg-tomato px-3 text-sm font-medium text-white">
             Спореди ({selected.length}) <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         ) : (

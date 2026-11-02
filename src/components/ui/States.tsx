@@ -13,8 +13,8 @@ export function EmptyState({
   icon?: ReactNode
 }) {
   return (
-    <div className="relative overflow-hidden border border-dashed border-ink/40 bg-white/60 px-6 py-10 text-center md:py-14">
-      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center border border-ink bg-paper">
+    <div className="relative overflow-hidden border border-dashed border-light bg-white/60 px-6 py-10 text-center md:py-14 rounded-2xl">
+      <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-light bg-paper">
         {icon ?? <SearchX className="h-5 w-5" aria-hidden />}
       </div>
       <h2 className="font-display text-xl font-bold">{title}</h2>
@@ -45,7 +45,7 @@ export function Skeleton({ className = '' }: { className?: string }) {
 
 export function ToolCardSkeleton() {
   return (
-    <div aria-hidden className="flex h-full flex-col border border-ink/10 bg-white p-4">
+    <div aria-hidden className="flex h-full flex-col border border-light bg-white p-4 rounded-2xl">
       <div className="flex items-center gap-3">
         <Skeleton className="h-11 w-11" />
         <div className="flex-1 space-y-2">

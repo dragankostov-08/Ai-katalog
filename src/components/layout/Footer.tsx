@@ -24,19 +24,19 @@ export function Footer() {
     .map(([label, url]) => ({ label, url: url as string }))
 
   return (
-    <footer className="mt-24 bg-ink text-cream">
+    <footer className="mt-24 border-t border-light bg-white text-graphite">
       <div className="container-page grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
-          <Logo inverse />
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-light">
+          <Logo />
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-graphite">
             Каталог на AI алатки на македонски јазик: што прават, колку чинат и како да ги користиш паметно.
           </p>
-          {publisher ? <p className="mt-3 font-mono text-xs text-light">Издавач: {publisher}</p> : null}
+          {publisher ? <p className="mt-3 text-xs text-mid">Издавач: {publisher}</p> : null}
           {socials.length ? (
-            <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm" aria-label="Следи нè">
+            <ul className="mt-5 flex flex-wrap gap-2 text-sm" aria-label="Следи нè">
               {socials.map((social) => (
                 <li key={social.label}>
-                  <a href={social.url} target="_blank" rel="noopener noreferrer me" className="text-cream underline decoration-cream/30 underline-offset-4 hover:decoration-tomato">
+                  <a href={social.url} target="_blank" rel="noopener noreferrer me" className="inline-flex rounded-full border border-light px-3 py-1 text-graphite hover:border-brand-line hover:bg-brand-soft hover:text-tomato-ink">
                     {social.label}
                   </a>
                 </li>
@@ -46,11 +46,11 @@ export function Footer() {
         </div>
         {footerNav.map((group) => (
           <div key={group.title}>
-            <h2 className="label-mono mb-3 text-mustard">{group.title}</h2>
+            <h2 className="mb-3 text-sm font-semibold text-ink">{group.title}</h2>
             <ul className="space-y-2 text-sm">
               {group.links.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="text-cream/90 hover:text-white hover:underline hover:decoration-tomato hover:underline-offset-4">
+                  <Link to={link.to} className="text-graphite hover:text-tomato-ink">
                     {link.label}
                   </Link>
                 </li>
@@ -59,27 +59,27 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="border-t border-cream/15">
-        <div className="container-page flex flex-col gap-3 py-5 font-mono text-xs text-light md:flex-row md:items-center md:justify-between">
+      <div className="border-t border-light">
+        <div className="container-page flex flex-col gap-3 py-5 text-xs text-mid md:flex-row md:items-center md:justify-between">
           <p>© {year} AI KATALOG</p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             <li>
-              <Link to="/privatnost" className="hover:text-white">
+              <Link to="/privatnost" className="hover:text-ink">
                 Приватност
               </Link>
             </li>
             <li>
-              <Link to="/uslovi" className="hover:text-white">
+              <Link to="/uslovi" className="hover:text-ink">
                 Услови за користење
               </Link>
             </li>
             <li>
-              <Link to="/kolacinja" className="hover:text-white">
+              <Link to="/kolacinja" className="hover:text-ink">
                 Колачиња
               </Link>
             </li>
             <li>
-              <button type="button" onClick={openConsentPreferences} className="underline-offset-2 hover:text-white hover:underline">
+              <button type="button" onClick={openConsentPreferences} className="underline-offset-2 hover:text-ink hover:underline">
                 Поставки за приватност
               </button>
             </li>

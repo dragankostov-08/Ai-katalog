@@ -39,7 +39,7 @@ export function DashboardPage() {
       {loading ? <LoadingRows /> : error ? <ErrorBox message={error} onRetry={reload} /> : data ? (
         <div className="space-y-6">
           {data.missing_settings.length ? (
-            <div className="flex gap-3 border-l-4 border-mustard bg-white px-4 py-3 text-sm">
+            <div className="flex gap-3 rounded-2xl border border-warn/25 bg-warn-soft px-4 py-3 text-sm">
               <AlertTriangle className="h-5 w-5 shrink-0 text-tomato-ink" aria-hidden />
               <p>
                 Недостасуваат податоци за правните страници: {data.missing_settings.map((key) => SETTING_LABELS[key] ?? key).join(', ')}.{' '}
@@ -61,9 +61,9 @@ export function DashboardPage() {
               { label: 'Нови пораки', value: data.new_messages, to: '/admin/poraki' },
               { label: 'Кликови (30 дена)', value: data.clicks_30d, to: '/admin/analitika' },
             ].map((stat) => (
-              <Link key={stat.label} to={stat.to} className="border border-ink bg-white p-4 hover:shadow-offset-sm">
+              <Link key={stat.label} to={stat.to} className="border border-light bg-white p-4 hover:shadow-offset-sm rounded-2xl">
                 <p className="label-mono text-graphite">{stat.label}</p>
-                <p className="mt-1 font-display text-3xl font-black">{stat.value}</p>
+                <p className="mt-1 font-display text-3xl font-extrabold">{stat.value}</p>
               </Link>
             ))}
           </div>
@@ -72,7 +72,7 @@ export function DashboardPage() {
             <Panel title="Содржина по статус">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-ink/20 text-left">
+                  <tr className="border-b border-light text-left">
                     <th className="py-1.5 font-medium">Тип</th>
                     {(['published', 'needs_review', 'draft', 'archived'] as ContentStatus[]).map((status) => (
                       <th key={status} className="py-1.5 text-right font-mono text-xs font-normal text-graphite">
@@ -83,7 +83,7 @@ export function DashboardPage() {
                 </thead>
                 <tbody>
                   {SECTIONS.map((section) => (
-                    <tr key={section.key} className="border-b border-ink/10">
+                    <tr key={section.key} className="border-b border-light">
                       <td className="py-2">
                         <Link to={section.to} className="underline-offset-2 hover:underline">
                           {section.label}
@@ -102,7 +102,7 @@ export function DashboardPage() {
 
             <Panel title="Последни промени во податоците">
               {data.recent_updates.length ? (
-                <ul className="divide-y divide-ink/10 text-sm">
+                <ul className="divide-y divide-light text-sm">
                   {data.recent_updates.map((update, index) => (
                     <li key={index} className="py-2">
                       <Link to={`/admin/alatki/${update.tool_id}`} className="font-medium hover:underline">

@@ -125,7 +125,7 @@ export function ComparisonEditor() {
             {form.criteria.map((criterion, index) => {
               const update = (patch: Partial<Criterion>) => set('criteria', form.criteria.map((c, i) => (i === index ? { ...c, ...patch } : c)))
               return (
-                <li key={index} className="border border-ink/15 bg-paper p-3">
+                <li key={index} className="border border-light bg-paper p-3 rounded-2xl">
                   <div className="flex gap-2">
                     <input aria-label="Критериум" placeholder="Име на критериумот, на пр. Работа со долги документи" value={criterion.label} onChange={(e) => update({ label: e.target.value })} className={controlClass} />
                     <button type="button" aria-label="Отстрани критериум" onClick={() => set('criteria', form.criteria.filter((_, i) => i !== index))} className="p-1.5 text-tomato-ink">

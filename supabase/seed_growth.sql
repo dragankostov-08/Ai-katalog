@@ -462,4 +462,12 @@ from (values
 join public.collections c on c.slug = v.collection_slug
 join public.tools t on t.slug = v.tool_slug;
 
+-- ---------------------------------------------------------------------------
+-- News sources (verify each feed URL in Admin → Вести before relying on it)
+-- ---------------------------------------------------------------------------
+
+insert into public.news_sources (name, site_url, feed_url, language, ai_filter)
+values ('IT.mk', 'https://it.mk', 'https://it.mk/feed/', 'mk', true)
+on conflict (feed_url) do nothing;
+
 commit;

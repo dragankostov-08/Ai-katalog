@@ -31,7 +31,7 @@ export function SponsoredNotice({ note }: { note?: string | null }) {
 
 export function PreviewBanner() {
   return (
-    <div role="status" className="mb-6 border border-mustard bg-mustard/25 px-4 py-2 text-sm">
+    <div role="status" className="mb-6 border border-warn/25 bg-warn-soft text-warn px-4 py-2 text-sm rounded-2xl">
       <strong>Преглед:</strong> оваа содржина не е објавена и ја гледаат само уредниците.
     </div>
   )

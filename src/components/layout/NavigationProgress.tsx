@@ -7,8 +7,8 @@ export function NavigationProgress() {
     <div
       aria-hidden
       className={`pointer-events-none fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-tomato transition-[transform,opacity] duration-500 ease-out ${
-        active ? 'scale-x-75 opacity-100' : 'scale-x-100 opacity-0'
-      }`}
+ active ? 'scale-x-75 opacity-100' : 'scale-x-100 opacity-0'
+ }`}
     />
   )
 }

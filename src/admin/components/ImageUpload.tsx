@@ -42,9 +42,9 @@ export function ImageUpload({ label, value, onChange, folder, name, hint }: { la
         {label}
       </label>
       <div className="flex gap-3">
-        {value ? <img src={value} alt="" className="h-10 w-10 shrink-0 border border-ink/30 bg-white object-contain p-0.5" /> : null}
+        {value ? <img src={value} alt="" className="h-10 w-10 shrink-0 border border-light bg-white object-contain p-0.5 rounded-2xl" /> : null}
         <input id={id} type="url" value={value} onChange={(e) => onChange(e.target.value)} placeholder="https://" className={controlClass} />
-        <label className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 border border-ink px-3 text-sm hover:bg-cream">
+        <label className="inline-flex shrink-0 cursor-pointer items-center gap-1.5 border border-light px-3 text-sm hover:bg-cream rounded-2xl">
           <Upload className="h-4 w-4" aria-hidden />
           {uploading ? 'Се прикачува…' : 'Прикачи'}
           <input

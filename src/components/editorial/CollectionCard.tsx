@@ -1,30 +1,32 @@
+import { ListOrdered } from 'lucide-react'
 import { Link } from 'react-router'
 import { plural } from '../../lib/labels'
 import type { CollectionCard as CollectionCardData } from '../../lib/types'
+import { ToolLogo } from '../catalog/ToolLogo'
 
-export function CollectionCard({ collection, index }: { collection: CollectionCardData; index?: number }) {
+export function CollectionCard({ collection }: { collection: CollectionCardData; index?: number }) {
   return (
-    <article className="group relative h-full pt-3">
-      <span aria-hidden className="absolute top-0 left-4 h-4 w-20 border border-b-0 border-ink/40 bg-cream" />
-      <div className="relative flex h-full flex-col border border-ink/40 bg-white ruled px-5 pt-4 pb-5 shadow-paper transition-transform duration-300 group-hover:-rotate-[0.6deg]">
-        <span aria-hidden className="absolute inset-y-0 left-9 w-px bg-tomato/50" />
-        <div className="relative pl-7">
-          <p className="label-mono text-graphite">
-            {collection.kind === 'audience' && collection.audience_label ? `За: ${collection.audience_label}` : 'Најдобри'}
-            {index !== undefined ? ` · № ${String(index + 1).padStart(2, '0')}` : ''} · {collection.tool_count}{' '}
-            {plural(collection.tool_count, 'алатка', 'алатки')}
-          </p>
-          <h3 className="mt-2 font-display text-xl leading-tight font-extrabold">
-            <Link to={`/najdobri/${collection.slug}`} className="after:absolute after:inset-0 after:content-[''] group-hover:underline group-hover:decoration-tomato group-hover:decoration-2 group-hover:underline-offset-4">
-              {collection.title}
-            </Link>
-          </h3>
-          <p className="mt-2 text-[0.9375rem] leading-6 text-graphite">{collection.description}</p>
-          {collection.tools.length ? (
-            <p className="mt-3 font-hand text-xl leading-6 text-ink">{collection.tools.map((tool) => tool.name).join(', ')}…</p>
-          ) : null}
+    <article className="group relative flex h-full flex-col rounded-2xl border border-light bg-white p-4 shadow-sm transition-[border-color,box-shadow] hover:border-brand-line hover:shadow-offset-sm">
+      <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-tomato-ink">
+        <ListOrdered className="h-3.5 w-3.5" aria-hidden />
+        {collection.kind === 'audience' && collection.audience_label ? `За: ${collection.audience_label}` : 'Најдобри'} · {collection.tool_count}{' '}
+        {plural(collection.tool_count, 'алатка', 'алатки')}
+      </p>
+      <h3 className="mt-2 font-bold leading-snug">
+        <Link to={`/najdobri/${collection.slug}`} className="after:absolute after:inset-0 after:content-[''] group-hover:text-tomato-ink">
+          {collection.title}
+        </Link>
+      </h3>
+      <p className="mt-1.5 line-clamp-2 text-sm text-graphite">{collection.description}</p>
+      {collection.tools.length ? (
+        <div className="mt-auto flex items-center pt-4">
+          {collection.tools.slice(0, 5).map((tool, index) => (
+            <span key={tool.slug} title={tool.name} className={`rounded-lg ring-2 ring-white ${index ? '-ml-2' : ''}`}>
+              <ToolLogo name={tool.name} src={tool.logo_url} size="sm" />
+            </span>
+          ))}
         </div>
-      </div>
+      ) : null}
     </article>
   )
 }

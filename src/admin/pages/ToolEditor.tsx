@@ -273,7 +273,7 @@ function VerificationPanel({ id, meta, onChange }: { id: string; meta: ToolMeta;
           <summary className="cursor-pointer font-medium">Историја на промени ({meta.history.length})</summary>
           <ul className="mt-2 max-h-72 space-y-1.5 overflow-y-auto">
             {meta.history.map((item) => (
-              <li key={item.id} className="border-b border-ink/10 pb-1.5">
+              <li key={item.id} className="border-b border-light pb-1.5">
                 <span className="font-mono">{formatShortDate(item.verified_at)}</span> · <strong>{item.field_changed}</strong>
                 <span className="block text-graphite">{item.note ?? `${item.old_value ?? '—'} → ${item.new_value ?? '—'}`}</span>
               </li>
@@ -377,7 +377,7 @@ export function ToolEditor() {
         actions={
           <>
             {id ? (
-              <a href={`/alatka/${form.slug}?preview=1`} target="_blank" rel="noopener" className="inline-flex h-10 items-center gap-1.5 border border-ink px-3 text-sm hover:bg-cream">
+              <a href={`/alatka/${form.slug}?preview=1`} target="_blank" rel="noopener" className="inline-flex h-10 items-center gap-1.5 border border-light px-3 text-sm hover:bg-cream rounded-2xl">
                 <Eye className="h-4 w-4" aria-hidden /> Преглед
               </a>
             ) : null}
@@ -511,7 +511,7 @@ export function ToolEditor() {
                 {form.features.map((feature, index) => {
                   const update = (patch: Partial<FeatureRow>) => set('features', form.features.map((f, i) => (i === index ? { ...f, ...patch } : f)))
                   return (
-                    <li key={feature.id || `new-${index}`} className="grid gap-2 border border-ink/15 bg-paper p-3 sm:grid-cols-[1fr_1fr_auto]">
+                    <li key={feature.id || `new-${index}`} className="grid gap-2 border border-light bg-paper p-3 sm:grid-cols-[1fr_1fr_auto] rounded-2xl">
                       <input aria-label="Функција" placeholder="Функција" value={feature.feature_name} onChange={(e) => update({ feature_name: e.target.value })} className={controlClass} />
                       <input aria-label="Опис / вредност" placeholder="Опис / вредност" value={feature.feature_value} onChange={(e) => update({ feature_value: e.target.value })} className={controlClass} />
                       <div className="flex items-center gap-1">

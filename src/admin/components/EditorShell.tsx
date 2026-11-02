@@ -145,7 +145,7 @@ export function EditorShell<F extends BaseForm>(props: EditorShellProps<F>) {
         actions={
           <>
             {id ? (
-              <a href={`${props.publicPath}/${form.slug}?preview=1`} target="_blank" rel="noopener" className="inline-flex h-10 items-center gap-1.5 border border-ink px-3 text-sm hover:bg-cream">
+              <a href={`${props.publicPath}/${form.slug}?preview=1`} target="_blank" rel="noopener" className="inline-flex h-10 items-center gap-1.5 border border-light px-3 text-sm hover:bg-cream rounded-2xl">
                 <Eye className="h-4 w-4" aria-hidden /> Преглед
               </a>
             ) : null}

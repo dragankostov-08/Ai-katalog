@@ -5,13 +5,13 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'accent'
 type Size = 'sm' | 'md' | 'lg'
 
 const base =
-  'inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap rounded-sm transition-[transform,box-shadow,background-color,color] duration-200 ease-[var(--ease-editorial)] disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex items-center justify-center gap-2 font-semibold whitespace-nowrap rounded-md transition-[background-color,color,box-shadow,border-color] duration-150 disabled:pointer-events-none disabled:opacity-50'
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-paper hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[3px_3px_0_0_var(--color-tomato)] active:translate-x-0 active:translate-y-0 active:shadow-none',
-  secondary: 'border border-ink text-ink bg-transparent hover:bg-ink hover:text-paper',
-  ghost: 'text-ink hover:bg-cream',
-  accent: 'bg-mustard text-ink hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-offset-sm active:translate-x-0 active:translate-y-0 active:shadow-none',
+  primary: 'bg-tomato text-white shadow-sm hover:bg-tomato-ink',
+  secondary: 'border border-light bg-white text-ink shadow-sm hover:border-mid hover:bg-paper',
+  ghost: 'text-graphite hover:bg-cream hover:text-ink',
+  accent: 'bg-brand-soft text-tomato-ink hover:bg-brand-line',
 }
 
 const sizes: Record<Size, string> = {
